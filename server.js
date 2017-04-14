@@ -4,9 +4,10 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import http from 'http';
+import routes from './server/routes';
 
 const app = express();
-
+const router = express.Router();
 const port = 3000;
 app.set('port', port);
 
@@ -16,6 +17,10 @@ app.use(logger('dev'));
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Use router for our routes
+routes(router);
+app.use('/api', router);
 
 // Setup a default catch-all route that sends back a welcome message in JSON format
 app.get('*', (req, res) => {
