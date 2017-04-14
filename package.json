@@ -1,0 +1,24 @@
+{
+  "name": "document-mgt-system",
+  "version": "1.0.0",
+  "description": "a full-stack document management system, complete with roles and privileges. Each document defines access rights; the document defines which roles can access it. Also, each document specifies the date it was published.\",",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-moseni/document-mgt-system.git"
+  },
+  "keywords": [
+    "document",
+    "user",
+    "role"
+  ],
+  "author": "Halimat Mercy Oseni",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-moseni/document-mgt-system/issues"
+  },
+  "homepage": "https://github.com/andela-moseni/document-mgt-system#readme"
+}
