@@ -21,6 +21,20 @@ class RolesController {
         message: error.errors[0].message
       }));
   }
+
+  /**
+   * List all Roles
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @return {Object} Response object
+   */
+   static list(req, res) {
+     return Role
+      .findAll()
+      .then(roles => res.status(200).send(roles))
+      .catch(error => res.status(400).send(error));
+  }
+
 };
 
 export default RolesController;
