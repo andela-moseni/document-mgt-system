@@ -35,6 +35,27 @@ class RolesController {
       .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * Retrive a Role based on id with all users on that role
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @return {Object} Response object
+   */
+    static retrieve(req, res) {
+      Role
+        .findById(req.params.id)
+        .then((role) => {
+          if (!role) {
+            return res.status(404).send({
+              message: 'Role Does Not Exist',
+            });
+          }
+          res.status(200).send(role);
+        })
+        .catch(() => res.status(400).send({
+          message: 'An error occured. Invalid parameters, try again!'
+        }));
+    }
 };
 
 export default RolesController;

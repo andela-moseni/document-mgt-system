@@ -5,6 +5,10 @@ const rolesRoute = (router) => {
   router.route('/roles')
    .post(RolesController.create)
    .get(RolesController.list);
+
+  // Get a particular role
+  router.route('/roles/:id')
+  .get(RolesController.retrieve);
 };
 
 export default rolesRoute;
