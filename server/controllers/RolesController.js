@@ -56,6 +56,35 @@ class RolesController {
           message: 'An error occured. Invalid parameters, try again!'
         }));
     }
+
+    /**
+   * Update a Role based on id
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @return {Object} Response object
+   */
+  static update(req, res) {
+    Role
+      .findById(req.params.id)
+      .then((role) => {
+        if (!role) {
+          return res.status(404).send({
+            message: 'Role Does Not Exist',
+          });
+        }
+        role
+          .update(req.body, {
+            fields: Object.keys(req.body)
+          })
+          .then(updatedRole => res.status(200).send(updatedRole))
+          .catch(() => res.status(400).send({
+        message: 'Validation error. Please enter unique parameters only!'
+      }));
+      })
+      .catch(() => res.status(400).send({
+        message: 'An error occured. Invalid parameters, try again!'
+      }));
+  }
 };
 
 export default RolesController;
