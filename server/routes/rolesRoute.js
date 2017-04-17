@@ -6,10 +6,11 @@ const rolesRoute = (router) => {
    .post(RolesController.create)
    .get(RolesController.list);
 
-  // Get a particular role, update a role
+  // Get a particular role, update a role and delete a role
   router.route('/roles/:id')
   .get(RolesController.retrieve)
-  .put(RolesController.update);
+  .put(RolesController.update)
+  .delete(RolesController.delete);
 };
 
 export default rolesRoute;
