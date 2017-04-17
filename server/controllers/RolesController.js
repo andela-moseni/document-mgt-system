@@ -17,8 +17,8 @@ class RolesController {
         title: req.body.title,
       })
       .then(role => res.status(201).send(role))
-      .catch(error => res.status(400).send({
-        message: error.errors[0].message
+      .catch(() => res.status(400).send({
+        message: 'An error occured. Invalid parameters, try again!'
       }));
   }
 
@@ -72,6 +72,11 @@ class RolesController {
             message: 'Role Does Not Exist',
           });
         }
+        if (role.title === 'regular' || role.title === 'admin') {
+          return res.status(400).send({
+            message: 'An error occured. You cannot update default roles',
+          });
+        }
         role
           .update(req.body, {
             fields: Object.keys(req.body)
@@ -99,6 +104,11 @@ class RolesController {
         if (!role) {
           return res.status(404).send({
             message: 'Role Does Not Exist',
+          });
+        }
+        if (role.title === 'regular' || role.title === 'admin') {
+          return res.status(400).send({
+            message: 'An error occured. You cannot delete default roles',
           });
         }
         role
