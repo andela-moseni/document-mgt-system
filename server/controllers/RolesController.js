@@ -1,4 +1,5 @@
 import db from '../models'
+import ControllerHelper from '../helpers/ControllerHelper';
 const Role = db.Role;
 
 /**
@@ -29,10 +30,19 @@ class RolesController {
    * @return {Object} Response object
    */
   static list(req, res) {
-    return Role
-    .findAll()
-    .then(roles => res.status(200).send(roles))
-    .catch(error => res.status(400).send(error));
+    const query = {};
+    query.limit = (req.query.limit > 0) ? req.query.limit : 10;
+    query.offset = (req.query.offset > 0) ? req.query.offset : 0;
+    Role
+      .findAndCountAll(query)
+      .then((roles) => {
+        const pagination = ControllerHelper.pagination(
+          query.limit, query.offset, roles.count
+        );
+        res.status(200).send({
+          pagination, roles: roles.rows
+        });
+      });
   }
 
   /**
