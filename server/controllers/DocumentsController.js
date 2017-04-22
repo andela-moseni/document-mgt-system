@@ -26,7 +26,7 @@ class DocumentsController {
       .catch(() => res.status(400).send({
         message: 'An error occured. Invalid parameters, try again!'
       }));
-  }
+  }   
 
   /**
    * List all Documents
@@ -35,8 +35,6 @@ class DocumentsController {
    * @return {Object} Response object
    */
   static listDocuments(req, res) {
-    // req.decoded.roleId 
-    // req.decoded.userId
     Role.findById(20)
       .then((role) => {
         let query = {};
@@ -44,7 +42,7 @@ class DocumentsController {
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
 
         if (role.title === 'admin') {
-          db.Document
+          Document
             .findAndCountAll(query)
             .then((documents) => {
               const pagination = ControllerHelper.pagination(
@@ -63,7 +61,7 @@ class DocumentsController {
               }
             }
           };
-          db.Document
+          Document
             .findAndCountAll(query)
             .then((documents) => {
               const pagination = ControllerHelper.pagination(
@@ -76,6 +74,39 @@ class DocumentsController {
         }
       });
   } 
+  /**
+   * Retrieve a specific document based on the id
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @return {Object} Response object
+   */
+  static retrieveDocument(req, res) {
+    Role.findById(20)
+      .then((role) => {
+        Document
+          .findById(req.params.id)
+          .then((document) => {
+            if (!document) {
+              return res.status(404).send({
+                message: 'Document Does Not Exist',
+              });
+            }
+
+            if (!(role.title === 'admin') && document.access === 'private' &&
+            !(document.OwnerId === 2)) {
+              return res.status(403)
+                .send({ message: 'You are not authorized to view this document' });
+            }
+            
+            res.status(200).send({
+              document: document
+            });
+          })
+          .catch(() => res.status(400).send({
+            message: 'An error occured. Invalid parameters, try again!'
+          }));
+      });
+  }
 }
 
 export default DocumentsController;

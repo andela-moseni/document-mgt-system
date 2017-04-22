@@ -5,6 +5,10 @@ const documentsRoute = (router) => {
   router.route('/documents')
    .post(DocumentsController.createDocument)
    .get(DocumentsController.listDocuments);
+
+   // Get a particular document
+  router.route('/documents/:id')
+    .get(DocumentsController.retrieveDocument);
 };
 
 export default documentsRoute;
