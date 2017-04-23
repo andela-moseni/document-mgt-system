@@ -6,9 +6,11 @@ const documentsRoute = (router) => {
    .post(DocumentsController.createDocument)
    .get(DocumentsController.listDocuments);
 
-   // Get a particular document
+  // Get, update and delete a particular document 
   router.route('/documents/:id')
-    .get(DocumentsController.retrieveDocument);
+    .get(DocumentsController.retrieveDocument)
+    .put(DocumentsController.updateDocument)
+    .delete(DocumentsController.deleteDocument);
 };
 
 export default documentsRoute;

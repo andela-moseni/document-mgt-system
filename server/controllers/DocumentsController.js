@@ -35,7 +35,7 @@ class DocumentsController {
    * @return {Object} Response object
    */
   static listDocuments(req, res) {
-    Role.findById(20)
+    Role.findById(24)
       .then((role) => {
         let query = {};
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
@@ -57,7 +57,7 @@ class DocumentsController {
             where: {
               $or: { 
                 access: { $eq: 'public' },
-                OwnerId: { $eq: 2 }
+                OwnerId: { $eq: 3 }
               }
             }
           };
@@ -107,6 +107,81 @@ class DocumentsController {
           }));
       });
   }
+  
+  /**
+   * Update a document based on the id
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
+  static updateDocument(req, res) {
+    Role.findById(20)
+      .then((role) => {
+        Document
+          .findById(req.params.id)
+          .then((document) => {
+            if (!document) {
+              return res.status(404).send({
+                message: 'Document Does Not Exist',
+              });
+            }
+            if (!(role.title === 'admin') && !(document.OwnerId === 2)) {
+              return res.status(403)
+                .send({ message: 'You are not authorized to update this document' });
+            }
+            if (req.body.OwnerId && !(role.title === 'admin')) {
+              return res.status(400).send({
+                message: 'You cannot edit document ownerId property'
+              });
+            }
+            document
+              .update(req.body, { fields: Object.keys(req.body) })
+              .then(updatedDocument => res.status(200).send({
+                message: 'Update successful!',
+                updatedDocument
+            }));
+        })
+        .catch(() => res.status(400).send({
+          message: 'An error occured. Invalid parameters, try again!'
+        }));
+    });
+  }
+
+  /**
+   * Delete a particular Document
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @return {Object} Response object
+   */
+  static deleteDocument(req, res) {
+    Role
+      .findById(20)
+      .then((role) => {
+        Document
+          .findById(req.params.id)
+          .then((document) => {
+            if (!document) {
+              return res.status(404).send({
+                message: 'Document Does Not Exist',
+              });
+            }
+          if (role.title !== 'admin') {
+            return res.status(403).send({
+              message: 'You are not authorized to delete this document',
+            });
+          }
+        role
+          .destroy()
+          .then(() => res.status(200).send({
+            message: 'Role deleted successfully.',
+          }));
+      })
+      .catch(() => res.status(400).send({
+        message: 'An error occured. Invalid parameters, try again!'
+      }));
+    });
+  }
+  
 }
 
 export default DocumentsController;
