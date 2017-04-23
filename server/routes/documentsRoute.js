@@ -11,6 +11,10 @@ const documentsRoute = (router) => {
     .get(DocumentsController.retrieveDocument)
     .put(DocumentsController.updateDocument)
     .delete(DocumentsController.deleteDocument);
+
+  // Search documents
+  router.route('/search/documents')
+    .get(DocumentsController.searchDocuments);
 };
 
 export default documentsRoute;
