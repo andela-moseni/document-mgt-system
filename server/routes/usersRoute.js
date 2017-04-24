@@ -19,6 +19,14 @@ const usersRoute = (router) => {
   // Logout a user 
   router.route('/users/logout')
     .post(UsersController.logout);
+
+  // Get all documents belonging to a user
+  router.route('/users/:id/documents')
+    .get(UsersController.retrieveDocuments);
+
+  // Search users
+  router.route('/search/users')
+    .get(UsersController.searchUsers);
 };
 
 export default usersRoute;

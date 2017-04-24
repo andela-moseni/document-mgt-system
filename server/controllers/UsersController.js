@@ -3,6 +3,7 @@ import db from'../models';
 import ControllerHelper from '../helpers/ControllerHelper';
 const User = db.User;
 const Role = db.Role;
+const Document = db.Document;
 const secret = process.env.SECRET || 'mySecret';
 
 /**
@@ -227,6 +228,85 @@ class UsersController {
       }));
     });
   }
+
+  /**
+   * Retrieve a user's details with documents owned by the user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @return {Object} Response object
+   */
+  static retrieveDocuments(req, res) {
+    const query = {
+      where: { OwnerId: req.params.id }
+    };
+    query.limit = (req.query.limit > 0) ? req.query.limit : 10;
+    query.offset = (req.query.offset > 0) ? req.query.offset : 0;
+    Document
+      .findAndCountAll(query)
+      .then((documents) => {
+        const pagination = ControllerHelper.pagination(
+          query.limit, query.offset, documents.count
+        );
+        res.status(200).send({
+          pagination, documents: documents.rows
+        });
+      })
+      .catch(() => res.status(400).send({
+        message: 'An error occured. Invalid parameters, try again!'
+      }));
+  }
+
+  /**
+   * Gets all users relevant to search term
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @return {Object} - Returns response object
+   */
+  static searchUsers(req, res) {
+    const term = req.query.term;
+
+    if (term === '') {
+      return res.status(400).send({
+        message: 'Invalid Search Parameter!'
+      });
+    }
+    
+    let query = {
+      where: {
+          $or: [{
+            name: {
+              $iLike: `%${term}%`
+            },
+            email: {
+              $iLike: `%${term}%`
+            }
+          }]
+      }
+    };
+
+    query.limit = (req.query.limit > 0) ? req.query.limit : 10;
+    query.offset = (req.query.offset > 0) ? req.query.offset : 0;
+    query.order = '"createdAt" DESC';
+    query.attributes = { exclude: ['password', 'roleId'] };
+    User
+      .findAndCountAll(query)
+      .then((users) => {
+        const pagination = ControllerHelper.pagination(
+          query.limit, query.offset, users.count
+        );
+        if (users.rows.length === 0) {
+          return res.status(404).send({
+            message: 'Search Does Not Match Any User!'
+          });
+        }
+        res.status(200).send({
+          pagination, users: users.rows
+        });
+      })
+    .catch(() => res.status(400).send({
+      message: 'An error occured. Try again!'
+    }));
+  }  
 }
 
 export default UsersController;

@@ -97,7 +97,7 @@ class DocumentsController {
               return res.status(403)
                 .send({ message: 'You are not authorized to view this document' });
             }
-            
+
             res.status(200).send({
               document: document
             });
@@ -242,12 +242,18 @@ class DocumentsController {
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
         query.order = '"createdAt" DESC';
+        query.attributes = { exclude: ['id', 'OwnerId'] };
         Document
           .findAndCountAll(query)
           .then((documents) => {
             const pagination = ControllerHelper.pagination(
               query.limit, query.offset, documents.count
             );
+            if (documents.rows.length === 0) {
+              return res.status(404).send({
+                message: 'Search Does Not Match Any Document!'
+              });
+            }
             res.status(200).send({
               pagination, documents: documents.rows
             });
