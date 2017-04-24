@@ -12,7 +12,7 @@ class RolesController {
    * @param {Object} res - Response object
    * @return {Object} Response object
    */
-  static create(req, res) {
+  static createRole(req, res) {
     Role
       .create({
         title: req.body.title,
@@ -29,7 +29,7 @@ class RolesController {
    * @param {Object} res - Response object
    * @return {Object} Response object
    */
-  static list(req, res) {
+  static listRoles(req, res) {
     const query = {};
     query.limit = (req.query.limit > 0) ? req.query.limit : 10;
     query.offset = (req.query.offset > 0) ? req.query.offset : 0;
@@ -51,7 +51,7 @@ class RolesController {
    * @param {Object} res - Response object
    * @return {Object} Response object
    */
-  static retrieve(req, res) {
+  static retrieveRole(req, res) {
     Role
       .findById(req.params.id)
       .then((role) => {
@@ -73,7 +73,7 @@ class RolesController {
    * @param {Object} res - Response object
    * @return {Object} Response object
    */
-  static update(req, res) {
+  static updateRole(req, res) {
     Role
       .findById(req.params.id)
       .then((role) => {
@@ -107,7 +107,7 @@ class RolesController {
    * @param {Object} res - Response object
    * @return {Object} Response object
    */
-  static delete(req, res) {
+  static deleteRole(req, res) {
     Role
       .findById(req.params.id)
       .then((role) => {
