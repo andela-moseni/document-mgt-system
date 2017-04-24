@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+     roleId: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
   }, {
     classMethods: {
       associate: (models) => {
