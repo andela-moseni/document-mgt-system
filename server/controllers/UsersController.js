@@ -9,7 +9,48 @@ const secret = process.env.SECRET || 'mySecret';
  * UsersController class to create and manage users
  */
 class UsersController {
- /**
+  /**
+   * Login a user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @return {Object} Response object
+   */
+  static login(req, res) {
+    const query = {
+      where: { email: req.body.email }
+    };
+    User.findOne(query)
+      .then((user) => {
+        if (!req.body.password) {
+          return res.status(401)
+            .send({ message: 'Invalid Login Credentials. Try Again!' });
+        }
+        if (user && user.validatePassword(req.body.password)) {
+          const token = jwt.sign({ userId: user.id, roleId: user.roleId },
+          secret, { expiresIn: '12 hours' });
+          return res.status(200).send({
+            token,
+            userId: user.id,
+            roleId: user.roleId
+          });
+        }
+        res.status(401)
+            .send({ message: 'Invalid Login Credentials. Try Again!' });
+      });
+  }
+
+  /**
+   * Logout a user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @return {Object} Response object
+   */
+  static logout(req, res) {
+    res.status(200)
+      .send({ message: 'Successfully logged out!' });
+  }
+
+  /**
    * Create a user
    * @param {Object} req - Request object
    * @param {Object} res - Response object

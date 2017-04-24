@@ -11,6 +11,14 @@ const usersRoute = (router) => {
     .get(UsersController.retrieveUser)
     .put(UsersController.updateUser)
     .delete(UsersController.deleteUser);
+
+  // Login a user
+  router.route('/users/login')
+    .post(UsersController.login)
+  
+  // Logout a user 
+  router.route('/users/logout')
+    .post(UsersController.logout);
 };
 
 export default usersRoute;
