@@ -20,7 +20,7 @@ class DocumentsController {
         content: req.body.content,
         access: req.body.access,
         type: req.body.type,
-        OwnerId: req.body.OwnerId,
+        OwnerId: req.decoded.userId,
       })
       .then(document => res.status(201).send(document))
       .catch(() => res.status(400).send({
@@ -35,11 +35,12 @@ class DocumentsController {
    * @return {Object} Response object
    */
   static listDocuments(req, res) {
-    Role.findById(31)
+    Role.findById(req.decoded.roleId)
       .then((role) => {
         let query = {};
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
+        // query.attributes = { exclude: ['OwnerId'] };
 
         if (role.title === 'admin') {
           Document
@@ -57,7 +58,7 @@ class DocumentsController {
             where: {
               $or: { 
                 access: { $eq: 'public' },
-                OwnerId: { $eq: 3 }
+                OwnerId: { $eq: req.decoded.userId }
               }
             }
           };
@@ -81,7 +82,7 @@ class DocumentsController {
    * @return {Object} Response object
    */
   static retrieveDocument(req, res) {
-    Role.findById(33)
+    Role.findById(req.decoded.roleId)
       .then((role) => {
         Document
           .findById(req.params.id)
@@ -92,12 +93,12 @@ class DocumentsController {
               });
             }
 
-            if (!(role.title === 'admin') && document.access === 'private' &&
-            !(document.OwnerId === 8)) {
+            if ((role.title !== 'admin') && (document.access === 'private') &&
+            (document.OwnerId !== req.decoded.userId)) {
               return res.status(403)
                 .send({ message: 'You are not authorized to view this document' });
             }
-            
+
             res.status(200).send({
               document: document
             });
@@ -115,7 +116,7 @@ class DocumentsController {
    * @returns {Object} Response object
    */
   static updateDocument(req, res) {
-    Role.findById(33)
+    Role.findById(req.decoded.roleId)
       .then((role) => {
         Document
           .findById(req.params.id)
@@ -125,13 +126,13 @@ class DocumentsController {
                 message: 'Document Does Not Exist',
               });
             }
-            if (!(role.title === 'admin') && !(document.OwnerId === 8)) {
+            if ((role.title !== 'admin') && (document.OwnerId !== req.decoded.userId)) {
               return res.status(403)
                 .send({ message: 'You are not authorized to update this document' });
             }
             if (req.body.OwnerId && !(role.title === 'admin')) {
               return res.status(400).send({
-                message: 'You cannot edit document ownerId property'
+                message: 'You cannot edit document OwnerId property'
               });
             }
             document
@@ -155,7 +156,7 @@ class DocumentsController {
    */
   static deleteDocument(req, res) {
     Role
-      .findById(33)
+      .findById(req.decoded.roleId)
       .then((role) => {
         Document
           .findById(req.params.id)
@@ -165,7 +166,7 @@ class DocumentsController {
                 message: 'Document Does Not Exist',
               });
             }
-            if ((role.title !== 'admin') && !(document.OwnerId === 8)) {
+            if ((role.title !== 'admin') && (document.OwnerId !== req.decoded.userId)) {
               return res.status(403).send({
                 message: 'You are not authorized to delete this document',
               });
@@ -183,22 +184,22 @@ class DocumentsController {
   }
   
   /**
-   * Gets all public documents relevant to search term
+   * Gets all public documents relevant to search search
    * @param {Object} req Request object
    * @param {Object} res Response object
    * @return {Object} - Returns response object
    */
   static searchDocuments(req, res) {
-    Role.findById(33)
+    Role.findById(req.decoded.roleId)
       .then((role) => {
-        const term = req.query.term;
+        const search = req.query.search;
 
-        if (term === '') {
+        if (search === '') {
           return res.status(400).send({
             message: 'Invalid Search Parameter!'
           });
         }
-        if (!term) {
+        if (!search) {
           return res.status(404).send({
             message: 'Search Does Not Match Any Document!'
           });
@@ -208,16 +209,16 @@ class DocumentsController {
             $and: [{
               $or: {
                 title: {
-                  $iLike: `%${term}%`
+                  $iLike: `%${search}%`
                 },
                 content: {
-                  $iLike: `%${term}%`
+                  $iLike: `%${search}%`
                 }
               }
             }, {
               $or: {
                 access: { $ne: 'private' },
-                OwnerId: { $eq: 8 }
+                OwnerId: { $eq: req.decoded.userId }
               }
             }
             ]
@@ -229,10 +230,10 @@ class DocumentsController {
             where: {
               $or: {
                 title: {
-                  $iLike: `%${term}%`
+                  $iLike: `%${search}%`
                 },
                 content: {
-                  $iLike: `%${term}%`
+                  $iLike: `%${search}%`
                 }
               }
             }
@@ -242,12 +243,18 @@ class DocumentsController {
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
         query.order = '"createdAt" DESC';
+        query.attributes = { exclude: ['id', 'OwnerId'] };
         Document
           .findAndCountAll(query)
           .then((documents) => {
             const pagination = ControllerHelper.pagination(
               query.limit, query.offset, documents.count
             );
+            if (documents.rows.length === 0) {
+              return res.status(404).send({
+                message: 'Search Does Not Match Any Document!'
+              });
+            }
             res.status(200).send({
               pagination, documents: documents.rows
             });
