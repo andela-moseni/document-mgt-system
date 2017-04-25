@@ -19,7 +19,7 @@ class RolesController {
       })
       .then(role => res.status(201).send(role))
       .catch(() => res.status(400).send({
-        message: 'An error occured. Invalid parameters, try again!'
+        message: 'Validation error. Please enter unique parameters only!'
       }));
   }
 
@@ -91,7 +91,9 @@ class RolesController {
           .update(req.body, {
             fields: Object.keys(req.body)
           })
-          .then(updatedRole => res.status(200).send(updatedRole))
+          .then(updatedRole => res.status(200).send({ 
+            message: 'Update Successful', updatedRole 
+          }))
           .catch(() => res.status(400).send({
             message: 'Validation error. Please enter unique parameters only!'
           }));

@@ -70,7 +70,7 @@ class UsersController {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            roleId: 33,
+            roleId: 33
           })
           .then((user) => {
             const token = jwt.sign({ userId: user.id, roleId: user.roleId },
@@ -100,7 +100,7 @@ class UsersController {
     const query = {};
     query.limit = (req.query.limit > 0) ? req.query.limit : 10;
     query.offset = (req.query.offset > 0) ? req.query.offset : 0;
-    query.attributes = { exclude: ['password', 'roleId'] };
+    // query.attributes = { exclude: ['password', 'roleId'] };
     
     User
       .findAndCountAll(query)
@@ -121,26 +121,28 @@ class UsersController {
    * @return {Object} Response object
    */
   static retrieveUser(req, res) {
-    User
-      .findById(req.params.id)
-      .then((user) => {
-        if (!user) {
-          return res.status(404).send({
-            message: 'User Does Not Exist',
-          });
-        }
-        res.status(200).send({
-          message: 'Update Successful',
-          user: {
-            id: user.id,
-            name: user.name,
-            email: user.email
+    Role
+    .findById(req.decoded.roleId)
+    .then((role) => {
+      User
+        .findById(req.params.id)
+        .then((user) => {
+          if (!user) {
+            return res.status(404).send({
+              message: 'User Does Not Exist',
+            });
           }
-        });
+          if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
+            return res.status(403)
+            .send({ message: 'You are not authorized to access this user' });
+          }
+          req.decoded.user = user;
+          res.status(200).send(req.decoded.user);
+        })
+        .catch(() => res.status(400).send({
+          message: 'An error occured. Invalid parameters, try again!'
+        }));
       })
-      .catch(() => res.status(400).send({
-        message: 'An error occured. Invalid parameters, try again!'
-      }));
   }
 
   /**
@@ -150,7 +152,7 @@ class UsersController {
    * @return {Object} Response object
    */
   static updateUser(req, res) {
-    Role.findById(33)
+    Role.findById(req.decoded.roleId)
       .then((role) => {
         User
           .findById(req.params.id)
@@ -165,16 +167,16 @@ class UsersController {
                 message: 'Unauthorised access. You cannot update userId property'
               });
             }
-            if ((role.title !== 'admin') && !(user.id === 8)) {
-              return res.status(403).send({
-                message: 'Unauthorised access. You cannot update this user\'s property'
-              });
-            }
-            
             // roleId should not be updated by a regular user
-            if (!(role.title === 'admin') && req.body.roleId) {
+            if ((role.title !== 'admin') && req.body.roleId) {
               return res.status(403).send({
                 message: 'Unauthorised access. You cannot update roleId property'
+              });
+            }
+            // a user should not update another user's property
+            if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
+              return res.status(403).send({
+                message: 'Unauthorised access. You cannot update this user\'s property'
               });
             }
             user
@@ -202,7 +204,7 @@ class UsersController {
    */
   static deleteUser(req, res) {
     Role
-      .findById(33)
+      .findById(req.decoded.roleId)
       .then((role) => {
         User
           .findById(req.params.id)
@@ -212,9 +214,9 @@ class UsersController {
                 message: 'User Does Not Exist',
               });
             }
-            if ((role.title !== 'admin') && (user.id !== 9)) {
+            if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
               return res.status(403).send({
-                message: 'You are not authorized to delete this document',
+                message: 'You are not authorized to delete this user',
               });
             }
           user
@@ -230,14 +232,14 @@ class UsersController {
   }
 
   /**
-   * Retrieve a user's details with documents owned by the user
+   * Retrieve all documents belonging to a user
    * @param {Object} req - Request object
    * @param {Object} res - Response object
    * @return {Object} Response object
    */
-  static retrieveDocuments(req, res) {
+  static retrieveUserDocuments(req, res) {
     const query = {
-      where: { OwnerId: req.params.id }
+      where: { OwnerId: req.decoded.userId }
     };
     query.limit = (req.query.limit > 0) ? req.query.limit : 10;
     query.offset = (req.query.offset > 0) ? req.query.offset : 0;
@@ -257,15 +259,15 @@ class UsersController {
   }
 
   /**
-   * Gets all users relevant to search term
+   * Gets all users relevant to search query
    * @param {Object} req Request object
    * @param {Object} res Response object
    * @return {Object} - Returns response object
    */
   static searchUsers(req, res) {
-    const term = req.query.term;
+    const search = req.query.search;
 
-    if (term === '') {
+    if (search === '') {
       return res.status(400).send({
         message: 'Invalid Search Parameter!'
       });
@@ -275,10 +277,10 @@ class UsersController {
       where: {
           $or: [{
             name: {
-              $iLike: `%${term}%`
+              $iLike: `%${search}%`
             },
             email: {
-              $iLike: `%${term}%`
+              $iLike: `%${search}%`
             }
           }]
       }
