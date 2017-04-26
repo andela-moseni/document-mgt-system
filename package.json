@@ -13,7 +13,7 @@
     "start": "npm-run-all build seed:db start:server",
     "start:server": "babel-node server.js",
     "start:nodemon": "nodemon server.js --exec babel-node --presets es2015,stage-2",
-    "test:server": "NODE_ENV=test babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/.bin/_mocha test/server/**/*.test.js",
+    "test:server": "NODE_ENV=test babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/.bin/_mocha server/tests/**/*.spec.js",
     "test": "npm-run-all seed:test test:server reset:test"
   },
   "repository": {
