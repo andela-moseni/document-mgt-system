@@ -70,7 +70,7 @@ class UsersController {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            roleId: 33
+            roleId: 2
           })
           .then((user) => {
             const token = jwt.sign({ userId: user.id, roleId: user.roleId },
