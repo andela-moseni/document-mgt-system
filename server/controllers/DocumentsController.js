@@ -1,7 +1,9 @@
+const Sequelize = require('sequelize');
 import db from '../models'
 import ControllerHelper from '../helpers/ControllerHelper'
 const Role = db.Role;
 const Document = db.Document;
+const User = db.User;
 
 /**
  * DocumentsController class to create and manage documents
@@ -40,7 +42,7 @@ class DocumentsController {
         let query = {};
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
-        // query.attributes = { exclude: ['OwnerId'] };
+        query.attributes = { exclude: ['OwnerId'] };
 
         if (role.title === 'admin') {
           Document
@@ -49,32 +51,61 @@ class DocumentsController {
               const pagination = ControllerHelper.pagination(
                 query.limit, query.offset, documents.count
               );
-              res.status(200).send({
+              return res.status(200).send({
                 pagination, documents: documents.rows
               });
             });
-        } else {
-          query = {
-            where: {
-              $or: { 
+        } 
+        
+        query = {
+          where: {
+            $or: { 
+              $or: {
                 access: { $eq: 'public' },
-                OwnerId: { $eq: req.decoded.userId }
-              }
+                $and: {
+                  access: { $eq: 'role' },
+                  OwnerId: { $eq: req.decoded.userId }
+                },
+                $and: {
+                  access: { $eq: 'role' },
+                  '$User.roleId$': { $eq: req.decoded.roleId }
+                }
+              },
+              OwnerId: { $eq: req.decoded.userId }
             }
-          };
-          Document
-            .findAndCountAll(query)
-            .then((documents) => {
-              const pagination = ControllerHelper.pagination(
-                query.limit, query.offset, documents.count
-              );
-              res.status(200).send({
-                pagination, documents: documents.rows
-              });
-            });
+          }, 
+          include: [
+            {
+              model: User
+            }
+          ]
         }
+
+        Document
+          .findAndCountAll(query)
+          .then((documents) => {
+            const filteredDocuments = documents.rows.map((document) => {
+              return Object.assign({}, {
+                title: document.title,
+                content: document.content,
+                access: document.access,
+                type: document.type,
+                OwnerId: document.OwnerId,
+                createdAt: document.createdAt,
+                updatedAt: document.updatedAt
+              })
+            })
+            const pagination = ControllerHelper.pagination(
+              query.limit, query.offset, documents.count
+            );
+            res.status(200).send({
+              pagination, documents: filteredDocuments
+            });
+          });
+
       });
   } 
+  
   /**
    * Retrieve a specific document based on the id
    * @param {Object} req - Request object
@@ -99,9 +130,16 @@ class DocumentsController {
                 .send({ message: 'You are not authorized to view this document' });
             }
 
-            res.status(200).send({
-              document: document
-            });
+            User.findById(document.OwnerId).then((user) => {
+              if ((role.title !== 'admin') && (document.access === 'role') && (user.roleId !== req.decoded.roleId)) {
+                return res.status(200)
+                .send({ message: 'You are not authorized to view this document' });
+              } 
+
+              res.status(200).send({
+                document: document
+              });
+            })
           })
           .catch(() => res.status(400).send({
             message: 'An error occured. Invalid parameters, try again!'

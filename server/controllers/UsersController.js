@@ -100,7 +100,7 @@ class UsersController {
     const query = {};
     query.limit = (req.query.limit > 0) ? req.query.limit : 10;
     query.offset = (req.query.offset > 0) ? req.query.offset : 0;
-    // query.attributes = { exclude: ['password', 'roleId'] };
+    query.attributes = { exclude: ['password'] };
     
     User
       .findAndCountAll(query)
