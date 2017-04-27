@@ -43,6 +43,13 @@ const SpecHelper = {
     roleId: 2
   },
 
+    testUser5: {
+    name: 'Omotola Mercy',
+    email: 'omotola.mercy@test.com',
+    password: 'omotola',
+    roleId: 2
+  },
+
   testDocument1: {
     title: 'YOYOL',
     content: 'In Andela, we believe You Own Your Own Learning',
