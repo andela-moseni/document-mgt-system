@@ -238,20 +238,75 @@ class UsersController {
    * @return {Object} Response object
    */
   static retrieveUserDocuments(req, res) {
-    const query = {
-      where: { OwnerId: req.decoded.userId }
-    };
-    query.limit = (req.query.limit > 0) ? req.query.limit : 10;
-    query.offset = (req.query.offset > 0) ? req.query.offset : 0;
-    Document
-      .findAndCountAll(query)
-      .then((documents) => {
-        const pagination = ControllerHelper.pagination(
-          query.limit, query.offset, documents.count
-        );
-        res.status(200).send({
-          pagination, documents: documents.rows
-        });
+     Role
+      .findById(req.decoded.roleId)
+      .then((role) => {
+        let query = {}
+        if (role.title == 'admin') {
+          query = {
+            where: {
+              OwnerId: { $eq: req.params.id }
+            }
+          }
+        } else {
+          query = {
+            where: {
+              $and: {
+                OwnerId: { $eq: req.params.id },
+                $or: {
+                  access: { $eq: 'public' },
+                  $and: {
+                    access: { $eq: 'private' },
+                    OwnerId: { $eq: req.decoded.userId }
+                  },
+                 $or: {
+                    $and: {
+                      access: { $eq: 'role' }, 
+                      '$User.roleId$': {$eq: req.decoded.roleId }
+                    }
+                  }
+                }
+              }
+            }, 
+            include: [ 
+              {
+                model: User
+              }
+            ]
+          }
+        }
+
+        query.limit = (req.query.limit > 0) ? req.query.limit : 10;
+        query.offset = (req.query.offset > 0) ? req.query.offset : 0;
+        Document
+          .findAndCountAll(query)
+          .then((documents) => {
+            const filteredDocuments = documents.rows.map((document) => {
+              return Object.assign({}, {
+                title: document.title,
+                content: document.content,
+                access: document.access,
+                type: document.type,
+                OwnerId: document.OwnerId,
+                createdAt: document.createdAt,
+                updatedAt: document.updatedAt
+              })
+            })
+            const pagination = ControllerHelper.pagination(
+              query.limit, query.offset, documents.count
+            );
+            if (documents.rows.length === 0) {
+              return res.status(404).send({
+                message: 'No document match the request.'
+              })
+            }
+            res.status(200).send({
+              pagination, documents: filteredDocuments
+            });
+          })
+          .catch(() => res.status(400).send({
+            message: 'An error occured. Invalid parameters, try again!'
+          }));
       })
       .catch(() => res.status(400).send({
         message: 'An error occured. Invalid parameters, try again!'
@@ -289,7 +344,7 @@ class UsersController {
     query.limit = (req.query.limit > 0) ? req.query.limit : 10;
     query.offset = (req.query.offset > 0) ? req.query.offset : 0;
     query.order = '"createdAt" DESC';
-    query.attributes = { exclude: ['password', 'roleId'] };
+    query.attributes = { exclude: ['id', 'password', 'roleId'] };
     User
       .findAndCountAll(query)
       .then((users) => {

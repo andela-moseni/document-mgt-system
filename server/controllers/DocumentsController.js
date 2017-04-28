@@ -1,6 +1,5 @@
-const Sequelize = require('sequelize');
-import db from '../models'
-import ControllerHelper from '../helpers/ControllerHelper'
+import db from '../models';
+import ControllerHelper from '../helpers/ControllerHelper';
 const Role = db.Role;
 const Document = db.Document;
 const User = db.User;
@@ -222,7 +221,8 @@ class DocumentsController {
   }
   
   /**
-   * Gets all public documents relevant to search search
+   * Gets all public documents relevant to search term
+   * and documents with role access for priviledged users
    * @param {Object} req Request object
    * @param {Object} res Response object
    * @return {Object} - Returns response object
@@ -242,8 +242,9 @@ class DocumentsController {
             message: 'Search Does Not Match Any Document!'
           });
         }
-        let query = {
-          where: {
+    
+       let query = { 
+         where: {
             $and: [{
               $or: {
                 title: {
@@ -258,10 +259,28 @@ class DocumentsController {
                 access: { $ne: 'private' },
                 OwnerId: { $eq: req.decoded.userId }
               }
+            }],
+            $or: { 
+              $or: {
+                access: { $eq: 'public' },
+                $and: {
+                  access: { $eq: 'role' },
+                  OwnerId: { $eq: req.decoded.userId }
+                },
+                $and: {
+                  access: { $eq: 'role' },
+                  '$User.roleId$': { $eq: req.decoded.roleId }
+                }
+              },
+              OwnerId: { $eq: req.decoded.userId }
             }
-            ]
-          }
-        };
+          }, 
+          include: [
+            {
+              model: User
+            }
+          ]
+        }
 
         if (role.title === 'admin') {
           query = {
@@ -281,10 +300,21 @@ class DocumentsController {
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
         query.order = '"createdAt" DESC';
-        query.attributes = { exclude: ['id', 'OwnerId'] };
+        query.attributes = { exclude: ['id'] };
         Document
           .findAndCountAll(query)
           .then((documents) => {
+            const filteredDocuments = documents.rows.map((document) => {
+              return Object.assign({}, {
+                title: document.title,
+                content: document.content,
+                access: document.access,
+                type: document.type,
+                OwnerId: document.OwnerId,
+                createdAt: document.createdAt,
+                updatedAt: document.updatedAt
+              })
+            })
             const pagination = ControllerHelper.pagination(
               query.limit, query.offset, documents.count
             );
@@ -294,14 +324,14 @@ class DocumentsController {
               });
             }
             res.status(200).send({
-              pagination, documents: documents.rows
+              pagination, documents: filteredDocuments
             });
           });
-      })
-      .catch(() => res.status(400).send({
-        message: 'An error occured. Try again!'
-      }));
-  }
+        })
+        .catch(() => res.status(400).send({
+          message: 'An error occured. Try again!'
+        }));
+    }
 }
 
 export default DocumentsController;
