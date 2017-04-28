@@ -7,6 +7,8 @@ import SpecHelper from './SpecHelper';
 const adminUser = SpecHelper.testUser1;
 const regularUser1 = SpecHelper.testUser2;
 const regularUser2 = SpecHelper.testUser4;
+const authorUser = SpecHelper.testUser7;
+
 /**
  * SeedData class to populate database with default data
  */
@@ -50,7 +52,8 @@ class SeedHelper {
    * @returns {object} - A Promise object
    */
   static populateRoleTable() {
-    const roles = [SpecHelper.adminRole, SpecHelper.regularRole];
+    const roles = [SpecHelper.adminRole, SpecHelper.regularRole,
+    SpecHelper.authorRole, SpecHelper.contributorRole];
     return model.Role.bulkCreate(roles);
   }
 
@@ -71,7 +74,8 @@ class SeedHelper {
     adminUser.password = SeedHelper.hashPass(adminUser.password);
     regularUser1.password = SeedHelper.hashPass(regularUser1.password);
     regularUser2.password = SeedHelper.hashPass(regularUser2.password);
-    const users = [adminUser, regularUser1, regularUser2];
+    // authorUser.password = SpecHelper.hashPass(authorUser.password);
+    const users = [adminUser, regularUser1, regularUser2, authorUser];
     return model.User.bulkCreate(users);
   }
 

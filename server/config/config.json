@@ -7,7 +7,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "andeladeveloper",
+    "username": "postgres",
     "password": null,
     "database": "dms_test",
     "host": "127.0.0.1",

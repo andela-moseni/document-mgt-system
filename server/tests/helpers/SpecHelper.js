@@ -9,6 +9,14 @@ const SpecHelper = {
     title: 'regular'
   },
 
+  authorRole: {
+    title: 'author'
+  },
+
+  contributorRole: {
+    title: 'contributor'
+  },
+
   testUser1: {
     name: 'Mercy Oseni',
     email: 'mercy.oseni@andela.com',
@@ -29,6 +37,11 @@ const SpecHelper = {
     password: faker.internet.password()
   },
 
+  invalidUser2: {
+    Eemail: 'email@test.com',
+    password: 'pass'
+  },
+
   testUser3: {
     name: faker.name.firstName() + " " + faker.name.lastName(),
     email: faker.internet.email(),
@@ -40,14 +53,28 @@ const SpecHelper = {
     name: 'Faith Omokaro',
     email: 'faith.omokaro@andela.com',
     password: 'faith',
-    roleId: 2
+    roleId: 3
   },
 
-    testUser5: {
+  testUser5: {
     name: 'Omotola Mercy',
     email: 'omotola.mercy@test.com',
     password: 'omotola',
-    roleId: 2
+    roleId: 4
+  },
+
+  testUser6: {
+    name: 'Adeshola Barbie',
+    email: 'adeshola@test.com',
+    password: 'adeshola',
+    roleId: 3
+  },
+
+  testUser7: {
+    name: 'Cindy Barbie',
+    email: 'cindy@test.com',
+    password: 'cindy',
+    roleId: 4
   },
 
   testDocument1: {
