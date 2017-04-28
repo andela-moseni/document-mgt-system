@@ -13,6 +13,6 @@ before_script:
   - NODE_ENV=test npm run db:migrate
 
 script:
-  - npm test
+  - npm run travis
 
 after_script: npm run coveralls
