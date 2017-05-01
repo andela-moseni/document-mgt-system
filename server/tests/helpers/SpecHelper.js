@@ -95,7 +95,7 @@ const SpecHelper = {
     roleId: 3
   },
   
-  testDocument1: {
+  specDocument1: {
     title: 'YOYOL',
     content: 'In Andela, we believe You Own Your Own Learning',
     access: 'public',
@@ -104,7 +104,7 @@ const SpecHelper = {
     
   },
 
-  testDocument2: {
+  specDocument2: {
     title: 'Computer Science',
     content: 'Computer science is the study of the theory, experimentation,and'
     + ' engineering that form the basis for the design and use of computers.'
@@ -119,7 +119,7 @@ const SpecHelper = {
     
   },
 
-  testDocument3: {
+  specDocument3: {
     title: 'Text Editor',
     content: 'A text editor is a type of program used for editing plain text'
     + ' files. Such programs are sometimes known as "notepad" software,'
@@ -133,16 +133,16 @@ const SpecHelper = {
     
   },
 
-  testDocument4: {
+  specDocument4: {
     title: faker.commerce.department(),
     content: faker.lorem.paragraph(),
     access: 'private',
     type: 'Note',
-    OwnerId: 4,
+    OwnerId: 2,
     
   },
 
-  testDocument5: {
+  specDocument5: {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph(),
     access: 'public',
@@ -160,7 +160,7 @@ const SpecHelper = {
     
   },
 
-  testDocument6: {
+  specDocument6: {
     title: 'My Love Note',
     content: 'Thank you for letting me “see” South Philly and for being a'
     + ' neighborhood where everyone seems to be my friend.'
@@ -172,7 +172,7 @@ const SpecHelper = {
     
   },
 
-  testDocument7: {
+  specDocument7: {
     title: 'Dear Diary',
     content: 'On her thirteenth birthday, Anne Frank’s parents give her a'
     + ' diary. She’s excited because she wants someone—or something—in which'
@@ -186,7 +186,7 @@ const SpecHelper = {
     
   },
 
-  testDocument8: {
+  specDocument8: {
     title: faker.commerce.department(),
     content: faker.lorem.paragraph(),
     access: 'public',
@@ -195,7 +195,7 @@ const SpecHelper = {
     
   },
 
-  testDocument9: {
+  specDocument9: {
     title: faker.commerce.department(),
     content: faker.lorem.paragraph(),
     access: 'role',

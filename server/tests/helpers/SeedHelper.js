@@ -86,13 +86,13 @@ class SeedHelper {
    */
   static populateDocumentTable() {
     const documents = [
-      SpecHelper.testDocument1,
-      SpecHelper.testDocument2,
-      SpecHelper.testDocument3,
-      SpecHelper.testDocument4,
-      SpecHelper.testDocument5,
-      SpecHelper.testDocument6,
-      SpecHelper.testDocument7,
+      SpecHelper.specDocument1,
+      SpecHelper.specDocument2,
+      SpecHelper.specDocument3,
+      SpecHelper.specDocument4,
+      SpecHelper.specDocument5,
+      SpecHelper.specDocument6,
+      SpecHelper.specDocument7,
     ];
     return model.Document.bulkCreate(documents);
   }
