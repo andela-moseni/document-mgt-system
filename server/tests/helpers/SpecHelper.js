@@ -17,14 +17,14 @@ const SpecHelper = {
     title: 'contributor'
   },
 
-  testUser1: {
+  specUser1: {
     name: 'Mercy Oseni',
     email: 'mercy.oseni@andela.com',
     password: 'mercy',
     roleId: 1
   },
 
-  testUser2: {
+  specUser2: {
     name: 'Raphael Akpan',
     email: 'raphael.akpan@andela.com',
     password: 'raphael',
@@ -42,41 +42,59 @@ const SpecHelper = {
     password: 'pass'
   },
 
-  testUser3: {
+  invalidUser3: {
+    Email: 'ifiok@test.com'
+  },
+
+  specUser3: {
     name: faker.name.firstName() + " " + faker.name.lastName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
     roleId: 2
   },
 
-  testUser4: {
+  specUser4: {
     name: 'Faith Omokaro',
     email: 'faith.omokaro@andela.com',
     password: 'faith',
     roleId: 3
   },
 
-  testUser5: {
+  specUser5: {
     name: 'Omotola Mercy',
     email: 'omotola.mercy@test.com',
     password: 'omotola',
     roleId: 4
   },
 
-  testUser6: {
+  specUser6: {
     name: 'Adeshola Barbie',
     email: 'adeshola@test.com',
     password: 'adeshola',
     roleId: 3
   },
 
-  testUser7: {
+  specUser7: {
     name: 'Cindy Barbie',
     email: 'cindy@test.com',
     password: 'cindy',
-    roleId: 4
+    roleId: 3
   },
 
+  specUser8: {
+    name: 'Sophiat Ayomide',
+    email: 'sophiat@test.com',
+    password: 'sophiat',
+    roleId: 3
+  },
+
+ specUser9: {
+    name: 'Oyin Marie',
+    email: 'oyin@test.com',
+    password: 'oyin',
+    roleId: 3
+  },
+  
   testDocument1: {
     title: 'YOYOL',
     content: 'In Andela, we believe You Own Your Own Learning',
@@ -95,7 +113,7 @@ const SpecHelper = {
     + ' mechanization of the methodical procedures (or algorithms) that'
     + ' underlie the acquisition, representation, processing, storage,'
     + ' communication of, and access to information.',
-    access: 'public',
+    access: 'role',
     type: 'Education',
     OwnerId: 2,
     
@@ -109,7 +127,7 @@ const SpecHelper = {
     + 'operating systems and software development packages, and can be used'
     + 'to change configuration files, documentation files and'
     + 'programming language source code.',
-    access: 'public',
+    access: 'role',
     type: 'Education',
     OwnerId: 3,
     
@@ -120,7 +138,7 @@ const SpecHelper = {
     content: faker.lorem.paragraph(),
     access: 'private',
     type: 'Note',
-    OwnerId: 8,
+    OwnerId: 4,
     
   },
 
@@ -129,7 +147,7 @@ const SpecHelper = {
     content: faker.lorem.paragraph(),
     access: 'public',
     type: 'Note',
-    OwnerId: 6,
+    OwnerId: 5,
     
   },
 
@@ -172,6 +190,15 @@ const SpecHelper = {
     title: faker.commerce.department(),
     content: faker.lorem.paragraph(),
     access: 'public',
+    type: 'Note',
+    OwnerId: 3,
+    
+  },
+
+  testDocument9: {
+    title: faker.commerce.department(),
+    content: faker.lorem.paragraph(),
+    access: 'role',
     type: 'Note',
     OwnerId: 3,
     

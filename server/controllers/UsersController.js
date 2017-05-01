@@ -219,6 +219,10 @@ class UsersController {
                 message: 'You are not authorized to delete this user',
               });
             }
+            if ((role.title === 'admin') && (Number(req.params.id) === 1)) {
+              return res.status(403)
+              .send({ message: 'You cannot delete default admin user account' });
+            }
           user
             .destroy()
             .then(() => res.status(200).send({
@@ -307,10 +311,7 @@ class UsersController {
           .catch(() => res.status(400).send({
             message: 'An error occured. Invalid parameters, try again!'
           }));
-      })
-      .catch(() => res.status(400).send({
-        message: 'An error occured. Invalid parameters, try again!'
-      }));
+      });
   }
 
   /**
@@ -359,11 +360,8 @@ class UsersController {
         res.status(200).send({
           pagination, users: users.rows
         });
-      })
-    .catch(() => res.status(400).send({
-      message: 'An error occured. Try again!'
-    }));
-  }  
+      });
+  }; 
 }
 
 export default UsersController;
