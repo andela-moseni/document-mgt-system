@@ -13,14 +13,21 @@ class RolesController {
    * @return {Object} Response object
    */
   static createRole(req, res) {
-    Role
-      .create({
-        title: req.body.title,
+    Role.findOne({ where: { title: req.body.title } })
+    .then((existingRole) => {
+      if (existingRole) {
+        return res.status(400).send({
+          message: 'Validation error. Please enter unique parameters only!'
+        });
+      }
+      Role.create({
+        title: req.body.title
       })
       .then(role => res.status(201).send(role))
       .catch(() => res.status(400).send({
-        message: 'Validation error. Please enter unique parameters only!'
+        message: 'An error occured. Invalid parameters, try again!'
       }));
+    });
   }
 
   /**
@@ -74,8 +81,14 @@ class RolesController {
    * @return {Object} Response object
    */
   static updateRole(req, res) {
-    Role
-      .findById(req.params.id)
+    Role.findOne({ where: { title: req.body.title } })
+    .then((existingRole) => {
+      if (existingRole) {
+        return res.status(400).send({
+          message: 'Validation error. Please enter unique parameters only!'
+        });
+      }
+      Role.findById(req.params.id)
       .then((role) => {
         if (!role) {
           return res.status(404).send({
@@ -84,7 +97,7 @@ class RolesController {
         }
         if (role.title === 'regular' || role.title === 'admin') {
           return res.status(400).send({
-            message: 'An error occured. You cannot update default roles',
+            message: 'An error occured. You cannot update default roles'
           });
         }
         role
@@ -93,14 +106,12 @@ class RolesController {
           })
           .then(updatedRole => res.status(200).send({ 
             message: 'Update Successful', updatedRole 
-          }))
-          .catch(() => res.status(400).send({
-            message: 'Validation error. Please enter unique parameters only!'
           }));
       })
       .catch(() => res.status(400).send({
         message: 'An error occured. Invalid parameters, try again!'
       }));
+    });
   }
   
   /**
@@ -120,13 +131,13 @@ class RolesController {
         }
         if (role.title === 'regular' || role.title === 'admin') {
           return res.status(400).send({
-            message: 'An error occured. You cannot delete default roles',
+            message: 'An error occured. You cannot delete default roles'
           });
         }
         role
           .destroy()
           .then(() => res.status(200).send({
-            message: 'Role deleted successfully.',
+            message: 'Role deleted successfully'
           }));
       })
       .catch(() => res.status(400).send({
