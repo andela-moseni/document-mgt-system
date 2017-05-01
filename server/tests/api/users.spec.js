@@ -7,17 +7,20 @@ import app from '../../../server';
 
 const expect = chai.expect;
 const request = supertest.agent(app);
-const adminUser = SpecHelper.testUser1;
-const regularUser = SpecHelper.testUser2;
+
+const adminUser = SpecHelper.specUser1;
+const regularUser = SpecHelper.specUser2;
 const invalidUser = SpecHelper.invalidUser;
 const invalidUser2 = SpecHelper.invalidUser2;
-const regularUser2 = SpecHelper.testUser3;
-const regularUser3 = SpecHelper.testUser5;
-const authorUser = SpecHelper.testUser6;
+const invalidUser3 = SpecHelper.invalidUser3;
+const regularUser2 = SpecHelper.specUser3;
+const regularUser3 = SpecHelper.specUser5;
+const authorUser = SpecHelper.specUser6;
+const authorUser2 = SpecHelper.specUser9;
 
 describe('User API:', () => {
-  let adminUserToken, regularUserToken, authorUserToken;
-  let user = {};
+  let adminUserToken, regularUserToken, regularUser2Token,
+  authorUserToken, authorUser2Token, user = {};
 
   // Test users http requests
   describe('Users REQUESTS:', () => {
@@ -29,7 +32,8 @@ describe('User API:', () => {
           .send(invalidUser)
           .end((error, response) => {
             expect(response.status).to.equal(400);
-            expect(response.body.message).to.equal('An error occured. Invalid parameters, try again!');
+            expect(response.body.message).to
+            .equal('An error occured. Invalid parameters, try again!');
             done();
           });
       });
@@ -85,7 +89,8 @@ describe('User API:', () => {
           .send(invalidUser2)
           .end((error, response) => {
             expect(response.status).to.equal(401);
-            expect(response.body.message).to.equal('Invalid Login Credentials. Try Again!');
+            expect(response.body.message).to
+            .equal('Invalid Login Credentials. Try Again!');
             done();
           });
       });
@@ -95,7 +100,20 @@ describe('User API:', () => {
           .send(regularUser3)
           .end((error, response) => {
             expect(response.status).to.equal(401);
-            expect(response.body.message).to.equal('Invalid Login Credentials. Try Again!');
+            expect(response.body.message).to
+            .equal('Invalid Login Credentials. Try Again!');
+            done();
+          });
+      });
+
+      it(`should not login a user if user enters invalid credentials`,
+      (done) => {
+        request.post('/api/users/login')
+          .send(invalidUser3)
+          .end((error, response) => {
+            expect(response.status).to.equal(401);
+            expect(response.body.message).to
+            .equal('Invalid Login Credentials. Try Again!');
             done();
           });
       });
@@ -110,16 +128,32 @@ describe('User API:', () => {
               .send(regularUser)
               .end((err, res) => {
                 regularUserToken = res.body.token;
+                regularUser.id = res.body.userId;
                 expect(res.status).to.equal(200);
-              request.post('/api/users/login')
-              .send(authorUser)
-              .end((err, res) => {
-                authorUserToken = res.body.token;
-                expect(res.status).to.equal(200);
-                done();
+                request.post('/api/users/login')
+                  .send(authorUser)
+                  .end((err, res) => {
+                    authorUserToken = res.body.token;
+                    authorUser.id = res.body.userId;               
+                    expect(res.status).to.equal(200);
+                    request.post('/api/users/login')
+                    .send(authorUser2)
+                    .end((err2, res2) => {
+                      authorUser2Token = res2.body.token;
+                      authorUser2.id = res2.body.userId;              
+                      expect(res.status).to.equal(200);
+                      request.post('/api/users/login')
+                      .send(regularUser2)
+                      .end((err3, res3) => {
+                        regularUser2Token = res3.body.token;
+                        regularUser2.id = res3.body.userId;              
+                        expect(res.status).to.equal(200);
+                        done();
+                      });
+                    });
+                  });
               });
-            });
-        });
+          });
       });
     });
     // POST requests - Logout User
@@ -143,7 +177,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(200);
             expect(Array.isArray(response.body.users)).to.be.true;
-            expect(response.body.users.length).to.equal(6);
+            expect(response.body.users.length).to.equal(7);
             done();
           });
       });
@@ -155,7 +189,8 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(403);
             expect(Array.isArray(response.body.users)).to.be.false;
-            expect(response.body.message).to.equal('Access Restricted. You are not an admin!');
+            expect(response.body.message).to
+            .equal('Access Restricted. You are not an admin!');
             done();
           });
       });
@@ -166,7 +201,8 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(403);
             expect(Array.isArray(response.body.users)).to.be.false;
-            expect(response.body.message).to.equal('Access Restricted. You are not an admin!');
+            expect(response.body.message).to
+            .equal('Access Restricted. You are not an admin!');
             done();
           });
       });
@@ -174,12 +210,14 @@ describe('User API:', () => {
 
     // GET requests - Retrieve a user details
     describe('GET: (/api/users/:id) - ', () => {
-      it('should not return the user if user is not an admin and user is not the current user', (done) => {
+      it(`should not return the user if user is not an admin
+      and user is not the current user`, (done) => {
         request.get(`/api/users/${user.id}`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(403);
-            expect(response.body.message).to.equal('You are not authorized to access this user');
+            expect(response.body.message).to
+            .equal('You are not authorized to access this user');
             done();
           });
       });
@@ -193,7 +231,8 @@ describe('User API:', () => {
           });
       });
 
-      it('should return the user if the id provided is valid and user is admin', (done) => {
+      it(`should return the user if the id provided is valid
+      and user is admin`, (done) => {
         request.get(`/api/users/${user.id}`)
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
@@ -207,7 +246,8 @@ describe('User API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
-            expect(response.body.message).to.equal('An error occured. Invalid parameters, try again!');
+            expect(response.body.message).to
+            .equal('An error occured. Invalid parameters, try again!');
             done();
           });
       });
@@ -224,7 +264,7 @@ describe('User API:', () => {
 
     });
 
-    //  PUT Requests - Edit specific user
+    //  PUT requests - Edit specific user
     describe('PUT: (/api/users/:id) - ', () => {
       it('should not edit user if id is invalid', (done) => {
         const fieldsToUpdate = 
@@ -249,7 +289,8 @@ describe('User API:', () => {
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(403);
-            expect(response.body.message).to.equal('Unauthorised access. You cannot update userId property');
+            expect(response.body.message).to
+            .equal('Unauthorised access. You cannot update userId property');
             done();
           });
       });
@@ -261,7 +302,8 @@ describe('User API:', () => {
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(403);
-            expect(response.body.message).to.equal('Unauthorised access. You cannot update roleId property');
+            expect(response.body.message).to
+            .equal('Unauthorised access. You cannot update roleId property');
             done();
           });
       });
@@ -271,27 +313,19 @@ describe('User API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
-            expect(response.body.message).to.equal('An error occured. Invalid parameters, try again!');
+            expect(response.body.message).to
+            .equal('An error occured. Invalid parameters, try again!');
             done();
           });
       });
 
-      // it(`should not edit the user\'s property if user is admin and fields
-      // to be updated are invalid`, (done) => {
-      //   const fieldsToUpdate = { Nname: 'Mercy Ade', email: 'mercy.oseni@test.com' };
-      //   request.get(`/api/users/${user.id}`)
-      //     .set({ Authorization: adminUserToken })
-      //     .send(fieldsToUpdate)
-      //     .end((error, response) => {
-      //     expect(response.status).to.equal(400);
-      //     expect(response.body.message).to.equal('An error occured. Invalid parameters, try again!')
-      //     done();
-      //     });
-      // });
-
       it(`should edit the user's property if user is admin
       and id is valid`, (done) => {
-        const fieldsToUpdate = { name: 'Mercy Ade', email: 'mercy.oseni@test.com' };
+        const fieldsToUpdate = 
+        { 
+          name: 'Mercy Ade',
+          email: 'mercy.oseni@test.com'
+        };
         request.put(`/api/users/${user.id}`)
           .set({ Authorization: adminUserToken })
           .send(fieldsToUpdate)
@@ -304,20 +338,28 @@ describe('User API:', () => {
           });
       });
 
-      it('should not edit the user\'s property if user is not the current user', (done) => {
-        const fieldsToUpdate = { name: 'Mercy Ade', email: 'mercy.oseni@test.com' };
+      it(`should not edit the user\'s property if user is not
+      the current user`, (done) => {
+        const fieldsToUpdate = 
+        { 
+          name: 'Mercy Ade',
+          email: 'mercy.oseni@test.com'
+        };
         request.put(`/api/users/${user.id}`)
           .set({ Authorization: regularUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(403);
-            // expect(response.body.message).to.equal('Unauthorised access. You cannot update this user\'s property');
             done();
           });
       });
 
-      it('should edit the user\'s property if user is the current user', (done) => {
-        const fieldsToUpdate = { name: 'Mercy Ade', email: 'mercy.oseni@test.com' };
+      it(`should edit the user\'s property if user is the
+      current user`, (done) => {
+        const fieldsToUpdate = 
+        { name: 'Mercy Ade',
+        email: 'mercy.oseni@test.com'
+      };
         request.put(`/api/users/${user.id}`)
           .set({ Authorization: user.token })
           .send(fieldsToUpdate)
@@ -329,8 +371,181 @@ describe('User API:', () => {
             done();
           });
       });
-
-      
     });
-    
+
+    // DELETE requests - Delete specific user
+    describe('DELETE: (/api/users/:id) - ', () => {
+      it('should not delete user if id is non-integer', (done) => {
+        request.delete('/api/users/2ab')
+          .set({ Authorization: adminUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message).to
+            .equal('An error occured. Invalid parameters, try again!');
+            done();
+          });
+      });
+
+      it('should not delete user if id is invalid', (done) => {
+        request.delete('/api/users/2758903')
+          .set({ Authorization: adminUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(404);
+            expect(response.body.message).to.equal('User Does Not Exist');
+            done();
+          });
+      });
+
+      it(`should not delete user when id is valid and user is not
+      the current user`, (done) => {
+        request.delete(`/api/users/${user.id}`)
+          .set({ Authorization: regularUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(403);
+            expect(response.body.message).to
+              .equal('You are not authorized to delete this user');
+            done();
+          });
+      });
+
+      it('should not delete default admin user account', (done) => {
+        request.delete('/api/users/1')
+          .set({ Authorization: adminUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(403);
+            expect(response.body.message).to
+              .equal('You cannot delete default admin user account');
+            done();
+          });
+      });
+
+      it('should delete user when id is valid and user is admin', (done) => {
+        request.delete(`/api/users/${user.id}`)
+          .set({ Authorization: adminUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(200);
+            expect(response.body.message).to
+              .equal('User deleted successfully.');
+            done();
+          });
+      });
+    });
+
+    // GET requests - Retrieve specific user's documents
+    describe('GET: (/api/users/:id/documents) - ', () => {
+      const invalidId = '2q';
+      it('should not return user\'s documents if id is invalid',
+      (done) => {
+        request.get('/api/users/324785/documents')
+          .set({ Authorization: regularUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(404);
+            expect(response.body.message).to
+            .equal('No document match the request.');
+            done();
+          });
+      });
+
+      it('should not return user\'s documents if id is non-integer',
+      (done) => {
+        request.get(`/api/users/${invalidId}/documents`)
+          .set({
+            Authorization: regularUserToken
+          })
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message).to
+            .equal('An error occured. Invalid parameters, try again!');
+            done();
+          });
+      });
+
+      it('should return user\'s documents if user is admin', (done) => {
+        request.get(`/api/users/${regularUser.id}/documents`)
+          .set({
+            Authorization: adminUserToken
+          })
+          .end((error, response) => {
+            expect(response.status).to.equal(200);
+            expect(Array.isArray(response.body.documents)).to.be.true;
+            expect(response.body.documents.length).to.be.greaterThan(0);
+            done();
+          });
+      });
+
+      it(`should not return user's documents if user is not owner`, (done) => {
+        request.get(`/api/users/${authorUser.id}/documents`)
+          .set({
+            Authorization: regularUserToken
+          })
+          .end((error, response) => {
+            expect(response.status).to.equal(404);
+            expect(response.body.message).to
+              .equal('No document match the request.');
+            done();
+          });
+      });
+
+      it(`should return user's documents if user is not owner
+      but has the same role as user`, (done) => {
+        request.get(`/api/users/${regularUser.id}/documents`)
+          .set({ Authorization: regularUser2Token })
+          .end((error, response) => {
+            expect(response.status).to.equal(200);
+            expect(Array.isArray(response.body.documents)).to.be.true;
+            done();
+          });
+      });
+
+      it(`should not return user's documents if user is not owner
+      and doesn't have the same role as user`, (done) => {
+        request.get(`/api/users/${authorUser.id}/documents`)
+          .set({ Authorization: regularUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(404);
+            expect(response.body.message).to
+            .equal('No document match the request.');
+            done();
+          });
+      });
+    });
+
+    // GET requests - Search user(s): Gets all users relevant to search query
+    describe('GET: (/api/search/users?search) - ', () => {
+      const search = 'mercy', term = 'abc';
+      it('should not return user(s) if search term is empty', (done) => {
+        request.get('/api/search/users?search=')
+          .set({ Authorization: adminUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message).to
+            .equal('Invalid Search Parameter!');
+            done();
+          });
+      });
+
+      it('should not return user(s) if search term doesn\'t match', (done) => {
+        request.get(`/api/search/users?search=${term}`)
+          .set({ Authorization: regularUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(404);
+            expect(response.body.message).to
+            .equal('Search Does Not Match Any User!');
+            done();
+          });
+      });
+
+      it('should return matching users if search term match',
+      (done) => {
+        request.get(`/api/search/users?search=${search}`)
+          .set({ Authorization: regularUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(200);
+            expect(Array.isArray(response.body.users)).to.be.true;
+            expect(response.body.users.length).to.be.greaterThan(0);
+            done();
+          });
+      });
+
+    });
 });

@@ -17,14 +17,14 @@ const SpecHelper = {
     title: 'contributor'
   },
 
-  testUser1: {
+  specUser1: {
     name: 'Mercy Oseni',
     email: 'mercy.oseni@andela.com',
     password: 'mercy',
     roleId: 1
   },
 
-  testUser2: {
+  specUser2: {
     name: 'Raphael Akpan',
     email: 'raphael.akpan@andela.com',
     password: 'raphael',
@@ -42,42 +42,60 @@ const SpecHelper = {
     password: 'pass'
   },
 
-  testUser3: {
+  invalidUser3: {
+    Email: 'ifiok@test.com'
+  },
+
+  specUser3: {
     name: faker.name.firstName() + " " + faker.name.lastName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
     roleId: 2
   },
 
-  testUser4: {
+  specUser4: {
     name: 'Faith Omokaro',
     email: 'faith.omokaro@andela.com',
     password: 'faith',
     roleId: 3
   },
 
-  testUser5: {
+  specUser5: {
     name: 'Omotola Mercy',
     email: 'omotola.mercy@test.com',
     password: 'omotola',
     roleId: 4
   },
 
-  testUser6: {
+  specUser6: {
     name: 'Adeshola Barbie',
     email: 'adeshola@test.com',
     password: 'adeshola',
     roleId: 3
   },
 
-  testUser7: {
+  specUser7: {
     name: 'Cindy Barbie',
     email: 'cindy@test.com',
     password: 'cindy',
-    roleId: 4
+    roleId: 3
   },
 
-  testDocument1: {
+  specUser8: {
+    name: 'Sophiat Ayomide',
+    email: 'sophiat@test.com',
+    password: 'sophiat',
+    roleId: 3
+  },
+
+ specUser9: {
+    name: 'Oyin Marie',
+    email: 'oyin@test.com',
+    password: 'oyin',
+    roleId: 3
+  },
+  
+  specDocument1: {
     title: 'YOYOL',
     content: 'In Andela, we believe You Own Your Own Learning',
     access: 'public',
@@ -86,7 +104,7 @@ const SpecHelper = {
     
   },
 
-  testDocument2: {
+  specDocument2: {
     title: 'Computer Science',
     content: 'Computer science is the study of the theory, experimentation,and'
     + ' engineering that form the basis for the design and use of computers.'
@@ -95,13 +113,13 @@ const SpecHelper = {
     + ' mechanization of the methodical procedures (or algorithms) that'
     + ' underlie the acquisition, representation, processing, storage,'
     + ' communication of, and access to information.',
-    access: 'public',
+    access: 'role',
     type: 'Education',
     OwnerId: 2,
     
   },
 
-  testDocument3: {
+  specDocument3: {
     title: 'Text Editor',
     content: 'A text editor is a type of program used for editing plain text'
     + ' files. Such programs are sometimes known as "notepad" software,'
@@ -109,27 +127,27 @@ const SpecHelper = {
     + 'operating systems and software development packages, and can be used'
     + 'to change configuration files, documentation files and'
     + 'programming language source code.',
-    access: 'public',
+    access: 'role',
     type: 'Education',
     OwnerId: 3,
     
   },
 
-  testDocument4: {
+  specDocument4: {
     title: faker.commerce.department(),
     content: faker.lorem.paragraph(),
     access: 'private',
     type: 'Note',
-    OwnerId: 8,
+    OwnerId: 2,
     
   },
 
-  testDocument5: {
+  specDocument5: {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph(),
     access: 'public',
     type: 'Note',
-    OwnerId: 6,
+    OwnerId: 5,
     
   },
 
@@ -142,7 +160,7 @@ const SpecHelper = {
     
   },
 
-  testDocument6: {
+  specDocument6: {
     title: 'My Love Note',
     content: 'Thank you for letting me “see” South Philly and for being a'
     + ' neighborhood where everyone seems to be my friend.'
@@ -154,7 +172,7 @@ const SpecHelper = {
     
   },
 
-  testDocument7: {
+  specDocument7: {
     title: 'Dear Diary',
     content: 'On her thirteenth birthday, Anne Frank’s parents give her a'
     + ' diary. She’s excited because she wants someone—or something—in which'
@@ -168,10 +186,19 @@ const SpecHelper = {
     
   },
 
-  testDocument8: {
+  specDocument8: {
     title: faker.commerce.department(),
     content: faker.lorem.paragraph(),
     access: 'public',
+    type: 'Note',
+    OwnerId: 3,
+    
+  },
+
+  specDocument9: {
+    title: faker.commerce.department(),
+    content: faker.lorem.paragraph(),
+    access: 'role',
     type: 'Note',
     OwnerId: 3,
     

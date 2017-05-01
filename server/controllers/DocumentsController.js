@@ -54,54 +54,53 @@ class DocumentsController {
                 pagination, documents: documents.rows
               });
             });
-        } 
-        
-        query = {
-          where: {
-            $or: { 
-              $or: {
-                access: { $eq: 'public' },
-                $and: {
-                  access: { $eq: 'role' },
-                  OwnerId: { $eq: req.decoded.userId }
+        } else {
+          query = {
+            where: {
+              $or: { 
+                $or: {
+                  access: { $eq: 'public' },
+                  $and: {
+                    access: { $eq: 'role' },
+                    OwnerId: { $eq: req.decoded.userId }
+                  },
+                  $and: {
+                    access: { $eq: 'role' },
+                    '$User.roleId$': { $eq: req.decoded.roleId }
+                  }
                 },
-                $and: {
-                  access: { $eq: 'role' },
-                  '$User.roleId$': { $eq: req.decoded.roleId }
-                }
-              },
-              OwnerId: { $eq: req.decoded.userId }
-            }
-          }, 
-          include: [
-            {
-              model: User
-            }
-          ]
-        }
+                OwnerId: { $eq: req.decoded.userId }
+              }
+            }, 
+            include: [
+              {
+                model: User
+              }
+            ]
+          }
 
-        Document
-          .findAndCountAll(query)
-          .then((documents) => {
-            const filteredDocuments = documents.rows.map((document) => {
-              return Object.assign({}, {
-                title: document.title,
-                content: document.content,
-                access: document.access,
-                type: document.type,
-                OwnerId: document.OwnerId,
-                createdAt: document.createdAt,
-                updatedAt: document.updatedAt
+          Document
+            .findAndCountAll(query)
+            .then((documents) => {
+              const filteredDocuments = documents.rows.map((document) => {
+                return Object.assign({}, {
+                  title: document.title,
+                  content: document.content,
+                  access: document.access,
+                  type: document.type,
+                  OwnerId: document.OwnerId,
+                  createdAt: document.createdAt,
+                  updatedAt: document.updatedAt
+                })
               })
-            })
-            const pagination = ControllerHelper.pagination(
-              query.limit, query.offset, documents.count
-            );
-            res.status(200).send({
-              pagination, documents: filteredDocuments
+              const pagination = ControllerHelper.pagination(
+                query.limit, query.offset, documents.count
+              );
+              res.status(200).send({
+                pagination, documents: filteredDocuments
+              });
             });
-          });
-
+          }
       });
   } 
   
@@ -130,8 +129,9 @@ class DocumentsController {
             }
 
             User.findById(document.OwnerId).then((user) => {
-              if ((role.title !== 'admin') && (document.access === 'role') && (user.roleId !== req.decoded.roleId)) {
-                return res.status(200)
+              if ((role.title !== 'admin') && (document.access === 'role') &&
+              (user.roleId !== req.decoded.roleId)) {
+                return res.status(403)
                 .send({ message: 'You are not authorized to view this document' });
               } 
 
@@ -168,7 +168,7 @@ class DocumentsController {
                 .send({ message: 'You are not authorized to update this document' });
             }
             if (req.body.OwnerId && !(role.title === 'admin')) {
-              return res.status(400).send({
+              return res.status(403).send({
                 message: 'You cannot edit document OwnerId property'
               });
             }
@@ -211,7 +211,7 @@ class DocumentsController {
           document
             .destroy()
             .then(() => res.status(200).send({
-              message: 'Document deleted successfully.',
+              message: 'Document deleted successfully',
           }));
         })
       .catch(() => res.status(400).send({
@@ -237,12 +237,7 @@ class DocumentsController {
             message: 'Invalid Search Parameter!'
           });
         }
-        if (!search) {
-          return res.status(404).send({
-            message: 'Search Does Not Match Any Document!'
-          });
-        }
-    
+
        let query = { 
          where: {
             $and: [{
@@ -327,11 +322,8 @@ class DocumentsController {
               pagination, documents: filteredDocuments
             });
           });
-        })
-        .catch(() => res.status(400).send({
-          message: 'An error occured. Try again!'
-        }));
-    }
+        });
+    };
 }
 
 export default DocumentsController;

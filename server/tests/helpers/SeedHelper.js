@@ -4,10 +4,11 @@ import logger from 'fm-log';
 import model from '../../../server/models';
 import SpecHelper from './SpecHelper';
 
-const adminUser = SpecHelper.testUser1;
-const regularUser1 = SpecHelper.testUser2;
-const regularUser2 = SpecHelper.testUser4;
-const authorUser = SpecHelper.testUser7;
+const adminUser = SpecHelper.specUser1;
+const regularUser1 = SpecHelper.specUser2;
+const regularUser2 = SpecHelper.specUser4;
+const authorUser1 = SpecHelper.specUser7;
+const authorUser2 = SpecHelper.specUser8;
 
 /**
  * SeedData class to populate database with default data
@@ -75,7 +76,7 @@ class SeedHelper {
     regularUser1.password = SeedHelper.hashPass(regularUser1.password);
     regularUser2.password = SeedHelper.hashPass(regularUser2.password);
     // authorUser.password = SpecHelper.hashPass(authorUser.password);
-    const users = [adminUser, regularUser1, regularUser2, authorUser];
+    const users = [adminUser, regularUser1, regularUser2, authorUser1, authorUser2];
     return model.User.bulkCreate(users);
   }
 
@@ -85,11 +86,13 @@ class SeedHelper {
    */
   static populateDocumentTable() {
     const documents = [
-      SpecHelper.testDocument1,
-      SpecHelper.testDocument2,
-      SpecHelper.testDocument3,
-      SpecHelper.testDocument6,
-      SpecHelper.testDocument7
+      SpecHelper.specDocument1,
+      SpecHelper.specDocument2,
+      SpecHelper.specDocument3,
+      SpecHelper.specDocument4,
+      SpecHelper.specDocument5,
+      SpecHelper.specDocument6,
+      SpecHelper.specDocument7,
     ];
     return model.Document.bulkCreate(documents);
   }
