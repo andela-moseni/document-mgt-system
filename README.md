@@ -1,6 +1,6 @@
 ## Document Management System
 
-[![Coverage Status](https://coveralls.io/repos/github/andela-moseni/document-mgt-system/badge.png?branch=master)](https://coveralls.io/github/andela-moseni/document-mgt-system?branch=master) [![Code Climate](https://codeclimate.com/github/andela-moseni/document-mgt-system/badges/gpa.svg)](https://codeclimate.com/github/andela-moseni/document-mgt-system) [![Build Status](https://travis-ci.org/andela-moseni/document-mgt-system.svg?branch=master)](https://travis-ci.org/andela-moseni/document-mgt-system)
+[![Coverage Status](https://coveralls.io/repos/github/andela-moseni/document-mgt-system/badge.svg?branch=master)](https://coveralls.io/github/andela-moseni/document-mgt-system?branch=master) [![Code Climate](https://codeclimate.com/github/andela-moseni/document-mgt-system/badges/gpa.svg)](https://codeclimate.com/github/andela-moseni/document-mgt-system) [![Build Status](https://travis-ci.org/andela-moseni/document-mgt-system.svg?branch=master)](https://travis-ci.org/andela-moseni/document-mgt-system)
 
 Document Management System provides a restful API for users to create and manage documents giving different privileges based on user roles and managing authentication using JWT.
 
