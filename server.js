@@ -8,7 +8,7 @@ import routes from './server/routes';
 
 const app = express();
 const router = express.Router();
-const port = 3000;
+const port = parseInt(process.env.PORT, 10) || 3000;
 app.set('port', port);
 
 // Log requests to the console.
