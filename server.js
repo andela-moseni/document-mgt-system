@@ -8,15 +8,23 @@ import routes from './server/routes';
 import path from 'path';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from './webpack.config.dev';
 
 const app = express();
 const router = express.Router();
 const port = parseInt(process.env.PORT, 10) || 3000;
+const compiler = webpack(webpackConfig);
+
 app.set('port', port);
 
 // Webpack config
-app.use(webpackMiddleware(webpack(webpackConfig)));
+app.use(webpackMiddleware(compiler, {
+  hot: true,
+  publicPath: webpackConfig.output.publicPath,
+  noInfo: true
+}));
+app.use(webpackHotMiddleware(compiler));
 
 // Log requests to the console.
 app.use(logger('dev'));
