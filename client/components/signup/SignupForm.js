@@ -1,10 +1,12 @@
 import React from 'react';
+// import axios from 'axios';
+import PropTypes from 'prop-types';
 
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullname: '',
+      name: '',
       email: '',
       password: '',
       passwordConfirmation: ''
@@ -19,7 +21,11 @@ class SignupForm extends React.Component {
   
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    if (this.state.password === this.state.passwordConfirmation) {
+      // return axios.post('/api/users', this.state );
+      return this.props.userSignupRequest(this.state);
+    }
+    console.log("Invalid password");
   }
 
   render() {
@@ -31,9 +37,9 @@ class SignupForm extends React.Component {
             <div className="input-field col s12">
               <i className="material-icons prefix">account_circle</i>
               <input 
-              value={this.state.fullname}
+              value={this.state.name}
               onChange={this.onChange}
-              name="fullname" 
+              name="name" 
               type="text" 
               className="validate" required />
               <label>Full Name</label>
@@ -80,6 +86,10 @@ class SignupForm extends React.Component {
       </div>
     );
   }
+}
+
+SignupForm.propTypes = {
+  userSignupRequest: PropTypes.func.isRequired
 }
 
 export default SignupForm;
