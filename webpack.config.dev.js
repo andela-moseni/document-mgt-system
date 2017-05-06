@@ -22,7 +22,13 @@ export default {
         test: /\.js$/,
         include: path.join(__dirname, 'client'),
         loaders: [ 'react-hot', 'babel' ]
-      }
+      },
+      {
+        test: /\.scss$/,
+        include: path.join(__dirname, 'client'),
+        loaders: [ 'style-loader', 'css-loader', 'sass-loader' ]
+      },
+      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
     ]
   },
   resolve: {

@@ -1,0 +1,34 @@
+$primary-white: rgba(255, 255, 235, 0.7);
+
+body {
+  background: url('images/docs1.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+h2 {
+  color: black;
+}
+
+nav {
+  padding: 0 20px;
+}
+
+nav .brand-logo {
+  font-size: 55px;
+}
+
+.container {
+  width: 90%;
+}
+
+.signupForm {
+  background: white;
+  margin: 0 auto;
+  width: 50%;
+  opacity: 0.7;
+}
+
+.signupPage {
+  padding-top: 80px;
+}
