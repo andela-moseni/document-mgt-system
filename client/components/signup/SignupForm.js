@@ -1,6 +1,8 @@
 import React from 'react';
 // import axios from 'axios';
 import PropTypes from 'prop-types';
+import TextFieldGroup from '../common/TextFieldGroup';
+import { browserHistory } from 'react-router';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -13,19 +15,26 @@ class SignupForm extends React.Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  
+
   onSubmit(e) {
     e.preventDefault();
-    if (this.state.password === this.state.passwordConfirmation) {
+    if (((this.state.name).length > 5) &&
+      ((this.state.password).length > 5) &&
+      (this.state.password === this.state.passwordConfirmation)) {
       // return axios.post('/api/users', this.state );
-      return this.props.userSignupRequest(this.state);
+      return this.props.userSignupRequest(this.state).then(() => {
+        browserHistory.push('/');
+      });
     }
-    console.log("Invalid password");
+    alert(`Invalid credentials - 
+    Passwords must be minimum of 6 characters and must match - 
+    name should be alphabets only and minimum of 6 characters`);
   }
 
   render() {
@@ -34,49 +43,39 @@ class SignupForm extends React.Component {
         <form className="col s12" onSubmit={this.onSubmit}>
           <h3>Signup Form</h3>
           <div className="row">
-            <div className="input-field col s12">
-              <i className="material-icons prefix">account_circle</i>
-              <input 
+            <TextFieldGroup 
+              label="Full Name"
+              onChange={this.onChange}
               value={this.state.name}
+              icon="account_circle"
+              field="name"
+            />
+              
+            <TextFieldGroup 
+              label="Email"
               onChange={this.onChange}
-              name="name" 
-              type="text" 
-              className="validate" required />
-              <label>Full Name</label>
-            </div>
-
-            <div className="input-field col s12">
-              <i className="material-icons prefix">email</i>
-              <input 
               value={this.state.email}
+              icon="email"
+              field="email"
+            />
+            
+            <TextFieldGroup 
+              label="Password"
               onChange={this.onChange}
-              name="email" 
-              type="email" 
-              className="validate" required />
-              <label>Email</label>
-            </div>
-
-            <div className="input-field col s12">
-              <i className="material-icons prefix">vpn_key</i>
-              <input
               value={this.state.password}
-              onChange={this.onChange}
-              name="password"
+              icon="vpn_key"
+              field="password"
               type="password"
-              className="validate" required />
-              <label>Password</label>
-            </div>
+            />
 
-            <div className="input-field col s12">
-              <i className="material-icons prefix">vpn_key</i>
-              <input
-              value={this.state.passwordConfirmation}
+            <TextFieldGroup 
+              label="Confirm Password"
               onChange={this.onChange}
-              name="passwordConfirmation"
+              value={this.state.passwordConfirmation}
+              icon="vpn_key"
+              field="passwordConfirmation"
               type="password"
-              className="validate" required />
-              <label>Confirm Password</label>
-            </div>
+            />
 
             <button className="btn waves-effect waves-light submitBtn" type="submit" name="action">Submit
               <i className="material-icons right">send</i>

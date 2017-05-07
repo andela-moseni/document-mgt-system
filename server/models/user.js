@@ -8,15 +8,32 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          message: 'Name field cannot be empty.'
+        },
+        is: /^[a-z ]+$/i
+      }
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: {
+          message: 'Please input a valid email address.'
+        }
+      }
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          message: 'Password field cannot be empty.'
+        },
+        len: [6, 10]
+      }
     },
      roleId: {
       allowNull: false,
