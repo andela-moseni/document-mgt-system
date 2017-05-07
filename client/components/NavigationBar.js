@@ -17,7 +17,7 @@ export default class NavBar extends React.Component {
             {/*</span>*/}
           </Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><Link to="/signup">Sign in</Link></li>
+            <li><Link to="/login">Sign in</Link></li>
             <li><Link to="/signup">Sign up</Link></li>
           </ul>
         </div>

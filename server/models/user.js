@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           message: 'Password field cannot be empty.'
         },
-        len: [6, 10]
+        len: [4, 10]
       }
     },
      roleId: {
