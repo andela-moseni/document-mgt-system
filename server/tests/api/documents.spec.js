@@ -27,27 +27,37 @@ describe('Document API:', () => {
       .send(adminUser)
       .end((error, response) => {
         adminUserToken = response.body.token;
-        request.post('/api/users/login')
-          .send(regularUser)
-          .end((err, res) => {
-            regularUserToken = res.body.token;
-            regularUser.id = res.body.userId;
-            request.post('/api/users/login')
-              .send(regularUser2)
-              .end((err, res) => {
-                regularUser2Token = res.body.token;
-                regularUser2.id = res.body.userId;
-                request.post('/api/users/login')
-                .send(authorUser)
-                .end((err, res) => {
-                  authorUserToken = res.body.token;
-                  authorUser.id = res.body.userId;
-                done();
-              });
-            });
-          });
+        done();
       });
   });
+  before((done) => {
+    request.post('/api/users/login')
+    .send(authorUser)
+    .end((err, res) => {
+      authorUserToken = res.body.token;
+      authorUser.id = res.body.userId;
+      done();
+    });
+  });
+  before((done) => {
+    request.post('/api/users/login')
+    .send(regularUser2)
+    .end((err, res) => {
+      regularUser2Token = res.body.token;
+      regularUser2.id = res.body.userId;
+      done();
+    });
+  });
+  before((done) => {
+    request.post('/api/users/login')
+    .send(regularUser)
+    .end((err, res) => {
+      regularUserToken = res.body.token;
+      regularUser.id = res.body.userId;
+      done();
+    });
+  });
+
   // Test documents http requests
   describe('Documents REQUESTS:', () => {
     // POST requests - Create Documents

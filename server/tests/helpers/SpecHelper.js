@@ -47,9 +47,9 @@ const SpecHelper = {
   },
 
   specUser3: {
-    name: faker.name.firstName() + " " + faker.name.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
+    name: "Ade Ade",
+    email: "ade@test.com",
+    password: "adetest",
     roleId: 2
   },
 
