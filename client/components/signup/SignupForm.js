@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { browserHistory } from 'react-router';
+import {notify} from 'react-notify-toast';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -23,18 +24,21 @@ class SignupForm extends React.Component {
   }
 
   onSubmit(e) {
+    let myColor = { background: '#ff0000', text: "#FFFFFF"};
     e.preventDefault();
-    if (((this.state.name).length > 5) &&
-      ((this.state.password).length > 5) &&
-      (this.state.password === this.state.passwordConfirmation)) {
-      // return axios.post('/api/users', this.state );
+    if (this.state.password.length < 4) {
+      return notify.show("password must be minimum of four characters only",
+      "custom", 3000, myColor);
+    }
+    if (this.state.password === this.state.passwordConfirmation) {
       return this.props.userSignupRequest(this.state).then(() => {
         browserHistory.push('/');
+        notify.show("Signup successful", "success", 3000);
+      }).catch((error) =>  {
+        notify.show(error.response.data.message, "custom", 3000, myColor);
       });
     }
-    alert(`Invalid credentials - 
-    Passwords must be minimum of 6 characters and must match - 
-    name should be alphabets only and minimum of 6 characters`);
+   return notify.show("Passwords do not match", "custom", 3000, myColor);
   }
 
   render() {
@@ -49,6 +53,7 @@ class SignupForm extends React.Component {
               value={this.state.name}
               icon="account_circle"
               field="name"
+              placeholder="alphabets only"
             />
               
             <TextFieldGroup 
@@ -57,6 +62,7 @@ class SignupForm extends React.Component {
               value={this.state.email}
               icon="email"
               field="email"
+              type="email"
             />
             
             <TextFieldGroup 
@@ -66,6 +72,7 @@ class SignupForm extends React.Component {
               icon="vpn_key"
               field="password"
               type="password"
+              placeholder="password must be minimum of four characters"
             />
 
             <TextFieldGroup 
@@ -75,6 +82,7 @@ class SignupForm extends React.Component {
               icon="vpn_key"
               field="passwordConfirmation"
               type="password"
+              placeholder="passwords must match"
             />
 
             <button className="btn waves-effect waves-light submitBtn" type="submit" name="action">Submit

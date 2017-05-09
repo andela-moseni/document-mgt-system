@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { loginActions } from '../../actions/loginActions';
+import {notify} from 'react-notify-toast';
 
 class LoginForm extends React.Component {
   constructor(props){
@@ -21,14 +22,14 @@ class LoginForm extends React.Component {
   }
 
   onSubmit(e) {
+    let myColor = { background: '#ff0000', text: "#FFFFFF"};
     e.preventDefault();
-    if ((this.state.email) && ((this.state.password).length > 3)) {
-      // return axios.post('/api/users', this.state );
-      return this.props.loginActions(this.state).then(() => {
-        browserHistory.push('/');
-      });
-    }
-    alert("Invalid credentials - Passwords must be minimum of 6 characters");
+    this.props.loginActions(this.state).then(() => {
+      browserHistory.push('/');
+      notify.show("Login successful", "success", 3000);
+    }).catch((error) =>  {
+      notify.show(error.response.data.message, "custom", 3000, myColor);
+    });
   }
 
   render() {
@@ -43,6 +44,7 @@ class LoginForm extends React.Component {
               value={this.state.email}
               icon="email"
               field="email"
+              type="email"
             />
             
             <TextFieldGroup 

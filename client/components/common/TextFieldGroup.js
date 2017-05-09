@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextFieldGroup = ({ field, value, label, type, onChange, icon}) => {
+const TextFieldGroup = ({ field, value, label, type, onChange, icon, placeholder }) => {
   return(
     <div className="input-field col s12">
       <i className="material-icons prefix">{icon}</i>
@@ -9,7 +9,8 @@ const TextFieldGroup = ({ field, value, label, type, onChange, icon}) => {
       value={value}
       onChange={onChange}
       name={field} 
-      type={type} 
+      type={type}
+      placeholder={placeholder}
       className="validate" required />
       <label>{label}</label>
     </div>
