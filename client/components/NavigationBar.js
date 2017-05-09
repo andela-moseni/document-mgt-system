@@ -1,12 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../actions/loginActions';
 
-export default class NavBar extends React.Component {
+class NavigationBar extends React.Component {
   
   componentDidMount() {
     // // Jquery here $(...)...
   }
+
+  logout(e) {
+    e.preventDefault();
+    this.props.logout();
+  }
+
   render() {
+    const { isAuthenticated } = this.props.auth;
+
+    const userLinks = (
+      <ul id="nav-mobile" className="right hide-on-med-and-down">
+        <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
+      </ul>
+    );
+
+    const guestLinks = (
+      <ul id="nav-mobile" className="right hide-on-med-and-down">
+        <li><Link to="/login">Sign in</Link></li>
+        <li><Link to="/signup">Sign up</Link></li>
+      </ul>
+    );
+
     return (
       <nav>
         <div className="nav-wrapper">
@@ -16,10 +40,7 @@ export default class NavBar extends React.Component {
               Meek
             {/*</span>*/}
           </Link>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><Link to="/login">Sign in</Link></li>
-            <li><Link to="/signup">Sign up</Link></li>
-          </ul>
+            {isAuthenticated ? userLinks : guestLinks  }
         </div>
         {/*<ul id="slide-out" className="side-nav">
         <li>
@@ -45,3 +66,16 @@ export default class NavBar extends React.Component {
     );
   }
 } 
+
+NavigationBar.propTypes = {
+  auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+}
+
+export default connect(mapStateToProps, { logout })(NavigationBar);
