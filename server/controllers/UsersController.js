@@ -24,7 +24,7 @@ class UsersController {
       .then((user) => {
         if (!req.body.password) {
           return res.status(401)
-            .json({ message: 'Invalid Login Credentials. Try Again!' });
+            .send({ message: 'Invalid Login Credentials. Try Again!' });
         }
         if (user && user.validatePassword(req.body.password)) {
           const token = jwt.sign({ userId: user.id, roleId: user.roleId },
@@ -36,7 +36,7 @@ class UsersController {
           });
         }
         res.status(401)
-            .json({ message: 'Invalid Login Credentials. Try Again!' });
+          .send({ message: 'Invalid Login Credentials. Try Again!' });
       });
   }
 
