@@ -27,7 +27,7 @@ class UsersController {
             .send({ message: 'Invalid Login Credentials. Try Again!' });
         }
         if (user && user.validatePassword(req.body.password)) {
-          const token = jwt.sign({ userId: user.id, roleId: user.roleId },
+          const token = jwt.sign({ userId: user.id, roleId: user.roleId, user: user.name, email: user.email },
           secret, { expiresIn: '12 hours' });
           return res.status(200).send({
             token,

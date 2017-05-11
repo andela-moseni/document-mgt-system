@@ -13,7 +13,7 @@ import webpackConfig from './webpack.config.dev';
 
 const app = express();
 const router = express.Router();
-const port = parseInt(process.env.PORT, 10) || 3000;
+const port = parseInt(process.env.PORT, 10) || 8000;
 const compiler = webpack(webpackConfig);
 
 app.set('port', port);
