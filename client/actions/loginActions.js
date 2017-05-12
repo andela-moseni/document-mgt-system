@@ -19,7 +19,7 @@ export function logout () {
   }
 }
 
-export function loginActions (userData) {
+export function login (userData) {
   return dispatch => {
     return axios.post('api/users/login', userData).then(res => {
       const token = res.data.token;

@@ -3,7 +3,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { loginActions } from '../../actions/loginActions';
+import { login } from '../../actions/loginActions';
 import {notify} from 'react-notify-toast';
 
 class LoginForm extends React.Component {
@@ -24,7 +24,7 @@ class LoginForm extends React.Component {
   onSubmit(e) {
     let myColor = { background: '#ff0000', text: "#FFFFFF"};
     e.preventDefault();
-    this.props.loginActions(this.state).then(() => {
+    this.props.login(this.state).then(() => {
       browserHistory.push('/');
       notify.show("Login successful", "success", 3000);
     }).catch((error) =>  {
@@ -65,4 +65,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default connect(null, { loginActions })(LoginForm);
+export default connect(null, { login })(LoginForm);

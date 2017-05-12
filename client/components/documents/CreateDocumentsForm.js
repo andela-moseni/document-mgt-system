@@ -6,6 +6,7 @@ import {notify} from 'react-notify-toast';
 import PropTypes from 'prop-types';
 import { Input, Row } from 'react-materialize';
 import { browserHistory } from 'react-router';
+import {SimpleMarkdownEditor} from 'react-simple-markdown-editor';
 
 class CreateDocumentsForm extends React.Component {
   constructor(props){
@@ -51,13 +52,18 @@ class CreateDocumentsForm extends React.Component {
               field="title"
             />
             
-            <TextFieldGroup 
-              label="Content"
-              onChange={this.onChange}
-              value={content}
-              icon="mode_edit"
-              field="content"
-            />
+            <div className="input-field col s12">
+              <i className="material-icons prefix left">mode_edit</i>
+              <SimpleMarkdownEditor textAreaID={"textarea1"} />
+              <textarea 
+                label="Content"
+                onChange={this.onChange}
+                value={content}
+                name="content"
+                className="materialize-textarea"
+                id="textarea1"
+              />
+            </div>
 
             <TextFieldGroup 
               label="Type"
@@ -70,7 +76,7 @@ class CreateDocumentsForm extends React.Component {
             <div className="col s12">
               <i className="material-icons prefix left">mode_edit</i> 
               <Input type="select"
-                className=" browser-default" 
+                className="browser-default"
                 s={8}
                 name="access"
                 label="Select Acccess"
@@ -81,7 +87,7 @@ class CreateDocumentsForm extends React.Component {
                 <option value="role">Role</option>
               </Input>
             </div>
-
+            
             <button className="btn waves-effect waves-light submitBtn" type="submit" name="action">Create
               <i className="material-icons right">send</i>
             </button>
@@ -93,7 +99,20 @@ class CreateDocumentsForm extends React.Component {
 }
 
 CreateDocumentsForm.propTypes = {
-  createDocument: PropTypes.func.isRequired
+  createDocument: React.PropTypes.func.isRequired
 }
+
+SimpleMarkdownEditor.propTypes = {
+  // Required props 
+  textAreaID: PropTypes.string.isRequired,
+
+  // Optional props 
+  styles: PropTypes.object,
+  containerClass: PropTypes.string,
+  buttonClass: PropTypes.string,
+  enabledButtons: PropTypes.object,
+  buttonHtmlText: PropTypes.object,
+  additionalProps: PropTypes.object
+};
 
 export default connect(null, { createDocument })(CreateDocumentsForm);

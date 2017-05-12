@@ -18,6 +18,20 @@
       $(document).ready(function() {
         $(".button-collapse").sideNav();
         $('select').material_select();
+        $('input#input_text, textarea#textarea1').characterCounter();
+        let enlarge = function() {
+                $('#fiddle-text').animate({
+                letterSpacing: "+=3px",
+                }, 2000, reduce);
+            };
+
+            let reduce = function() {
+                $('#fiddle-text').animate({
+                letterSpacing: "-=3px",
+                }, 2000, enlarge);
+            };
+
+            enlarge();
       })
     </script>
   </body>

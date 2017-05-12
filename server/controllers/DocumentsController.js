@@ -41,7 +41,7 @@ class DocumentsController {
         let query = {};
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
-        query.attributes = { exclude: ['OwnerId'] };
+        // query.attributes = { exclude: ['OwnerId'] };
 
         if (role.title === 'admin') {
           Document
