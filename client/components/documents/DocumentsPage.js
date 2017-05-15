@@ -5,14 +5,11 @@ import { Link } from 'react-router';
 import DocumentListRow from './DocumentListRow';
 
 class DocumentsPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   componentWillMount() {
     this.props.loadDocuments();
   }
   render() {
-    const {documents} = this.props;
+    const { documents } = this.props;
     let serial = 0;
 
     if (documents.length === 0) {
@@ -28,7 +25,7 @@ class DocumentsPage extends React.Component {
     return (
       <div className="container">
         <h3> All Documents </h3>
-        <table className="striped responsive-table highlight"> 
+        <table className="striped responsive-table highlight">
           <thead>
             <tr>
               <th> S/NO </th>
@@ -40,9 +37,9 @@ class DocumentsPage extends React.Component {
             </tr>
           </thead>
         <tbody>
-          {documents.map(document => {
+          {documents.map((document) => {
             serial += 1;
-            return <DocumentListRow key={document.id} document={document} serial={serial} />;
+            return <DocumentListRow key={serial} document={document} serial={serial} />;
           })}
         </tbody>
       </table>

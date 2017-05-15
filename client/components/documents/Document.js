@@ -1,29 +1,42 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
+import { Button } from 'react-materialize';
+import { deleteDocument } from '../../actions/documentsActions';
 
 class Document extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
+    this.deleteDocument = this.deleteDocument.bind(this);
   }
 
-  render () {
+  deleteDocument() {
+    this.props.deleteDocument(this.props.document.id);
+  }
+
+  componentWillMount() {
+
+  }
+
+  render() {
     const { document } = this.props;
+    if (!document) {
+      return (
+        <div>Loading content...</div>
+      );
+    }
     return (
       <div>
-        <h2> {document.title} </h2>
         <div className="row centered">
             <div className="card">
+              <h3 id="heading"> {document.title} </h3>
               <div className="card-content">
-                <p>{document.content} </p>
-
-                <br />
-                <p> {document.OwnerId} </p>
+                <p> {document.content} </p>
               </div>
               <div className="card-action">
-                <Link to={'/documents/manage/' + document.id}>Edit</Link>
-                <a href="#">Delete</a>
+                <Link to="/users">OwnerId: {document.OwnerId} </Link>
+                <Link to={`/documents/${document.id}`}>Edit </Link>
+                <Button onClick={this.deleteDocument}>Delete</Button>
               </div>
             </div>
         </div>
@@ -33,16 +46,21 @@ class Document extends React.Component {
 }
 
 Document.propTypes = {
-  document: PropTypes.object.isRequired
+  document: PropTypes.object.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
 };
-
 
 const mapStateToProps = (state, ownProps) => {
   const documentId = ownProps.params.id;
-  const document = state.documents.find(doc => doc.id == documentId) || {};
+  let document = {};
+  if (state.document) {
+    document = state.document.documents
+    .find(doc => doc.id === Number(documentId)) || {};
+  }
+
   return {
-    document
+    document,
   };
 };
 
-export default connect(mapStateToProps)(Document);
+export default connect(mapStateToProps, { deleteDocument })(Document);

@@ -84,6 +84,7 @@ class DocumentsController {
             .then((documents) => {
               const filteredDocuments = documents.rows.map((document) => {
                 return Object.assign({}, {
+                  id: document.id,
                   title: document.title,
                   content: document.content,
                   access: document.access,

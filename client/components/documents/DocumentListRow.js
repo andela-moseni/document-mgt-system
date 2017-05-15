@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const DocumentListRow = ({document, serial}) => {
+const DocumentListRow = ({ document, serial }) => {
   const date = new Date(document.updatedAt);
   return (
     <tr>
       <td> {serial} </td>
-      <td> <Link to={'/documents/' + document.id}>{document.title}</Link> </td>
+      <td> <Link to={`/documents/view/${document.id}`}>{document.title}</Link> </td>
       <td> {document.access} </td>
       <td> {document.type} </td>
       <td> {document.OwnerId} </td>
@@ -15,9 +15,9 @@ const DocumentListRow = ({document, serial}) => {
   );
 };
 
-DocumentListRow.propTypes = { 
+DocumentListRow.propTypes = {
   document: PropTypes.object.isRequired,
-  serial: PropTypes.number.isRequired
+  serial: PropTypes.number.isRequired,
 };
 
 export default DocumentListRow;

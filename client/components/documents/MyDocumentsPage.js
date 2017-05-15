@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as documentsActions from '../../actions/documentsActions';
 import { Link } from 'react-router';
+import * as documentsActions from '../../actions/documentsActions';
 import DocumentListRow from './DocumentListRow';
 
 class MyDocumentsPage extends React.Component {
@@ -10,7 +10,7 @@ class MyDocumentsPage extends React.Component {
     this.props.loadUserDocuments(userId);
   }
   render() {
-    const {documents} = this.props;
+    const { documents } = this.props;
     let serial = 0;
 
     if (documents.length === 0) {
@@ -26,7 +26,7 @@ class MyDocumentsPage extends React.Component {
     return (
       <div className="container">
         <h3> My Documents </h3>
-        <table className="striped responsive-table highlight"> 
+        <table className="striped responsive-table highlight">
           <thead>
             <tr>
               <th> S/NO </th>
@@ -38,9 +38,10 @@ class MyDocumentsPage extends React.Component {
             </tr>
           </thead>
         <tbody>
-          {documents.map(document => {
+          {documents.map((document) => {
             serial += 1;
-            return <DocumentListRow key={serial} document={document} serial={serial} />;
+            return (<DocumentListRow
+            key={serial} document={document} serial={serial} />);
           })}
         </tbody>
       </table>
@@ -49,16 +50,29 @@ class MyDocumentsPage extends React.Component {
   }
 }
 
+/**
+ *
+ *
+ * @param {any} dispatch
+ * @returns
+ */
 function mapDispatchToProps(dispatch) {
   return {
-    loadUserDocuments: userId => dispatch(documentsActions.fetchMyDocuments(userId)),
+    loadUserDocuments: userId => dispatch(documentsActions
+    .fetchMyDocuments(userId)),
   };
 }
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns
+ */
 function mapStateToProps(state) {
   return {
     documents: state.document.documents,
-    userId: state.auth.user.userId
+    userId: state.auth.user.userId,
   };
 }
 
