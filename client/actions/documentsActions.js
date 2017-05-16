@@ -2,7 +2,8 @@ import axios from 'axios';
 import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
-  UPDATE_DOCUMENT_SUCCESS, DELETE_DOCUMENT, DOC_FETCHED } from '../actions/types';
+  UPDATE_DOCUMENT_SUCCESS,
+  DELETE_DOCUMENT, DOC_FETCHED } from '../actions/types';
 
 /**
  *
@@ -51,23 +52,16 @@ export function fetchDocuments() {
  *
  *
  * @export
+ * @param {any} id
  * @returns
  */
-// export function fetchDocument(id) {
-//   return dispatch => axios.get(`api/documents/${id}`)
-//   .then((res) => {
-//     const doc = res.data.document;
-//     dispatch({
-//       type: DISPLAY_ALL_DOCUMENTS,
-//       doc,
-//     });
-//   });
-// }
+
 export function fetchDocument(id) {
   return (dispatch) => {
-    fetch(`/api/documents/${id}`)
-      .then(res => res.json())
-      .then(data => dispatch(docFetched(data.doc)));
+    axios.get(`/api/documents/${id}`)
+      .then((res) => {
+        dispatch(docFetched(res.data.document));
+      });
   };
 }
 
@@ -96,7 +90,8 @@ export function fetchMyDocuments(id) {
  * @returns
  */
 export function updateDocument(document) {
-  return dispatch => axios.put(`api/documents/${document.id}`).then(((res) => {
+  return dispatch => axios
+  .put(`/api/documents/${document.id}`, document).then(((res) => {
     const updatedDocument = res.data.updatedDocument;
     dispatch({
       type: UPDATE_DOCUMENT_SUCCESS,
@@ -105,33 +100,13 @@ export function updateDocument(document) {
   }));
 }
 
-// /**
-//  *
-//  *
-//  * @export
-//  * @param {any} id
-//  * @returns
-//  */
-// export function deleteDocument(documentId) {
-//   return function (dispatch) {
-//     return axios.delete(`/api/documents/${documentId}`)
-//       .then((res) => {
-//         const response = res.data.message;
-//         // const message = {};
-//         // message.text = response;
-//         // dispatch(addFlashMessage(message));
-//         dispatch({
-//           type: DELETE_USER_DOCUMENT_SUCCESS,
-//           response,
-//         });
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
-// }
-
-
+/**
+ *
+ *
+ * @export
+ * @param {any} documentId
+ * @returns
+ */
 export const deleteDocument = (documentId) => {
   const myColor = { background: '#ff0000', text: '#FFFFFF' };
   return dispatch => axios.delete(`/api/documents/${documentId}`).then(() => {

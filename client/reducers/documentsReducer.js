@@ -1,7 +1,7 @@
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
   UPDATE_DOCUMENT_SUCCESS, DOC_FETCHED, DELETE_DOCUMENT } from '../actions/types';
 
-const initialState = { documents: [], isLoading: false };
+const initialState = { documents: [], document: {}, isLoading: false };
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
@@ -15,23 +15,10 @@ export default (state = initialState, action = {}) => {
     //   return Object.assign({}, state, { documents: action.updatedDocument });
 
     case UPDATE_DOCUMENT_SUCCESS:
-      return [...state.filter(document => document.id !== action.document.id),
-        Object.assign({}, action.document),
-      ];
+      return Object.assign({}, state, { document: action.document });
 
     case DOC_FETCHED:
-      const index = state.findIndex(doc => doc.id === action.document.id);
-      if (index > -1) {
-        return state.map((doc) => {
-          if (doc.id === action.document.id) return action.document;
-          return doc;
-        });
-      }
-      return [
-        ...state,
-        action.document,
-      ];
-
+      return Object.assign({}, state, { document: action.doc });
 
     case DELETE_DOCUMENT: {
       return Object.assign({}, state);

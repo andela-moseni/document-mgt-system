@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { notify } from 'react-notify-toast';
 import PropTypes from 'prop-types';
 import { Input } from 'react-materialize';
-import { browserHistory, Redirect } from 'react-router';
+import { browserHistory } from 'react-router';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { createDocument, fetchDocument } from '../../actions/documentsActions';
+import { createDocument, fetchDocument,
+  updateDocument } from '../../actions/documentsActions';
 
 // import { SimpleMarkdownEditor } from 'react-simple-markdown-editor';
 
@@ -23,46 +24,37 @@ class CreateDocumentsForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillReceieveProps(nextProps) {
-    this.setState({
-      id: nextProps.document.id,
-      title: nextProps.document.title,
-      content: nextProps.document.content,
-      access: nextProps.document.access,
-      type: nextProps.document.type,
-    });
-  }
-
-  componentDidMount() {
-    console.log('my props', this.state);
-    if (this.props.params.id) {
-      this.props.fetchDocument(this.props.params.id);
-    }
-  }
-
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    console.log(e.target.value);
   }
 
   onSubmit(e) {
     const myColor = { background: '#ff0000', text: '#FFFFFF' };
     e.preventDefault();
-    this.props.createDocument(this.state).then(() => {
-      notify.show('Document created successfully', 'success', 3000);
-      browserHistory.push('/my-documents');
-    }).catch((error) => {
-      notify.show(error.response.data.message, 'custom', 3000, myColor);
-    });
+    if (this.props.id) {
+      this.props.updateDocument(this.state).then(() => {
+        notify.show('Document updated successfully', 'success', 3000);
+        browserHistory.push('/my-documents');
+      }).catch((error) => {
+        notify.show(error.response.data.message, 'custom', 3000, myColor);
+      });
+    } else {
+      this.props.createDocument(this.state).then(() => {
+        notify.show('Document created successfully', 'success', 3000);
+        browserHistory.push('/my-documents');
+      }).catch((error) => {
+        notify.show(error.response.data.message, 'custom', 3000, myColor);
+      });
+    }
     this.setState({ title: ' ', content: ' ', type: ' ' });
   }
 
   render() {
-    const { title, content, type } = this.state;
+    const { title, content, type } = this.props.document;
     return (
       <div className="row signupForm">
         <form className="col s12" onSubmit={this.onSubmit}>
-          <h3>Create Document</h3>
+          <h3>Create/Edit Document Form</h3>
           <div className="row">
             <TextFieldGroup
               label="Title"
@@ -76,14 +68,13 @@ class CreateDocumentsForm extends React.Component {
               <i className="material-icons prefix left">mode_edit</i>
               {/* <SimpleMarkdownEditor textAreaID={'textarea1'} />*/}
               <textarea
-                /* label="Content"*/
+                label="Content"
                 onChange={this.onChange}
                 value={content}
                 name="content"
                 className="materialize-textarea"
                 id="content" required
               />
-              <label htmlFor="content" className="active">Content</label>
             </div>
 
             <TextFieldGroup
@@ -107,7 +98,8 @@ class CreateDocumentsForm extends React.Component {
                 <option value="role">Role</option>
               </Input>
             </div>
-            <button className="btn waves-effect waves-light submitBtn" type="submit" name="action">Submit
+            <button className="btn waves-effect waves-light submitBtn"
+            type="submit" name="action">Submit
               <i className="material-icons right">send</i>
             </button>
           </div>
@@ -121,6 +113,7 @@ class CreateDocumentsForm extends React.Component {
 CreateDocumentsForm.propTypes = {
   createDocument: PropTypes.func.isRequired,
   document: PropTypes.object,
+  updateDocument: PropTypes.func.isRequired,
 };
 
 // SimpleMarkdownEditor.propTypes = {
@@ -136,29 +129,6 @@ CreateDocumentsForm.propTypes = {
 //   additionalProps: PropTypes.object,
 // };
 
-
-// function mapStateToProps(state, props) {
-//   if (props.params.id) {
-//     return {
-//       document: state.document.documents.find(doc => doc.id === props.params.id),
-//     };
-//   }
-//   return { document: null };
-// }
-
-// const mapStateToProps = (state, ownProps) => {
-//   const documentId = ownProps.params.id;
-//   let document = {};
-//   if (state.document) {
-//     document = state.document.documents
-//     .find(doc => doc.id === Number(documentId)) || {};
-//   }
-
-//   return {
-//     document,
-//   };
-// };
-
 export default
 connect(null,
-{ createDocument, fetchDocument })(CreateDocumentsForm);
+{ createDocument, fetchDocument, updateDocument })(CreateDocumentsForm);

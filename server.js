@@ -4,12 +4,12 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import http from 'http';
-import routes from './server/routes';
 import path from 'path';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from './webpack.config.dev';
+import routes from './server/routes';
 
 const app = express();
 const router = express.Router();
@@ -22,7 +22,7 @@ app.set('port', port);
 app.use(webpackMiddleware(compiler, {
   hot: true,
   publicPath: webpackConfig.output.publicPath,
-  noInfo: true
+  noInfo: true,
 }));
 app.use(webpackHotMiddleware(compiler));
 

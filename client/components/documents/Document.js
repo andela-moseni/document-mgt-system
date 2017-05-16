@@ -2,12 +2,20 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Button } from 'react-materialize';
-import { deleteDocument } from '../../actions/documentsActions';
+import { deleteDocument, fetchDocument,
+  docFetched } from '../../actions/documentsActions';
 
 class Document extends React.Component {
   constructor(props) {
     super(props);
     this.deleteDocument = this.deleteDocument.bind(this);
+    if (this.props.documents) {
+      const docId = this.props.params.id;
+      const document = this.props.documents.find(doc => doc.id === Number(docId));
+      if (document !== undefined) {
+        this.props.docFetched(document);
+      }
+    }
   }
 
   deleteDocument() {
@@ -15,12 +23,14 @@ class Document extends React.Component {
   }
 
   componentWillMount() {
-
+    if (!this.props.document.title) {
+      this.props.fetchDocument(this.props.params.id);
+    }
   }
 
   render() {
     const { document } = this.props;
-    if (!document) {
+    if (!document.title) {
       return (
         <div>Loading content...</div>
       );
@@ -36,7 +46,7 @@ class Document extends React.Component {
               <div className="card-action">
                 <Link to="/users">OwnerId: {document.OwnerId} </Link>
                 <Link to={`/documents/${document.id}`}>Edit </Link>
-                <Button onClick={this.deleteDocument}>Delete</Button>
+                <Button className="red"onClick={this.deleteDocument} >Delete</Button>
               </div>
             </div>
         </div>
@@ -50,17 +60,10 @@ Document.propTypes = {
   deleteDocument: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const documentId = ownProps.params.id;
-  let document = {};
-  if (state.document) {
-    document = state.document.documents
-    .find(doc => doc.id === Number(documentId)) || {};
-  }
+const mapStateToProps = state => ({
+  document: state.document.document,
+  documents: state.document.documents,
+});
 
-  return {
-    document,
-  };
-};
-
-export default connect(mapStateToProps, { deleteDocument })(Document);
+export default connect(mapStateToProps,
+{ deleteDocument, fetchDocument, docFetched })(Document);

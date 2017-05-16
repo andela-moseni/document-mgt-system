@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as documentsActions from '../../actions/documentsActions';
 import { Link } from 'react-router';
+import * as documentsActions from '../../actions/documentsActions';
 import DocumentListRow from './DocumentListRow';
 
 class DocumentsPage extends React.Component {
@@ -10,8 +10,6 @@ class DocumentsPage extends React.Component {
   }
   render() {
     const { documents } = this.props;
-    let serial = 0;
-
     if (documents.length === 0) {
       return (
         <div className="container">
@@ -37,10 +35,9 @@ class DocumentsPage extends React.Component {
             </tr>
           </thead>
         <tbody>
-          {documents.map((document) => {
-            serial += 1;
-            return <DocumentListRow key={serial} document={document} serial={serial} />;
-          })}
+          {documents.map((document, index) =>
+          <DocumentListRow key={index}
+          document={document} serial={index + 1} />)}
         </tbody>
       </table>
     </div>
@@ -50,13 +47,13 @@ class DocumentsPage extends React.Component {
 function mapDispatchToProps(dispatch) {
   return {
     loadDocuments: () => dispatch(documentsActions.fetchDocuments()),
-  }
+  };
 }
 
 function mapStateToProps(state) {
   return {
     documents: state.document.documents,
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentsPage);

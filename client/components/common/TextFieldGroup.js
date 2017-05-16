@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextFieldGroup = ({ field, value, label, type, onChange, icon, placeholder }) => (
+const TextFieldGroup = ({ field, value, label, type, onChange,
+  icon, placeholder }) => (
     <div className="input-field col s12">
       <i className="material-icons prefix">{icon}</i>
       <input
