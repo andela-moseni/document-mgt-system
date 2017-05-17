@@ -11,10 +11,13 @@ import DocumentsPage from './components/documents/DocumentsPage';
 import Document from './components/documents/Document';
 import MyDocumentsPage from './components/documents/MyDocumentsPage';
 import NotFound from './components/NotFound';
+import UsersPage from './components/users/UsersPage';
+import UserDocuments from './components/users/UserDocuments';
+import UserProfile from './components/users/UserProfile';
 
 export default (
   <Router history={browserHistory} >
-    <Route path="/" component={App} >    
+    <Route path="/" component={App} >
     <IndexRoute component={Greetings} />
     <Route path="signup" component={SignupPage} />
     <Route path="login" component={LoginPage} />
@@ -25,6 +28,10 @@ export default (
     <Route path="my-documents" component={requireAuth(MyDocumentsPage)} />
     <Route path="/documents/:id"
     component={requireAuth(CreateDocumentsPage)} />
+    <Route path="users" component={requireAuth(UsersPage)} />
+    <Route path="/users/:id/documents"
+    component={requireAuth(UserDocuments)} />
+    <Route path="/profile" component={requireAuth(UserProfile)} />
     <Route path="*" component={requireAuth(NotFound)} />
   </Route>
   </Router>

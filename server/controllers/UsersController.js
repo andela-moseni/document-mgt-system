@@ -189,6 +189,8 @@ class UsersController {
                   name: user.name,
                   email: user.email,
                 },
+              })).catch(() => res.status(400).send({
+                message: 'An error occured. Invalid parameters, try again!',
               }));
           })
         .catch(() => res.status(400).send({

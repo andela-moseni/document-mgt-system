@@ -7,10 +7,12 @@ class App extends React.Component {
   render () {
     return (
       <div className="">
-        <Notifications />
-        <NavigationBar />
-        {this.props.children}
-        <Footer />
+        <div className="main">
+          <Notifications />
+          <NavigationBar />
+          {this.props.children}
+        </div>
+        {/* <Footer />*/}
       </div>
     );
   }

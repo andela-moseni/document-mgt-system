@@ -16,7 +16,6 @@ export function createDocument(document) {
   return dispatch => axios.post('api/documents', document);
 }
 
-
 /**
  *
  *
@@ -90,13 +89,13 @@ export function fetchMyDocuments(id) {
  */
 export function updateDocument(document) {
   return dispatch => axios
-  .put(`/api/documents/${document.id}`, document).then(((res) => {
+  .put(`/api/documents/${document.id}`, document).then((res) => {
     const updatedDocument = res.data.updatedDocument;
     dispatch({
       type: UPDATE_DOCUMENT_SUCCESS,
       updatedDocument,
     });
-  }));
+  });
 }
 
 /**

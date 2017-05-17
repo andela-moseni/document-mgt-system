@@ -26,7 +26,7 @@ class CreateDocumentsPage extends React.Component {
 
   render() {
     return (
-      <div className="row signupPage">
+      <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <CreateDocumentsForm
           id={this.props.params.id}

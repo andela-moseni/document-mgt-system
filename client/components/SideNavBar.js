@@ -21,6 +21,7 @@ class SideNavBar extends React.Component {
               <p className="black-text email">{this.props.email}</p>
             </div>
           </li>
+          <li><Link to="/profile" className="waves-effect"><i className="material-icons">people</i>My Profile</Link></li>
           <li><Link className="subheader">Documents</Link></li>
           <li><Link to="/create-document" className="waves-effect"><i className="material-icons">folder</i>Create Document</Link></li>
           <li><Link to="/my-documents" className="waves-effect"><i className="material-icons">books</i>My Documents</Link></li>

@@ -24,10 +24,6 @@ class CreateDocumentsForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.document) {
       const { document: { title, content, type, id, access } } = nextProps;
@@ -39,6 +35,10 @@ class CreateDocumentsForm extends React.Component {
         access,
       });
     }
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   onSubmit(e) {
