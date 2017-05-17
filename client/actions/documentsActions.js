@@ -13,8 +13,7 @@ import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
  * @returns
  */
 export function createDocument(document) {
-  return dispatch =>
-    axios.post('api/documents', document);
+  return dispatch => axios.post('api/documents', document);
 }
 
 

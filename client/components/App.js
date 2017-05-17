@@ -1,6 +1,7 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 import Notifications from 'react-notify-toast';
+import Footer from '../components/Footer';
 
 class App extends React.Component {
   render () {
@@ -9,6 +10,7 @@ class App extends React.Component {
         <Notifications />
         <NavigationBar />
         {this.props.children}
+        <Footer />
       </div>
     );
   }

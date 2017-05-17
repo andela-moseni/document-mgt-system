@@ -28,6 +28,19 @@ class CreateDocumentsForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.document) {
+      const { document: { title, content, type, id, access } } = nextProps;
+      this.setState({
+        title,
+        content,
+        type,
+        id,
+        access,
+      });
+    }
+  }
+
   onSubmit(e) {
     const myColor = { background: '#ff0000', text: '#FFFFFF' };
     e.preventDefault();
@@ -35,8 +48,6 @@ class CreateDocumentsForm extends React.Component {
       this.props.updateDocument(this.state).then(() => {
         notify.show('Document updated successfully', 'success', 3000);
         browserHistory.push('/my-documents');
-      }).catch((error) => {
-        notify.show(error.response.data.message, 'custom', 3000, myColor);
       });
     } else {
       this.props.createDocument(this.state).then(() => {
@@ -50,6 +61,7 @@ class CreateDocumentsForm extends React.Component {
   }
 
   render() {
+    if (!this.props.document) return null;
     const { title, content, type } = this.props.document;
     return (
       <div className="row signupForm">
@@ -59,7 +71,7 @@ class CreateDocumentsForm extends React.Component {
             <TextFieldGroup
               label="Title"
               onChange={this.onChange}
-              value={title}
+              value={this.state.title}
               icon="folder"
               field="title"
             />
@@ -68,19 +80,19 @@ class CreateDocumentsForm extends React.Component {
               <i className="material-icons prefix left">mode_edit</i>
               {/* <SimpleMarkdownEditor textAreaID={'textarea1'} />*/}
               <textarea
-                label="Content"
                 onChange={this.onChange}
-                value={content}
+                value={this.state.content}
                 name="content"
                 className="materialize-textarea"
                 id="content" required
               />
+              <label>Content</label>
             </div>
 
             <TextFieldGroup
               label="Type"
               onChange={this.onChange}
-              value={type}
+              value={this.state.type}
               icon="folder"
               field="type"
             />
@@ -92,6 +104,7 @@ class CreateDocumentsForm extends React.Component {
                 name="access"
                 label="Select Acccess"
                 onChange={this.onChange}
+                value={this.state.access}
                 >
                 <option value="public">Public</option>
                 <option value="private">Private</option>

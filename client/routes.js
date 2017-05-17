@@ -10,7 +10,7 @@ import requireAuth from './utils/requireAuth';
 import DocumentsPage from './components/documents/DocumentsPage';
 import Document from './components/documents/Document';
 import MyDocumentsPage from './components/documents/MyDocumentsPage';
-// import ManageDocumentsPage from './components/documents/ManageDocumentsPage';
+import NotFound from './components/NotFound';
 
 export default (
   <Router history={browserHistory} >
@@ -25,6 +25,7 @@ export default (
     <Route path="my-documents" component={requireAuth(MyDocumentsPage)} />
     <Route path="/documents/:id"
     component={requireAuth(CreateDocumentsPage)} />
+    <Route path="*" component={requireAuth(NotFound)} />
   </Route>
   </Router>
 );

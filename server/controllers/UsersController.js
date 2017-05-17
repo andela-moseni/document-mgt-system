@@ -281,7 +281,7 @@ class UsersController {
           };
         }
 
-        query.limit = (req.query.limit > 0) ? req.query.limit : 10;
+        query.limit = (req.query.limit > 0) ? req.query.limit : 50;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
         Document
           .findAndCountAll(query)

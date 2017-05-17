@@ -15,7 +15,7 @@ export default (state = initialState, action = {}) => {
     //   return Object.assign({}, state, { documents: action.updatedDocument });
 
     case UPDATE_DOCUMENT_SUCCESS:
-      return Object.assign({}, state, { document: action.document });
+      return Object.assign({}, state, { document: action.updatedDocument });
 
     case DOC_FETCHED:
       return Object.assign({}, state, { document: action.doc });

@@ -10,6 +10,7 @@ class DocumentsPage extends React.Component {
   }
   render() {
     const { documents } = this.props;
+    if (!documents) return null;
     if (documents.length === 0) {
       return (
         <div className="container">

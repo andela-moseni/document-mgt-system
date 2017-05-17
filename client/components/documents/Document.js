@@ -30,7 +30,7 @@ class Document extends React.Component {
 
   render() {
     const { document } = this.props;
-    if (!document.title) {
+    if (!document || (document && !document.title)) {
       return (
         <div>Loading content...</div>
       );
