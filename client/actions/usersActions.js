@@ -13,12 +13,13 @@ import { logout } from './loginActions';
  * @export
  * @returns {allUsers}
  */
-export function fetchUsers() {
-  return dispatch => axios.get('api/users').then((res) => {
+export function fetchUsers(offset = 0, limit = 10) {
+  return dispatch => axios.get(`api/users?offset=${offset}&limit=${limit}`).then((res) => {
     const allUsers = res.data.users;
     dispatch({
       type: DISPLAY_ALL_USERS,
       allUsers,
+      pagination: res.data.pagination,
     });
   });
 }
@@ -26,8 +27,6 @@ export function fetchUsers() {
 export function fetchUserDocuments(id) {
   return dispatch => axios.get(`api/users/${id}/documents`).then((res) => {
     const userDocs = res.data.documents;
-    console.log('userdocs', userDocs);
-    console.log('id', id);
     dispatch({
       type: DISPLAY_USER_DOCUMENTS,
       userDocs,
@@ -38,7 +37,6 @@ export function fetchUserDocuments(id) {
 export function fetchUserProfile(id) {
   return dispatch => axios.get(`api/users/${id}`).then((res) => {
     const userData = res.data;
-    console.log('my data', userData);
     dispatch({
       type: DISPLAY_USER_PROFILE,
       userData,

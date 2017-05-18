@@ -3,7 +3,7 @@ import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
   UPDATE_DOCUMENT_SUCCESS,
-  DELETE_DOCUMENT, DOC_FETCHED } from '../actions/types';
+  DELETE_DOCUMENT, DOC_FETCHED, SEARCH_DOCS_RESULT } from '../actions/types';
 
 /**
  *
@@ -77,6 +77,16 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
       type: DISPLAY_MY_DOCUMENTS,
       myDocs,
       pagination: res.data.pagination,
+    });
+  });
+}
+
+export function searchDocuments(search) {
+  return dispatch => axios.get(`api/search/documents?search=${search}`).then((res) => {
+    const searchDocsResult = res.data.documents;
+    dispatch({
+      type: SEARCH_DOCS_RESULT,
+      searchDocsResult,
     });
   });
 }

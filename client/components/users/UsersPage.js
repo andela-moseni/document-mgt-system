@@ -1,14 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as usersActions from '../../actions/usersActions';
+import { Pagination } from 'react-materialize';
+import { fetchUsers } from '../../actions/usersActions';
 import UserListRow from './UserListRow';
 
 class usersPage extends React.Component {
   componentWillMount() {
-    this.props.loadUsers();
+    this.props.fetchUsers();
   }
+
+  constructor(props) {
+    super(props);
+    this.onSelect = this.onSelect.bind(this);
+  }
+
+  onSelect(pageNumber) {
+    const offset = (pageNumber - 1) * 10;
+    this.props.fetchUsers(offset);
+  }
+
   render() {
-    const { users } = this.props;
+    // const { users } = this.props;
+    const { users, pagination } = this.props.users;
+
     if (!users) return null;
     if (users.length === 0) {
       return (
@@ -17,9 +31,11 @@ class usersPage extends React.Component {
         </div>
       );
     }
+    const { pageCount, currentPage, totalCount } = pagination;
+    console.log(pagination);
     return (
       <div className="container">
-        <h3> All users </h3>
+        <h3> {totalCount} Users </h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>
@@ -35,21 +51,22 @@ class usersPage extends React.Component {
           user={user} serial={index + 1} />)}
         </tbody>
       </table>
+      <div className="center-align">
+        <Pagination
+          items={pageCount} activePage={currentPage}
+          maxButtons={pageCount}
+          onSelect={this.onSelect}
+        />
+      </div>
     </div>
     );
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    loadUsers: () => dispatch(usersActions.fetchUsers()),
-  };
-}
-
 function mapStateToProps(state) {
   return {
-    users: state.users.users,
+    users: state.users,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(usersPage);
+export default connect(mapStateToProps, { fetchUsers })(usersPage);

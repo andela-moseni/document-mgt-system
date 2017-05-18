@@ -12,7 +12,7 @@ class App extends React.Component {
           <NavigationBar />
           {this.props.children}
         </div>
-        {/* <Footer />*/}
+         <Footer />
       </div>
     );
   }

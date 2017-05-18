@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal } from 'react-materialize';
-import { notify } from 'react-notify-toast';
-import { browserHistory } from 'react-router';
 import * as usersActions from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 

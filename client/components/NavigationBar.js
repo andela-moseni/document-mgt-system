@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../actions/loginActions';
 import SideNavBar from './SideNavBar';
+import SearchBar from './SearchBar';
 
 class NavigationBar extends React.Component {
   logout(e) {
@@ -28,7 +29,7 @@ class NavigationBar extends React.Component {
               <li><Link id="searchIcon"><i className="material-icons">search</i></Link></li>
             </ul>
           </div>
-          <div className="nav-wrapper" id="searchBar">
+          {/*<div className="nav-wrapper" id="searchBar">
             <form>
               <div className="input-field">
                 <input id="search" type="search" required />
@@ -36,7 +37,8 @@ class NavigationBar extends React.Component {
                 <i className="material-icons">close</i>
               </div>
             </form>
-          </div>
+          </div>*/}
+          <SearchBar />
           <SideNavBar />
         </div>
      </nav>
