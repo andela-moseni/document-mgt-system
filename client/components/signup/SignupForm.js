@@ -31,12 +31,7 @@ class SignupForm extends React.Component {
       "custom", 3000, myColor);
     }
     if (this.state.password === this.state.passwordConfirmation) {
-      return this.props.userSignupRequest(this.state).then(() => {
-        browserHistory.push('/');
-        notify.show("Signup successful", "success", 3000);
-      }).catch((error) =>  {
-        notify.show(error.response.data.message, "custom", 3000, myColor);
-      });
+      return this.props.userSignupRequest(this.state);
     }
    return notify.show("Passwords do not match", "custom", 3000, myColor);
   }

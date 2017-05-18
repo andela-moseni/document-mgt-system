@@ -1,15 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import * as documentsActions from '../../actions/documentsActions';
+import { Pagination } from 'react-materialize';
+import { fetchDocuments } from '../../actions/documentsActions';
 import DocumentListRow from './DocumentListRow';
 
 class DocumentsPage extends React.Component {
-  componentWillMount() {
-    this.props.loadDocuments();
+  constructor(props) {
+    super(props);
+    this.onSelect = this.onSelect.bind(this);
   }
+  componentWillMount() {
+    this.props.fetchDocuments();
+  }
+
+  onSelect(pageNumber) {
+    const offset = (pageNumber - 1) * 10;
+    this.props.fetchDocuments(offset);
+  }
+
   render() {
-    const { documents } = this.props;
+    const { documents, pagination } = this.props.documents;
     if (!documents) return null;
     if (documents.length === 0) {
       return (
@@ -21,9 +32,10 @@ class DocumentsPage extends React.Component {
         </div>
       );
     }
+    const { pageCount, currentPage, totalCount } = pagination;
     return (
       <div className="container">
-        <h3> All Documents </h3>
+        <h3> All Documents - {totalCount} documents</h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>
@@ -41,20 +53,27 @@ class DocumentsPage extends React.Component {
           document={document} serial={index + 1} />)}
         </tbody>
       </table>
+      <div className="center-align">
+        <Pagination
+          items={pageCount} activePage={currentPage}
+          maxButtons={pageCount}
+          onSelect={this.onSelect}
+        />
+      </div>
     </div>
     );
   }
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    loadDocuments: () => dispatch(documentsActions.fetchDocuments()),
-  };
-}
+
+DocumentsPage.propTypes = {
+  fetchDocuments: React.PropTypes.func.isRequired,
+  // documents: React.PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
   return {
-    documents: state.document.documents,
+    documents: state.document,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DocumentsPage);
+export default connect(mapStateToProps, { fetchDocuments })(DocumentsPage);

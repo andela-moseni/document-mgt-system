@@ -39,7 +39,7 @@ class DocumentsController {
     Role.findById(req.decoded.roleId)
       .then((role) => {
         let query = {};
-        query.limit = (req.query.limit > 0) ? req.query.limit : 50;
+        query.limit = (req.query.limit > 0) ? req.query.limit : 10;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
         // query.attributes = { exclude: ['OwnerId'] };
 
@@ -48,10 +48,10 @@ class DocumentsController {
             .findAndCountAll(query)
             .then((documents) => {
               const pagination = ControllerHelper.pagination(
-                query.limit, query.offset, documents.count
+                query.limit, query.offset, documents.count,
               );
               return res.status(200).send({
-                pagination, documents: documents.rows
+                pagination, documents: documents.rows,
               });
             });
         } else {
@@ -77,7 +77,10 @@ class DocumentsController {
                 model: User
               }
             ]
-          }
+          };
+
+        query.limit = (req.query.limit > 0) ? req.query.limit : 10;
+        query.offset = (req.query.offset > 0) ? req.query.offset : 0;
 
           Document
             .findAndCountAll(query)
@@ -91,14 +94,15 @@ class DocumentsController {
                   type: document.type,
                   OwnerId: document.OwnerId,
                   createdAt: document.createdAt,
-                  updatedAt: document.updatedAt
-                })
-              })
+                  updatedAt: document.updatedAt,
+                });
+              });
+              console.log('query', query);
               const pagination = ControllerHelper.pagination(
-                query.limit, query.offset, documents.count
+                query.limit, query.offset, documents.count,
               );
               res.status(200).send({
-                pagination, documents: filteredDocuments
+                pagination, documents: filteredDocuments,
               });
             });
           }

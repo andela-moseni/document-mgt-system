@@ -5,8 +5,9 @@ import DocumentListRow from '../documents/DocumentListRow';
 
 class UserDocuments extends React.Component {
   componentWillMount() {
-    const { userId } = this.props;
-    this.props.loadUserDocuments(userId);
+    // const { userId } = this.props;
+    const { id } = this.props.params;
+    this.props.loadUserDocuments(id);
   }
   render() {
     const { documents } = this.props;
@@ -34,11 +35,11 @@ class UserDocuments extends React.Component {
             </tr>
           </thead>
         <tbody>
-          {documents.map((document) => {
+          {/*{documents.map((document) => {
             serial += 1;
             return (<DocumentListRow
             key={serial} document={document} serial={serial} />);
-          })}
+          })}*/}
         </tbody>
       </table>
     </div>
@@ -54,8 +55,8 @@ class UserDocuments extends React.Component {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    loadUserDocuments: userId => dispatch(usersActions
-    .fetchUserDocuments(userId)),
+    loadUserDocuments: id => dispatch(usersActions
+    .fetchUserDocuments(id)),
   };
 }
 
@@ -66,9 +67,10 @@ function mapDispatchToProps(dispatch) {
  * @returns
  */
 function mapStateToProps(state) {
+  console.log('my state', state);
   return {
-    documents: state.documents.documents,
-    userId: state.users.userId,
+    documents: state.users.documents,
+    // userId: state.users.userId,
   };
 }
 

@@ -35,16 +35,16 @@ export function docFetched(doc) {
  * @export
  * @returns
  */
-export function fetchDocuments() {
-  return dispatch => axios.get('api/documents').then((res) => {
+export function fetchDocuments(offset, limit) {
+  return dispatch => axios.get(`api/documents?offset=${offset}&limit=${limit}`).then((res) => {
     const allDocs = res.data.documents;
     dispatch({
       type: DISPLAY_ALL_DOCUMENTS,
       allDocs,
+      pagination: res.data.pagination,
     });
   });
 }
-
 
 /**
  *
@@ -70,12 +70,13 @@ export function fetchDocument(id) {
  * @param {any} id
  * @returns
  */
-export function fetchMyDocuments(id) {
-  return dispatch => axios.get(`api/users/${id}/documents`).then((res) => {
+export function fetchMyDocuments(id, offset = 0, limit = 10) {
+  return dispatch => axios.get(`api/users/${id}/documents?offset=${offset}&limit=${limit}`).then((res) => {
     const myDocs = res.data.documents;
     dispatch({
       type: DISPLAY_MY_DOCUMENTS,
       myDocs,
+      pagination: res.data.pagination,
     });
   });
 }

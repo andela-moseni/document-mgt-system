@@ -1,18 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import * as documentsActions from '../../actions/documentsActions';
+import { Pagination } from 'react-materialize';
+import { fetchMyDocuments } from '../../actions/documentsActions';
 import DocumentListRow from './DocumentListRow';
 
 class MyDocumentsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onSelect = this.onSelect.bind(this);
+  }
+
   componentWillMount() {
     const { userId } = this.props;
-    this.props.loadUserDocuments(userId);
+    this.props.fetchMyDocuments(userId);
   }
-  render() {
-    const { documents } = this.props;
-    let serial = 0;
 
+  onSelect(pageNumber) {
+    const { userId } = this.props;
+    const offset = (pageNumber - 1) * 10;
+    this.props.fetchMyDocuments(userId, offset);
+  }
+
+  render() {
+    const { documents, pagination } = this.props.documents;
+    let serial = 0;
     if (documents.length === 0) {
       return (
         <div className="container">
@@ -23,9 +35,10 @@ class MyDocumentsPage extends React.Component {
         </div>
       );
     }
+    const { pageCount, currentPage, totalCount } = pagination;
     return (
       <div className="container">
-        <h3> My Documents </h3>
+        <h3> My Documents - {totalCount} documents</h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>
@@ -45,22 +58,16 @@ class MyDocumentsPage extends React.Component {
           })}
         </tbody>
       </table>
+      <div className="center-align">
+        <Pagination
+          items={pageCount} activePage={currentPage}
+          maxButtons={pageCount}
+          onSelect={this.onSelect}
+        />
+      </div>
     </div>
     );
   }
-}
-
-/**
- *
- *
- * @param {any} dispatch
- * @returns
- */
-function mapDispatchToProps(dispatch) {
-  return {
-    loadUserDocuments: userId => dispatch(documentsActions
-    .fetchMyDocuments(userId)),
-  };
 }
 
 /**
@@ -71,9 +78,9 @@ function mapDispatchToProps(dispatch) {
  */
 function mapStateToProps(state) {
   return {
-    documents: state.document.documents,
+    documents: state.document,
     userId: state.auth.user.userId,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyDocumentsPage);
+export default connect(mapStateToProps, { fetchMyDocuments })(MyDocumentsPage);

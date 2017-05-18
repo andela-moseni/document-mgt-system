@@ -5,6 +5,7 @@ import omit from 'lodash/omit';
 import { DISPLAY_ALL_USERS, DISPLAY_USER_DOCUMENTS,
   DISPLAY_USER_PROFILE, DISPLAY_UPDATED_USER,
   DELETE_USER } from '../actions/types';
+import { logout } from './loginActions';
 
 /**
  *
@@ -25,6 +26,8 @@ export function fetchUsers() {
 export function fetchUserDocuments(id) {
   return dispatch => axios.get(`api/users/${id}/documents`).then((res) => {
     const userDocs = res.data.documents;
+    console.log('userdocs', userDocs);
+    console.log('id', id);
     dispatch({
       type: DISPLAY_USER_DOCUMENTS,
       userDocs,
@@ -35,6 +38,7 @@ export function fetchUserDocuments(id) {
 export function fetchUserProfile(id) {
   return dispatch => axios.get(`api/users/${id}`).then((res) => {
     const userData = res.data;
+    console.log('my data', userData);
     dispatch({
       type: DISPLAY_USER_PROFILE,
       userData,
@@ -68,6 +72,7 @@ export function deleteUser(userId) {
     });
     notify.show('User deleted successfully',
       'success', 3000);
+    dispatch(logout());
     browserHistory.push('/signup');
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, myColor);

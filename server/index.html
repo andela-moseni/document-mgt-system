@@ -22,6 +22,15 @@
         $('select').material_select();
         $('input#input_text, textarea#textarea1').characterCounter();
         $('.modal').modal();
+        $('#searchBar').hide();
+        $('#searchIcon').click(function() {
+          $('#searchBar').show();
+          $('#search').focus();
+        });
+        $('#search').focusout(function() {
+          $('#searchBar').hide();
+        });
+        
         let enlarge = function() {
                 $('#fiddle-text').animate({
                 letterSpacing: "+=3px",
