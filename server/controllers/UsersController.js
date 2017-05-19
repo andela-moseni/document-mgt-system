@@ -129,10 +129,10 @@ class UsersController {
               message: 'User Does Not Exist',
             });
           }
-          if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
-            return res.status(403)
-            .send({ message: 'You are not authorized to access this user' });
-          }
+          // if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
+          //   return res.status(403)
+          //   .send({ message: 'You are not authorized to access this user' });
+          // }
           req.decoded.user = user;
           res.status(200).send(req.decoded.user);
         })
@@ -160,22 +160,22 @@ class UsersController {
             }
             if (req.body.id) {
               return res.status(403).send({
-                message: `Unauthorised access. 
-                You cannot update userId property`,
+                message:
+                'Unauthorised access. You cannot update userId property',
               });
             }
             // roleId should not be updated by a regular user
             if ((role.title !== 'admin') && req.body.roleId) {
               return res.status(403).send({
-                message: `Unauthorised access. 
-                You cannot update roleId property`,
+                message:
+                'Unauthorised access. You cannot update roleId property',
               });
             }
             // a user should not update another user's property
             if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
               return res.status(403).send({
-                message: `Unauthorised access. 
-                You cannot update this user's property`,
+                message:
+                'Unauthorised access. You cannot update this user\'s property',
               });
             }
             user

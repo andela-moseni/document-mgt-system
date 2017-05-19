@@ -9,7 +9,6 @@ const request = supertest.agent(app);
 
 const adminUser = SpecHelper.specUser1;
 const regularUser = SpecHelper.specUser2;
-const regularUser2 = SpecHelper.specUser3;
 const authorUser = SpecHelper.specUser4;
 const invalidDocument = SpecHelper.invalidDocument;
 const roleDocument2 = SpecHelper.specDocument2;
@@ -18,8 +17,13 @@ const privateDocument = SpecHelper.specDocument4;
 const publicDocument = SpecHelper.specDocument5;
 
 describe('Document API:', () => {
-  let adminUserToken, regularUserToken, authorUserToken, regularUser2Token;
-  let roleDoc = {}, roleDoc2 = {}, privateDoc = {}, publicDoc = {};
+  let adminUserToken;
+  let regularUserToken;
+  let authorUserToken;
+  let roleDoc = {};
+  let roleDoc2 = {};
+  let privateDoc = {};
+  let publicDoc = {};
 
   // Login users to access this endpoint
   before((done) => {
@@ -39,15 +43,7 @@ describe('Document API:', () => {
       done();
     });
   });
-  before((done) => {
-    request.post('/api/users/login')
-    .send(regularUser2)
-    .end((err, res) => {
-      regularUser2Token = res.body.token;
-      regularUser2.id = res.body.userId;
-      done();
-    });
-  });
+
   before((done) => {
     request.post('/api/users/login')
     .send(regularUser)
@@ -127,7 +123,7 @@ describe('Document API:', () => {
           });
       });
 
-      it(`should create a document with same title and/or content`, (done) => {
+      it('should create a document with same title and/or content', (done) => {
         request.post('/api/documents')
           .send(roleDocument)
           .set({ Authorization: adminUserToken })
@@ -142,7 +138,7 @@ describe('Document API:', () => {
 
     // GET requests - Retrieve all documents
     describe('GET: (/api/documents)', () => {
-      it(`should return all documents if user is admin`, (done) => {
+      it('should return all documents if user is admin', (done) => {
         request.get('/api/documents')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
@@ -153,7 +149,7 @@ describe('Document API:', () => {
           });
       });
 
-      it(`should return public documents if user is not admin`, (done) => {
+      it('should return public documents if user is not admin', (done) => {
         request.get('/api/documents')
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
@@ -237,7 +233,7 @@ describe('Document API:', () => {
     describe('PUT: (/api/documents/:id)', () => {
       const fieldsToUpdate = {
         title: 'YOYOL - You Own Your Own Learning',
-        content: 'Its mostly about self-learning'
+        content: 'Its mostly about self-learning',
       };
 
       it('should not edit document if id is invalid', (done) => {
@@ -361,9 +357,11 @@ describe('Document API:', () => {
       });
     });
 
-    // GET requests - Search document(s): Gets all documents relevant to search query
+    // GET requests -
+    // Search document(s): Gets all documents relevant to search query
     describe('GET: (/api/search/documents?search) - ', () => {
-      const search = 'computer', term = 'abc';
+      const search = 'computer';
+      const term = 'abc';
       it('should not return document(s) if search term is empty', (done) => {
         request.get('/api/search/documents?search=')
           .set({ Authorization: regularUserToken })
@@ -417,7 +415,7 @@ describe('Document API:', () => {
       documents if search term match`,
       (done) => {
         const newSearch = 'YOYOL';
-        request.get(`/api/search/documents?search=${search}`)
+        request.get(`/api/search/documents?search=${newSearch}`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
