@@ -3,17 +3,24 @@ import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
   UPDATE_DOCUMENT_SUCCESS,
-  DELETE_DOCUMENT, DOC_FETCHED, SEARCH_DOCS_RESULT } from '../actions/types';
+  DELETE_DOCUMENT, DOC_FETCHED } from '../actions/types';
+
+const myColor = { background: '#ff0000', text: '#FFFFFF' };
 
 /**
  *
  *
  * @export
  * @param {any} document
- * @returns
+ * @returns {Object}
  */
 export function createDocument(document) {
-  return dispatch => axios.post('api/documents', document);
+  return dispatch => axios.post('api/documents', document).then(() => {
+    notify.show('Document created successfully', 'success', 3000);
+    browserHistory.push('/my-documents');
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
+  });
 }
 
 /**
@@ -21,7 +28,7 @@ export function createDocument(document) {
  *
  * @export
  * @param {any} doc
- * @returns
+ * @returns {Object}
  */
 export function docFetched(doc) {
   return {
@@ -29,14 +36,18 @@ export function docFetched(doc) {
     doc,
   };
 }
+
 /**
  *
  *
  * @export
- * @returns
+ * @param {any} offset
+ * @param {any} limit
+ * @returns {Object}
  */
 export function fetchDocuments(offset, limit) {
-  return dispatch => axios.get(`api/documents?offset=${offset}&limit=${limit}`).then((res) => {
+  return dispatch => axios
+  .get(`api/documents?offset=${offset}&limit=${limit}`).then((res) => {
     const allDocs = res.data.documents;
     dispatch({
       type: DISPLAY_ALL_DOCUMENTS,
@@ -51,9 +62,8 @@ export function fetchDocuments(offset, limit) {
  *
  * @export
  * @param {any} id
- * @returns
+ * @returns {Object}
  */
-
 export function fetchDocument(id) {
   return (dispatch) => {
     axios.get(`/api/documents/${id}`)
@@ -68,10 +78,14 @@ export function fetchDocument(id) {
  *
  * @export
  * @param {any} id
- * @returns
+ * @param {number} [offset=0]
+ * @param {number} [limit=10]
+ * @returns {Object}
  */
 export function fetchMyDocuments(id, offset = 0, limit = 10) {
-  return dispatch => axios.get(`api/users/${id}/documents?offset=${offset}&limit=${limit}`).then((res) => {
+  return dispatch => axios
+  .get(`api/users/${id}/documents?offset=${offset}&limit=${limit}`)
+  .then((res) => {
     const myDocs = res.data.documents;
     dispatch({
       type: DISPLAY_MY_DOCUMENTS,
@@ -81,13 +95,27 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
   });
 }
 
-export function searchDocuments(search) {
-  return dispatch => axios.get(`api/search/documents?search=${search}`).then((res) => {
-    const searchDocsResult = res.data.documents;
+/**
+ *
+ *
+ * @export
+ * @param {any} search
+ * @param {number} [offset=0]
+ * @param {number} [limit=10]
+ * @returns {Object}
+ */
+export function searchDocuments(search, offset = 0, limit = 10) {
+  return dispatch => axios
+  .get(`api/search/documents?search=${search}&offset=${offset}&limit=${limit}`)
+  .then((res) => {
+    const allDocs = res.data.documents;
     dispatch({
-      type: SEARCH_DOCS_RESULT,
-      searchDocsResult,
+      type: DISPLAY_ALL_DOCUMENTS,
+      allDocs,
+      pagination: res.data.pagination,
     });
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
   });
 }
 
@@ -96,7 +124,7 @@ export function searchDocuments(search) {
  *
  * @export
  * @param {any} document
- * @returns
+ * @returns {Object}
  */
 export function updateDocument(document) {
   return dispatch => axios
@@ -106,6 +134,9 @@ export function updateDocument(document) {
       type: UPDATE_DOCUMENT_SUCCESS,
       updatedDocument,
     });
+  }).then(() => {
+    notify.show('Document updated successfully', 'success', 3000);
+    browserHistory.push('/my-documents');
   });
 }
 
@@ -114,20 +145,18 @@ export function updateDocument(document) {
  *
  * @export
  * @param {any} documentId
- * @returns
+ * @returns {Object}
  */
-export const deleteDocument = (documentId) => {
-  const myColor = { background: '#ff0000', text: '#FFFFFF' };
-  return dispatch => axios.delete(`/api/documents/${documentId}`).then(() => {
-    dispatch({
-      type: DELETE_DOCUMENT,
-      documentId,
-    });
-    notify.show('Document deleted successfully',
-      'success', 3000);
-    browserHistory.push('/my-documents');
-  }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
-    browserHistory.push('/documents');
+export const deleteDocument = documentId => dispatch => axios
+.delete(`/api/documents/${documentId}`).then(() => {
+  dispatch({
+    type: DELETE_DOCUMENT,
+    documentId,
   });
-};
+  notify.show('Document deleted successfully',
+      'success', 3000);
+  browserHistory.push('/my-documents');
+}).catch((error) => {
+  notify.show(error.response.data.message, 'custom', 3000, myColor);
+  browserHistory.push('/documents');
+});

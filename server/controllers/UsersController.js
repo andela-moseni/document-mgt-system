@@ -15,7 +15,6 @@ class UsersController {
    * Login a user
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
    */
   static login(req, res) {
     const query = {
@@ -28,7 +27,8 @@ class UsersController {
             .send({ message: 'Invalid Login Credentials. Try Again!' });
         }
         if (user && user.validatePassword(req.body.password)) {
-          const token = jwt.sign({ userId: user.id, roleId: user.roleId, user: user.name, email: user.email },
+          const token = jwt
+          .sign({ userId: user.id, roleId: user.roleId, user: user.name, email: user.email },
           secret, { expiresIn: '12 hours' });
           return res.status(200).send({
             token,
@@ -45,7 +45,6 @@ class UsersController {
    * Logout a user
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
    */
   static logout(req, res) {
     res.status(200)
@@ -56,7 +55,6 @@ class UsersController {
    * Create a user
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
    */
   static createUser(req, res) {
     User.findOne({ where: { email: req.body.email } })
@@ -95,7 +93,6 @@ class UsersController {
    * List all users
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
    */
   static listUsers(req, res) {
     const query = {};
@@ -119,7 +116,6 @@ class UsersController {
    * Retrive a user's details
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
    */
   static retrieveUser(req, res) {
     Role
@@ -150,7 +146,6 @@ class UsersController {
    * Update a user
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
    */
   static updateUser(req, res) {
     Role.findById(req.decoded.roleId)
@@ -165,19 +160,22 @@ class UsersController {
             }
             if (req.body.id) {
               return res.status(403).send({
-                message: 'Unauthorised access. You cannot update userId property',
+                message: `Unauthorised access. 
+                You cannot update userId property`,
               });
             }
             // roleId should not be updated by a regular user
             if ((role.title !== 'admin') && req.body.roleId) {
               return res.status(403).send({
-                message: 'Unauthorised access. You cannot update roleId property',
+                message: `Unauthorised access. 
+                You cannot update roleId property`,
               });
             }
             // a user should not update another user's property
             if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
               return res.status(403).send({
-                message: 'Unauthorised access. You cannot update this user\'s property',
+                message: `Unauthorised access. 
+                You cannot update this user's property`,
               });
             }
             user
@@ -203,7 +201,6 @@ class UsersController {
    * Delete a particular Document
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
    */
   static deleteUser(req, res) {
     Role
@@ -224,7 +221,9 @@ class UsersController {
             }
             if ((role.title === 'admin') && (Number(req.params.id) === 1)) {
               return res.status(403)
-              .send({ message: 'You cannot delete default admin user account' });
+              .send({ message:
+                'You cannot delete default admin user account',
+              });
             }
             user
             .destroy()
@@ -242,7 +241,6 @@ class UsersController {
    * Retrieve all documents belonging to a user
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
    */
   static retrieveUserDocuments(req, res) {
     Role
@@ -288,7 +286,8 @@ class UsersController {
         Document
           .findAndCountAll(query)
           .then((documents) => {
-            const filteredDocuments = documents.rows.map(document => Object.assign({}, {
+            const filteredDocuments = documents.rows
+            .map(document => Object.assign({}, {
               id: document.id,
               title: document.title,
               content: document.content,
@@ -346,7 +345,7 @@ class UsersController {
     query.limit = (req.query.limit > 0) ? req.query.limit : 10;
     query.offset = (req.query.offset > 0) ? req.query.offset : 0;
     query.order = '"createdAt" DESC';
-    query.attributes = { exclude: ['id', 'password', 'roleId'] };
+    query.attributes = { exclude: ['password'] };
     User
       .findAndCountAll(query)
       .then((users) => {

@@ -11,9 +11,9 @@ class UserDocuments extends React.Component {
   }
   render() {
     const { documents } = this.props;
-    let serial = 0;
+    const serial = 0;
 
-    /*if (documents.length === 0) {
+    /* if (documents.length === 0) {
       return (
         <div className="container">
           <h2>No documents found.</h2>
@@ -35,7 +35,7 @@ class UserDocuments extends React.Component {
             </tr>
           </thead>
         <tbody>
-          {/*{documents.map((document) => {
+          {/* {documents.map((document) => {
             serial += 1;
             return (<DocumentListRow
             key={serial} document={document} serial={serial} />);
@@ -51,7 +51,7 @@ class UserDocuments extends React.Component {
  *
  *
  * @param {any} dispatch
- * @returns
+ * @returns {Object}
  */
 function mapDispatchToProps(dispatch) {
   return {

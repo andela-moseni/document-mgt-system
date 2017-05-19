@@ -28,6 +28,7 @@ nav .brand-logo {
   margin: 0 auto;
   width: 50%;
   opacity: 0.7;
+  margin-top: 3rem;
 }
 
 .signupPage {
@@ -65,7 +66,6 @@ table {
 
 footer {
   bottom: 0;
-  position: fixed;
   width: 100%;
 }
 
@@ -76,3 +76,36 @@ footer {
   opacity: 0.7;
   text-align: left;
 }
+
+.main {
+  min-height: 600px;
+}
+
+// nav {
+//   form {
+//     height: 50%;
+//     left: 32rem;
+//     top: 1rem;
+//     position: absolute;
+//     width: 30rem;
+//     color: #000;
+//     background-color: #fff;
+//     border-radius: .5rem;
+//     input {
+//       margin: -1rem;
+//       top: -.5rem;
+//       position: absolute;
+//       border-bottom: none !important;
+//       padding: 0.25rem !important;
+//       width: 98% !important;
+//     }
+//   }
+//   .options {
+//     display: inline-flex !important;
+//     position: absolute;
+//     left: 19rem;
+//     label {
+//       color: #fff;
+//     }
+//   }
+// }

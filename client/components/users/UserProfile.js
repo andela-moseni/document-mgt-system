@@ -100,23 +100,15 @@ class userProfile extends React.Component {
                   <TextFieldGroup
                     label="Password"
                     onChange={this.onChange}
-                    value={this.state.password}
+                    value="*****"
                     icon="vpn_key"
                     field="password"
                     type="password"
                     placeholder="password must be minimum of four characters"
                   />
 
-                  {/*<TextFieldGroup
-                    label="Confirm Password"
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    icon="vpn_key"
-                    field="passwordConfirmation"
-                    type="password"
-                    placeholder="passwords must match"
-                  />*/}
-                  <button className="btn waves-effect waves-light submitBtn" type="submit" name="action">Update
+                  <button className="btn waves-effect waves-light submitBtn"
+                    type="submit" name="action">Update
                     <i className="material-icons right">send</i>
                   </button>
                 </div>
@@ -132,8 +124,18 @@ class userProfile extends React.Component {
 
 userProfile.propTypes = {
   user: React.PropTypes.object.isRequired,
+  userId: React.PropTypes.number.isRequired,
+  loadUserProfile: React.PropTypes.func.isRequired,
+  deleteUser: React.PropTypes.func.isRequired,
+  updateUser: React.PropTypes.func.isRequired,
 };
 
+/**
+ *
+ *
+ * @param {any} dispatch
+ * @returns {Object}
+ */
 function mapDispatchToProps(dispatch) {
   return {
     loadUserProfile: userId => dispatch(usersActions.fetchUserProfile(userId)),
@@ -142,6 +144,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {Object}
+ */
 function mapStateToProps(state) {
   return {
     user: state.users.user,

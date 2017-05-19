@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { notify } from 'react-notify-toast';
 import PropTypes from 'prop-types';
 import { Input } from 'react-materialize';
-import { browserHistory } from 'react-router';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createDocument, fetchDocument,
   updateDocument } from '../../actions/documentsActions';
@@ -42,27 +40,18 @@ class CreateDocumentsForm extends React.Component {
   }
 
   onSubmit(e) {
-    const myColor = { background: '#ff0000', text: '#FFFFFF' };
     e.preventDefault();
     if (this.props.id) {
-      this.props.updateDocument(this.state).then(() => {
-        notify.show('Document updated successfully', 'success', 3000);
-        browserHistory.push('/my-documents');
-      });
+      this.props.updateDocument(this.state);
     } else {
-      this.props.createDocument(this.state).then(() => {
-        notify.show('Document created successfully', 'success', 3000);
-        browserHistory.push('/my-documents');
-      }).catch((error) => {
-        notify.show(error.response.data.message, 'custom', 3000, myColor);
-      });
+      this.props.createDocument(this.state);
     }
     this.setState({ title: ' ', content: ' ', type: ' ' });
   }
 
   render() {
     if (!this.props.document) return null;
-    const { title, content, type } = this.props.document;
+    // const { title, content, type } = this.props.document;
     return (
       <div className="row signupForm">
         <form className="col s12" onSubmit={this.onSubmit}>
@@ -104,8 +93,7 @@ class CreateDocumentsForm extends React.Component {
                 name="access"
                 label="Select Acccess"
                 onChange={this.onChange}
-                value={this.state.access}
-                >
+                value={this.state.access} >
                 <option value="public">Public</option>
                 <option value="private">Private</option>
                 <option value="role">Role</option>
@@ -127,6 +115,7 @@ CreateDocumentsForm.propTypes = {
   createDocument: PropTypes.func.isRequired,
   document: PropTypes.object,
   updateDocument: PropTypes.func.isRequired,
+  id: PropTypes.string,
 };
 
 // SimpleMarkdownEditor.propTypes = {

@@ -11,21 +11,22 @@ class Document extends React.Component {
     this.deleteDocument = this.deleteDocument.bind(this);
     if (this.props.documents) {
       const docId = this.props.params.id;
-      const document = this.props.documents.find(doc => doc.id === Number(docId));
+      const document = this.props.documents
+      .find(doc => doc.id === Number(docId));
       if (document !== undefined) {
         this.props.docFetched(document);
       }
     }
   }
 
-  deleteDocument() {
-    this.props.deleteDocument(this.props.document.id);
-  }
-
   componentWillMount() {
     if (!this.props.document.title) {
       this.props.fetchDocument(this.props.params.id);
     }
+  }
+
+  deleteDocument() {
+    this.props.deleteDocument(this.props.document.id);
   }
 
   render() {
@@ -46,7 +47,9 @@ class Document extends React.Component {
               <div className="card-action">
                 <Link to="/users">OwnerId: {document.OwnerId} </Link>
                 <Link to={`/documents/${document.id}`}>Edit </Link>
-                <Button className="red"onClick={this.deleteDocument} >Delete</Button>
+                <Button className="red"onClick={this.deleteDocument} >
+                  Delete
+                </Button>
               </div>
             </div>
         </div>
@@ -57,7 +60,11 @@ class Document extends React.Component {
 
 Document.propTypes = {
   document: PropTypes.object.isRequired,
+  documents: PropTypes.object.isRequired,
   deleteDocument: PropTypes.func.isRequired,
+  params: PropTypes.object,
+  docFetched: PropTypes.func.isRequired,
+  fetchDocument: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

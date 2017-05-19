@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const UserListRow = ({ user, serial }) => {
+const UserListRow = ({ user, serial }) =>
   // const date = new Date(document.updatedAt);
-  return (
+   (
     <tr>
       <td> {serial} </td>
       <td> <Link to={`/users/${user.id}/documents`}>{user.name}</Link> </td>
@@ -12,7 +12,6 @@ const UserListRow = ({ user, serial }) => {
       {/* <td> {date.toDateString()} </td>*/}
     </tr>
   );
-};
 
 UserListRow.propTypes = {
   user: PropTypes.object.isRequired,

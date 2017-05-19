@@ -7,14 +7,19 @@ import { DISPLAY_ALL_USERS, DISPLAY_USER_DOCUMENTS,
   DELETE_USER } from '../actions/types';
 import { logout } from './loginActions';
 
+const myColor = { background: '#ff0000', text: '#FFFFFF' };
+
 /**
  *
  *
  * @export
- * @returns {allUsers}
+ * @param {number} [offset=0]
+ * @param {number} [limit=10]
+ * @returns {Object} allUsers
  */
 export function fetchUsers(offset = 0, limit = 10) {
-  return dispatch => axios.get(`api/users?offset=${offset}&limit=${limit}`).then((res) => {
+  return dispatch => axios.get(`api/users?offset=${offset}&limit=${limit}`)
+  .then((res) => {
     const allUsers = res.data.users;
     dispatch({
       type: DISPLAY_ALL_USERS,
@@ -24,6 +29,13 @@ export function fetchUsers(offset = 0, limit = 10) {
   });
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {any} id
+ * @returns {Object} userDocs
+ */
 export function fetchUserDocuments(id) {
   return dispatch => axios.get(`api/users/${id}/documents`).then((res) => {
     const userDocs = res.data.documents;
@@ -34,6 +46,13 @@ export function fetchUserDocuments(id) {
   });
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {any} id
+ * @returns {Object} userData
+ */
 export function fetchUserProfile(id) {
   return dispatch => axios.get(`api/users/${id}`).then((res) => {
     const userData = res.data;
@@ -44,9 +63,15 @@ export function fetchUserProfile(id) {
   });
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {any} user
+ * @returns {Object} updatedUser
+ */
 export function updateUser(user) {
   const newUser = omit(user, ['id']);
-  const myColor = { background: '#ff0000', text: '#FFFFFF' };
   return dispatch => axios.put(`/api/users/${user.id}`, newUser).then((res) => {
     const updatedUser = res.data.user;
     dispatch({
@@ -61,8 +86,38 @@ export function updateUser(user) {
   });
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {any} search
+ * @param {number} [offset=0]
+ * @param {number} [limit=10]
+ * @returns {Object} allUsers
+ */
+export function searchUsers(search, offset = 0, limit = 10) {
+  return dispatch => axios
+  .get(`api/search/users?search=${search}&offset=${offset}&limit=${limit}`)
+  .then((res) => {
+    const allUsers = res.data.users;
+    dispatch({
+      type: DISPLAY_ALL_USERS,
+      allUsers,
+      pagination: res.data.pagination,
+    });
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
+  });
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {any} userId
+ * @returns {Object}
+ */
 export function deleteUser(userId) {
-  const myColor = { background: '#ff0000', text: '#FFFFFF' };
   return dispatch => axios.delete(`/api/users/${userId}`).then(() => {
     dispatch({
       type: DELETE_USER,

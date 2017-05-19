@@ -6,7 +6,9 @@ const DocumentListRow = ({ document, serial }) => {
   return (
     <tr>
       <td> {serial} </td>
-      <td> <Link to={`/documents/view/${document.id}`}>{document.title}</Link> </td>
+      <td>
+        <Link to={`/documents/view/${document.id}`}>{document.title}</Link>
+      </td>
       <td> {document.access} </td>
       <td> {document.type} </td>
       <td> {document.OwnerId} </td>

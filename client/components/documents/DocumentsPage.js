@@ -67,9 +67,15 @@ class DocumentsPage extends React.Component {
 
 DocumentsPage.propTypes = {
   fetchDocuments: React.PropTypes.func.isRequired,
-  // documents: React.PropTypes.object.isRequired,
+  documents: React.PropTypes.object,
 };
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {Object}
+ */
 function mapStateToProps(state) {
   return {
     documents: state.document,

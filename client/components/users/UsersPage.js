@@ -5,13 +5,13 @@ import { fetchUsers } from '../../actions/usersActions';
 import UserListRow from './UserListRow';
 
 class usersPage extends React.Component {
-  componentWillMount() {
-    this.props.fetchUsers();
-  }
-
   constructor(props) {
     super(props);
     this.onSelect = this.onSelect.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.fetchUsers();
   }
 
   onSelect(pageNumber) {
@@ -20,7 +20,6 @@ class usersPage extends React.Component {
   }
 
   render() {
-    // const { users } = this.props;
     const { users, pagination } = this.props.users;
 
     if (!users) return null;
@@ -32,7 +31,6 @@ class usersPage extends React.Component {
       );
     }
     const { pageCount, currentPage, totalCount } = pagination;
-    console.log(pagination);
     return (
       <div className="container">
         <h3> {totalCount} Users </h3>
@@ -63,6 +61,17 @@ class usersPage extends React.Component {
   }
 }
 
+usersPage.propTypes = {
+  fetchUsers: React.PropTypes.func.isRequired,
+  users: React.PropTypes.object.isRequired,
+};
+
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {Object}
+ */
 function mapStateToProps(state) {
   return {
     users: state.users,

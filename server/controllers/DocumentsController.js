@@ -300,21 +300,22 @@ class DocumentsController {
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
         query.offset = (req.query.offset > 0) ? req.query.offset : 0;
         query.order = '"createdAt" DESC';
-        query.attributes = { exclude: ['id'] };
+        // query.attributes = { exclude: ['id'] };
         Document
           .findAndCountAll(query)
           .then((documents) => {
             const filteredDocuments = documents.rows.map((document) => {
               return Object.assign({}, {
+                id: document.id,
                 title: document.title,
                 content: document.content,
                 access: document.access,
                 type: document.type,
                 OwnerId: document.OwnerId,
                 createdAt: document.createdAt,
-                updatedAt: document.updatedAt
-              })
-            })
+                updatedAt: document.updatedAt,
+              });
+            });
             const pagination = ControllerHelper.pagination(
               query.limit, query.offset, documents.count
             );

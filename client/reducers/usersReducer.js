@@ -6,7 +6,8 @@ const initialState = { users: [], documents: [], user: {}, pagination: {} };
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case DISPLAY_ALL_USERS:
-      return Object.assign({}, state, { users: action.allUsers, pagination: action.pagination });
+      return Object.assign({}, state,
+      { users: action.allUsers, pagination: action.pagination });
 
     case DISPLAY_USER_DOCUMENTS:
       return Object.assign({}, state, { documents: action.userDocs });
