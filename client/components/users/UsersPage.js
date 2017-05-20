@@ -21,7 +21,6 @@ class usersPage extends React.Component {
 
   render() {
     const { users, pagination } = this.props.users;
-
     if (!users) return null;
     if (users.length === 0) {
       return (

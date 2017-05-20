@@ -3,7 +3,7 @@ import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
 import omit from 'lodash/omit';
 import { DISPLAY_ALL_USERS, DISPLAY_USER_DOCUMENTS,
-  DISPLAY_USER_PROFILE, DISPLAY_UPDATED_USER,
+  DISPLAY_USER_PROFILE, DISPLAY_UPDATED_USER, DISPLAY_UPDATED_USERS,
   DELETE_USER } from '../actions/types';
 import { logout } from './loginActions';
 
@@ -80,7 +80,21 @@ export function updateUser(user) {
     });
     notify.show('Update successful',
       'success', 3000);
-    // browserHistory.push('/documents');
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
+  });
+}
+
+export function updateUsers(user) {
+  const newUser = omit(user, ['id']);
+  return dispatch => axios.put(`/api/users/${user.id}`, newUser).then((res) => {
+    const updatedUser = res.data.user;
+    dispatch({
+      type: DISPLAY_UPDATED_USERS,
+      updatedUser,
+    });
+    notify.show('Update successful',
+      'success', 3000);
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, myColor);
   });
@@ -117,7 +131,7 @@ export function searchUsers(search, offset = 0, limit = 10) {
  * @param {any} userId
  * @returns {Object}
  */
-export function deleteUser(userId) {
+export function deleteUser(userId, isAdmin) {
   return dispatch => axios.delete(`/api/users/${userId}`).then(() => {
     dispatch({
       type: DELETE_USER,
@@ -125,8 +139,11 @@ export function deleteUser(userId) {
     });
     notify.show('User deleted successfully',
       'success', 3000);
-    dispatch(logout());
-    browserHistory.push('/signup');
+
+    if (!isAdmin) {
+      dispatch(logout());
+      browserHistory.push('/signup');
+    }
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, myColor);
   });

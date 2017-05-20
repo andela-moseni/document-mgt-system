@@ -12,7 +12,7 @@ const TextFieldGroup = ({ field, value, label, type, onChange,
       type={type}
       placeholder={placeholder}
       className="validate" required />
-      <label>{label}</label>
+      <label className="active">{label}</label>
     </div>
   );
 

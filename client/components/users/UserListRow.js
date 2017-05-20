@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
 import Prompt from './../../Prompt';
-import { deleteUser, updateUser,
+import { deleteUser, updateUsers,
   fetchUserProfile } from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 
@@ -26,7 +26,7 @@ class UserListRow extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    // console.log(nextProps);
     if (nextProps.user) {
       const { user: { id, name, email } } = nextProps;
       this.setState({
@@ -43,12 +43,17 @@ class UserListRow extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.updateUser(this.state);
+    this.props.updateUsers(this.state);
   }
 
 
   deleteUser() {
     const userId = this.props.user.id;
+    const roleId = this.props.roleId;
+    console.log('roleid - ', roleId);
+    if (roleId === 1) {
+      return this.props.deleteUser(userId, true);
+    }
     this.props.deleteUser(userId);
   }
 
@@ -60,10 +65,9 @@ class UserListRow extends React.Component {
       <td> <Link to={`/users/${user.id}/documents`}>{user.name}</Link> </td>
       <td> {user.email} </td>
       <td> {user.roleId} </td>
-      {/* <td> {date.toDateString()} </td>*/}
       <td>
         <div className="center">
-            <Modal header="Update Profile" fixedFooter trigger={
+            <Modal header="Update user profile" fixedFooter trigger={
               <button
                 className="btn-floating btn-large waves-effect waves-light">
                 <i className="material-icons">edit</i>
@@ -126,6 +130,7 @@ class UserListRow extends React.Component {
 UserListRow.propTypes = {
   user: PropTypes.object.isRequired,
   serial: PropTypes.number.isRequired,
+  updateUsers: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
 };
 
@@ -133,8 +138,9 @@ function mapStateToProps(state) {
   return {
     users: state.users.user,
     userId: state.auth.user.userId,
+    roleId: state.auth.user.roleId,
   };
 }
 
 export default connect(mapStateToProps,
-{ deleteUser, updateUser, fetchUserProfile })(UserListRow);
+{ deleteUser, updateUsers, fetchUserProfile })(UserListRow);

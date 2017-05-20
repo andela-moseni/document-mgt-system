@@ -14,6 +14,7 @@ import NotFound from './components/NotFound';
 import UsersPage from './components/users/UsersPage';
 import UserDocuments from './components/users/UserDocuments';
 import UserProfile from './components/users/UserProfile';
+import RolesPage from './components/roles/RolesPage';
 
 export default (
   <Router history={browserHistory} >
@@ -32,6 +33,7 @@ export default (
     <Route path="/users/:id/documents"
     component={requireAuth(UserDocuments)} />
     <Route path="/profile" component={requireAuth(UserProfile)} />
+    <Route path="roles" component={requireAuth(RolesPage)} />
     <Route path="*" component={requireAuth(NotFound)} />
   </Route>
   </Router>
