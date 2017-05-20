@@ -12,6 +12,7 @@ class userProfile extends React.Component {
       name: this.props.user.name,
       email: this.props.user.email,
       password: '',
+      roleId: this.props.user.roleId,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -26,11 +27,12 @@ class userProfile extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
-      const { user: { id, name, email } } = nextProps;
+      const { user: { id, name, email, roleId } } = nextProps;
       this.setState({
         id,
         name,
         email,
+        roleId,
       });
     }
   }
@@ -79,7 +81,7 @@ class userProfile extends React.Component {
               <button
                 className="btn-floating btn-large waves-effect waves-light">
                 <i className="material-icons">edit</i>
-              </button>}>>
+              </button>}>
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
                   <TextFieldGroup
@@ -134,7 +136,7 @@ class userProfile extends React.Component {
 
 userProfile.propTypes = {
   user: React.PropTypes.object.isRequired,
-  userId: React.PropTypes.number.isRequired,
+  userId: React.PropTypes.number,
   loadUserProfile: React.PropTypes.func.isRequired,
   deleteUser: React.PropTypes.func.isRequired,
   updateUser: React.PropTypes.func.isRequired,
@@ -164,6 +166,7 @@ function mapStateToProps(state) {
   return {
     user: state.users.user,
     userId: state.auth.user.userId,
+    roleId: state.auth.user.roleId,
   };
 }
 

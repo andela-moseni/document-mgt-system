@@ -16,7 +16,7 @@ class SideNavBar extends React.Component {
                 src={require('../images/user.jpg')} />
               </Link>
               <span className="black-text name">Welcome,&nbsp;
-                {this.props.user}</span>
+                {this.props.userName}</span>
               <p className="black-text email">{this.props.email}</p>
             </div>
           </li>
@@ -63,8 +63,8 @@ class SideNavBar extends React.Component {
 
 
 SideNavBar.propTypes = {
-  user: React.PropTypes.string.isRequired,
-  email: React.PropTypes.string.isRequired,
+  userName: React.PropTypes.string,
+  email: React.PropTypes.string,
 };
 
 /**
@@ -75,7 +75,7 @@ SideNavBar.propTypes = {
  */
 function mapStateToProps(state) {
   return {
-    user: state.auth.user.user,
+    userName: state.auth.user.user,
     email: state.auth.user.email,
   };
 }

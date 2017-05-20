@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
+import jwt from 'jsonwebtoken';
 import Prompt from './../../Prompt';
 import { deleteUser, updateUsers,
   fetchUserProfile } from '../../actions/usersActions';
@@ -26,7 +27,6 @@ class UserListRow extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
     if (nextProps.user) {
       const { user: { id, name, email } } = nextProps;
       this.setState({
@@ -50,7 +50,6 @@ class UserListRow extends React.Component {
   deleteUser() {
     const userId = this.props.user.id;
     const roleId = this.props.roleId;
-    console.log('roleid - ', roleId);
     if (roleId === 1) {
       return this.props.deleteUser(userId, true);
     }
@@ -59,6 +58,30 @@ class UserListRow extends React.Component {
 
   render() {
     const { user, serial } = this.props;
+
+    // conditional rendering for delete and edit
+    const curUser = jwt.decode(localStorage.jwtToken);
+    let deleteBtn = null;
+    let editBtn = null;
+    if (curUser) {
+      const curUserId = curUser.userId;
+      const curUserRole = curUser.roleId;
+      if (user.id === curUserId || curUserRole === 1) {
+        editBtn = (
+          <button
+            className="btn-floating btn-large waves-effect waves-light">
+            <i className="material-icons">edit</i>
+          </button>
+        );
+        deleteBtn = (
+          <button
+            className="btn-floating btn-large waves-effect waves-light cyan">
+            <i className="material-icons red">delete</i>
+          </button>
+        );
+      }
+    }
+
     return (
       <tr>
       <td> {serial} </td>
@@ -67,11 +90,7 @@ class UserListRow extends React.Component {
       <td> {user.roleId} </td>
       <td>
         <div className="center">
-            <Modal header="Update user profile" fixedFooter trigger={
-              <button
-                className="btn-floating btn-large waves-effect waves-light">
-                <i className="material-icons">edit</i>
-              </button>}>
+            <Modal header="Update user profile" fixedFooter trigger={editBtn}>
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
                   <TextFieldGroup
@@ -113,12 +132,7 @@ class UserListRow extends React.Component {
       </td>
       <td>
         <Prompt
-        trigger={
-          <button
-          className="btn-floating btn-large waves-effect waves-light cyan">
-          <i className="material-icons red">delete</i>
-        </button>
-        }
+        trigger={deleteBtn}
         onClickFunction={this.deleteUser}
       />
       </td>
@@ -132,8 +146,18 @@ UserListRow.propTypes = {
   serial: PropTypes.number.isRequired,
   updateUsers: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
+  fetchUserProfile: PropTypes.func.isRequired,
+  roleId: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
+
 };
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {Object}
+ */
 function mapStateToProps(state) {
   return {
     users: state.users.user,

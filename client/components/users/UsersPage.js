@@ -30,6 +30,7 @@ class usersPage extends React.Component {
       );
     }
     const { pageCount, currentPage, totalCount } = pagination;
+
     return (
       <div className="container">
         <h3> {totalCount} Users </h3>

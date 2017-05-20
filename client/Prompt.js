@@ -23,7 +23,7 @@ const Prompt = ({ trigger, onClickFunction }) =>
   );
 
 Prompt.propTypes = {
-  trigger: React.PropTypes.object.isRequired,
+  trigger: React.PropTypes.object,
   onClickFunction: React.PropTypes.func.isRequired,
 };
 

@@ -169,7 +169,7 @@ class UsersController {
               });
             }
             // roleId should not be updated by a regular user
-            if ((role.title !== 'admin') && req.body.roleId) {
+            if ((role.title !== 'admin') && (req.body.roleId)) {
               return res.status(403).send({
                 message:
                 'Unauthorised access. You cannot update roleId property',
@@ -190,6 +190,7 @@ class UsersController {
                   id: user.id,
                   name: user.name,
                   email: user.email,
+                  roleId: user.roleId,
                 },
               })).catch(() => res.status(400).send({
                 message: 'An error occured. Invalid parameters, try again!',

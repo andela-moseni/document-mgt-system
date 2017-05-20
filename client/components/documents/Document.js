@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import jwt from 'jsonwebtoken';
 import { Button } from 'react-materialize';
 import { deleteDocument, fetchDocument,
   docFetched } from '../../actions/documentsActions';
@@ -37,6 +38,28 @@ class Document extends React.Component {
         <div>Loading content...</div>
       );
     }
+    // conditional rendering for delete and edit
+    const curUser = jwt.decode(localStorage.jwtToken);
+    let deleteBtn = null;
+    let editBtn = null;
+    if (curUser) {
+      const curUserId = curUser.userId;
+      const curUserRole = curUser.roleId;
+      if (document.OwnerId === curUserId || curUserRole === 1) {
+        editBtn = (
+          <button
+            className="btn-floating btn-large waves-effect waves-light">
+            <i className="material-icons">edit</i>
+          </button>
+        );
+        deleteBtn = (
+          <button
+            className="btn-floating btn-large waves-effect waves-light cyan">
+            <i className="material-icons red">delete</i>
+          </button>
+        );
+      }
+    }
     return (
       <div>
         <div className="row centered">
@@ -47,11 +70,9 @@ class Document extends React.Component {
               </div>
               <div className="card-action">
                 <a href="/users" className="waves-effect waves-light btn">OwnerId: {document.OwnerId} </a>
-                <a href={`/documents/${document.id}`} className="waves-effect waves-light btn">Edit</a>
+                <a href={`/documents/${document.id}`}> {editBtn}</a>
                 <Prompt
-                  trigger={
-                    <Button waves="light" className="red">DELETE</Button>
-                  }
+                  trigger={deleteBtn}
                   onClickFunction={this.deleteDocument}
                 />
               </div>
