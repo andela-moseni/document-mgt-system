@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { Button } from 'react-materialize';
 import { deleteDocument, fetchDocument,
   docFetched } from '../../actions/documentsActions';
+import Prompt from '../../Prompt';
 
 class Document extends React.Component {
   constructor(props) {
@@ -45,11 +46,14 @@ class Document extends React.Component {
                 <p> {document.content} </p>
               </div>
               <div className="card-action">
-                <Link to="/users">OwnerId: {document.OwnerId} </Link>
-                <Link to={`/documents/${document.id}`}>Edit </Link>
-                <Button className="red"onClick={this.deleteDocument} >
-                  Delete
-                </Button>
+                <a href="/users" className="waves-effect waves-light btn">OwnerId: {document.OwnerId} </a>
+                <a href={`/documents/${document.id}`} className="waves-effect waves-light btn">Edit</a>
+                <Prompt
+                  trigger={
+                    <Button waves="light" className="red">DELETE</Button>
+                  }
+                  onClickFunction={this.deleteDocument}
+                />
               </div>
             </div>
         </div>
@@ -60,7 +64,7 @@ class Document extends React.Component {
 
 Document.propTypes = {
   document: PropTypes.object.isRequired,
-  documents: PropTypes.object.isRequired,
+  documents: PropTypes.array.isRequired,
   deleteDocument: PropTypes.func.isRequired,
   params: PropTypes.object,
   docFetched: PropTypes.func.isRequired,

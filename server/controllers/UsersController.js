@@ -72,7 +72,11 @@ class UsersController {
           roleId: 2,
         })
           .then((user) => {
-            const token = jwt.sign({ userId: user.id, roleId: user.roleId },
+            const token = jwt
+            .sign({ userId: user.id,
+              roleId: user.roleId,
+              user: user.name,
+              email: user.email },
             secret, { expiresIn: '12 hours' });
             res.status(201).send({ token,
               user: {

@@ -81,31 +81,7 @@ footer {
   min-height: 600px;
 }
 
-// nav {
-//   form {
-//     height: 50%;
-//     left: 32rem;
-//     top: 1rem;
-//     position: absolute;
-//     width: 30rem;
-//     color: #000;
-//     background-color: #fff;
-//     border-radius: .5rem;
-//     input {
-//       margin: -1rem;
-//       top: -.5rem;
-//       position: absolute;
-//       border-bottom: none !important;
-//       padding: 0.25rem !important;
-//       width: 98% !important;
-//     }
-//   }
-//   .options {
-//     display: inline-flex !important;
-//     position: absolute;
-//     left: 19rem;
-//     label {
-//       color: #fff;
-//     }
-//   }
-// }
+.btn {
+  margin-right: 40px;
+  border-radius: 8px;
+}

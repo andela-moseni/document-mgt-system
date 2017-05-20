@@ -37,10 +37,12 @@ class usersPage extends React.Component {
         <table className="striped responsive-table highlight">
           <thead>
             <tr>
-              <th> S/NO </th>
-              <th> Name </th>
-              <th> Email </th>
-              <th> Role Id </th>
+              <th>S/NO</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role Id</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
         <tbody>
@@ -49,6 +51,12 @@ class usersPage extends React.Component {
           user={user} serial={index + 1} />)}
         </tbody>
       </table>
+      {/*<Prompt
+        trigger={
+          <Button waves="light" className="red">DELETE</Button>
+        }
+        onClickFunction={this.deleteUser}
+      />*/}
       <div className="center-align">
         <Pagination
           items={pageCount} activePage={currentPage}

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Button, Modal } from 'react-materialize';
 import * as usersActions from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
+import Prompt from '../../Prompt';
 
 class userProfile extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class userProfile extends React.Component {
     this.state = {
       name: this.props.user.name,
       email: this.props.user.email,
-      password: this.props.user.password,
+      password: '',
     };
 
     this.onChange = this.onChange.bind(this);
@@ -25,12 +26,11 @@ class userProfile extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
-      const { user: { id, name, email, password } } = nextProps;
+      const { user: { id, name, email } } = nextProps;
       this.setState({
         id,
         name,
         email,
-        password,
       });
     }
   }
@@ -75,8 +75,11 @@ class userProfile extends React.Component {
             </tbody>
           </table>
           <div className="center">
-            <Modal header="Update Profile"fixedFooter trigger={
-              <Button waves="light" className="">EDIT</Button>}>
+            <Modal header="Update Profile" fixedFooter trigger={
+              <button
+                className="btn-floating btn-large waves-effect waves-light">
+                <i className="material-icons">edit</i>
+              </button>}>>
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
                   <TextFieldGroup
@@ -100,7 +103,7 @@ class userProfile extends React.Component {
                   <TextFieldGroup
                     label="Password"
                     onChange={this.onChange}
-                    value="*****"
+                    value={this.state.password}
                     icon="vpn_key"
                     field="password"
                     type="password"
@@ -114,8 +117,15 @@ class userProfile extends React.Component {
                 </div>
               </form>
             </Modal>&nbsp;&nbsp;&nbsp;
-        <Button className="red" onClick={this.deleteUser}>Delete</Button>
-      </div>
+            <Prompt
+              trigger={
+              <button
+                className="btn-floating btn-large waves-effect waves-light red">
+                <i className="material-icons">delete</i>
+              </button>}
+              onClickFunction={this.deleteUser}
+            />
+        </div>
       </div>
     </div>
     );

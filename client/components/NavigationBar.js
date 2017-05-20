@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Modal } from 'react-materialize';
 import { logout } from '../actions/loginActions';
 import SideNavBar from './SideNavBar';
 import { searchDocuments } from '../actions/documentsActions';
@@ -44,6 +45,11 @@ class NavigationBar extends React.Component {
               </span>
             </Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <li>
+                <Modal header="Update Profile" fixedFooter trigger={
+                <Link to="/" >About</Link>}>
+                </Modal>
+              </li>
               <li><Link to="/" onClick={this.logout}>Logout</Link></li>
               <li><Link id="searchIcon">
                 <i className="material-icons">search</i>

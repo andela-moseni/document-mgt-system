@@ -80,7 +80,7 @@ export function updateUser(user) {
     });
     notify.show('Update successful',
       'success', 3000);
-    browserHistory.push('/my-documents');
+    // browserHistory.push('/documents');
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, myColor);
   });

@@ -137,6 +137,8 @@ export function updateDocument(document) {
   }).then(() => {
     notify.show('Document updated successfully', 'success', 3000);
     browserHistory.push('/my-documents');
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
   });
 }
 

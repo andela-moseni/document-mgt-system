@@ -7,7 +7,7 @@ import { setCurrentUser } from './loginActions';
 
 export function userSignupRequest(userData) {
   const myColor = { background: '#ff0000', text: '#FFFFFF' };
-  return dispatch => axios.post('api/users', userData).then((res) => {
+  return dispatch => axios.post('/api/users', userData).then((res) => {
     const token = res.data.token;
     localStorage.setItem('jwtToken', token);
     setAuthorizationToken(token);
