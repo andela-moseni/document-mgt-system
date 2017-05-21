@@ -58,7 +58,7 @@ class NavigationBar extends React.Component {
             </ul>
           </div>
           <div className="nav-wrapper" id="searchBar">
-            <form onSubmit={this.onSubmit}>
+            <form>
               <div className="input-field">
                 <input id="search" type="search"
                 placeholder="Search..."

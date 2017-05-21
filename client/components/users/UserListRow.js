@@ -147,8 +147,8 @@ UserListRow.propTypes = {
   updateUsers: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
   fetchUserProfile: PropTypes.func.isRequired,
-  roleId: PropTypes.number.isRequired,
-  userId: PropTypes.number.isRequired,
+  roleId: PropTypes.number,
+  userId: PropTypes.number,
 
 };
 

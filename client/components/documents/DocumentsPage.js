@@ -67,7 +67,7 @@ class DocumentsPage extends React.Component {
 
 DocumentsPage.propTypes = {
   fetchDocuments: React.PropTypes.func.isRequired,
-  documents: React.PropTypes.array,
+  documents: React.PropTypes.any.isRequired,
 };
 
 /**

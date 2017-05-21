@@ -4,10 +4,24 @@ import { browserHistory } from 'react-router';
 import omit from 'lodash/omit';
 import { DISPLAY_ALL_USERS, DISPLAY_USER_DOCUMENTS,
   DISPLAY_USER_PROFILE, DISPLAY_UPDATED_USER, DISPLAY_UPDATED_USERS,
-  DELETE_USER } from '../actions/types';
+  DELETE_USER, CREATE_USER_SUCCESS } from '../actions/types';
 import { logout } from './loginActions';
 
 const myColor = { background: '#ff0000', text: '#FFFFFF' };
+
+export function createUser(user) {
+  return dispatch => axios.post('api/users', user).then((res) => {
+    const newUser = res.data.user;
+    dispatch({
+      type: CREATE_USER_SUCCESS,
+      newUser,
+    });
+    notify.show('User created successfully', 'success', 3000);
+  })
+  .catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
+  });
+}
 
 /**
  *

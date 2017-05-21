@@ -1,13 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Pagination } from 'react-materialize';
-import { fetchUsers } from '../../actions/usersActions';
+import { Modal, Pagination } from 'react-materialize';
+import { notify } from 'react-notify-toast';
+import jwt from 'jsonwebtoken';
+import { fetchUsers, createUser } from '../../actions/usersActions';
 import UserListRow from './UserListRow';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class usersPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+    };
     this.onSelect = this.onSelect.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -17,6 +28,27 @@ class usersPage extends React.Component {
   onSelect(pageNumber) {
     const offset = (pageNumber - 1) * 10;
     this.props.fetchUsers(offset);
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onSubmit(e) {
+    const myColor = { background: '#FF0000', text: '#FFFFFF' };
+    e.preventDefault();
+    if (this.state.password.length < 4) {
+      return notify.show('password must be minimum of four characters only',
+      'custom', 3000, myColor);
+    }
+    if (this.state.password !== this.state.passwordConfirmation) {
+      return notify.show('Passwords do not match', 'custom', 3000, myColor);
+    }
+    this.props.createUser(this.state);
+    this.setState({ name: ' ',
+      email: ' ',
+      password: ' ',
+      passwordConfirmation: ' ' });
   }
 
   render() {
@@ -30,6 +62,20 @@ class usersPage extends React.Component {
       );
     }
     const { pageCount, currentPage, totalCount } = pagination;
+    // conditional rendering for admin to add users
+    const curUser = jwt.decode(localStorage.jwtToken);
+    let createBtn = null;
+    if (curUser) {
+      const curUserRole = curUser.roleId;
+      if (curUserRole === 1) {
+        createBtn = (
+          <button
+            className="btn-floating btn-large waves-effect waves-light newBtn">
+            <i className="material-icons">add</i>
+          </button>
+        );
+      }
+    }
 
     return (
       <div className="container">
@@ -51,18 +97,61 @@ class usersPage extends React.Component {
           user={user} serial={index + 1} />)}
         </tbody>
       </table>
-      {/*<Prompt
-        trigger={
-          <Button waves="light" className="red">DELETE</Button>
-        }
-        onClickFunction={this.deleteUser}
-      />*/}
       <div className="center-align">
         <Pagination
           items={pageCount} activePage={currentPage}
           maxButtons={pageCount}
           onSelect={this.onSelect}
         />
+      </div>
+      <div className="right">
+        <Modal header="Create User" fixedFooter trigger={createBtn}>
+              <form className="col s12" onSubmit={this.onSubmit}>
+                <div className="row">
+                  <TextFieldGroup
+                    label="Full Name"
+                    onChange={this.onChange}
+                    value={this.state.name}
+                    icon="account_circle"
+                    field="name"
+                    placeholder="alphabets only"
+                  />
+
+                  <TextFieldGroup
+                    label="Email"
+                    onChange={this.onChange}
+                    value={this.state.email}
+                    icon="email"
+                    field="email"
+                    type="email"
+                  />
+
+                  <TextFieldGroup
+                    label="Password"
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    icon="vpn_key"
+                    field="password"
+                    type="password"
+                    placeholder="password must be minimum of four characters"
+                  />
+
+                  <TextFieldGroup
+                    label="Confirm Password"
+                    onChange={this.onChange}
+                    value={this.state.passwordConfirmation}
+                    icon="vpn_key"
+                    field="passwordConfirmation"
+                    type="password"
+                    placeholder="passwords must match"
+                  />
+                  <button className="btn waves-effect waves-light submitBtn"
+                    type="submit" name="action">Create
+                    <i className="material-icons right">send</i>
+                  </button>
+                </div>
+              </form>
+            </Modal>
       </div>
     </div>
     );
@@ -71,6 +160,7 @@ class usersPage extends React.Component {
 
 usersPage.propTypes = {
   fetchUsers: React.PropTypes.func.isRequired,
+  createUser: React.PropTypes.func.isRequired,
   users: React.PropTypes.object.isRequired,
 };
 
@@ -86,4 +176,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchUsers })(usersPage);
+export default connect(mapStateToProps, { fetchUsers, createUser })(usersPage);
