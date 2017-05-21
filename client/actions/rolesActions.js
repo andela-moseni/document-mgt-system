@@ -63,6 +63,29 @@ export function updateRole(role) {
   });
 }
 
+/**
+ *
+ * @export
+ * @param {any} search
+ * @param {number} [offset=0]
+ * @param {number} [limit=10]
+ * @returns {Object}
+ */
+export function searchRoles(search, offset = 0, limit = 10) {
+  return dispatch => axios.get(`api/search/roles?search=${search}&offset=${offset}&limit=${limit}`)
+  .then((res) => {
+    const allRoles = res.data.roles;
+    dispatch({
+      type: DISPLAY_ALL_ROLES,
+      allRoles,
+      pagination: res.data.pagination,
+    });
+  })
+  .catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
+  });
+}
+
 export function deleteRole(roleId) {
   return dispatch => axios.delete(`api/roles/${roleId}`).then(() => {
     dispatch({

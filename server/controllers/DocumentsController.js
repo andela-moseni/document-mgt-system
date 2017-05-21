@@ -97,7 +97,6 @@ class DocumentsController {
                   updatedAt: document.updatedAt,
                 });
               });
-              console.log('query', query);
               const pagination = ControllerHelper.pagination(
                 query.limit, query.offset, documents.count,
               );

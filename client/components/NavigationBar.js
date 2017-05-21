@@ -7,6 +7,7 @@ import { logout } from '../actions/loginActions';
 import SideNavBar from './SideNavBar';
 import { searchDocuments } from '../actions/documentsActions';
 import { searchUsers } from '../actions/usersActions';
+import { searchRoles } from '../actions/rolesActions';
 
 class NavigationBar extends React.Component {
   constructor(props) {
@@ -28,6 +29,9 @@ class NavigationBar extends React.Component {
     }
     if (currentPath === '/users') {
       this.props.searchUsers(query);
+    }
+    if (currentPath === '/roles') {
+      this.props.searchRoles(query);
     }
   }
 
@@ -97,6 +101,7 @@ NavigationBar.propTypes = {
   auth: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
   searchDocuments: PropTypes.func.isRequired,
+  searchRoles: PropTypes.func.isRequired,
   searchUsers: PropTypes.func.isRequired,
 };
 
@@ -106,4 +111,4 @@ const mapStateToProps = state => ({
 
 export default
 connect(mapStateToProps,
-{ logout, searchDocuments, searchUsers })(NavigationBar);
+{ logout, searchDocuments, searchUsers, searchRoles })(NavigationBar);
