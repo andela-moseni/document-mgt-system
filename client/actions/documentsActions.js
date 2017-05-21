@@ -3,7 +3,7 @@ import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
   UPDATE_DOCUMENT_SUCCESS,
-  DELETE_DOCUMENT, DOC_FETCHED } from '../actions/types';
+  DELETE_DOCUMENT, DOC_FETCHED, CREATE_DOCUMENT_SUCCESS } from '../actions/types';
 
 const myColor = { background: '#ff0000', text: '#FFFFFF' };
 
@@ -15,7 +15,14 @@ const myColor = { background: '#ff0000', text: '#FFFFFF' };
  * @returns {Object}
  */
 export function createDocument(document) {
-  return dispatch => axios.post('api/documents', document).then(() => {
+  return dispatch => axios.post('api/documents', document).then((res) => {
+    const newDoc = res.data.document;
+    dispatch({
+      type: CREATE_DOCUMENT_SUCCESS,
+      newDoc,
+    });
+  })
+  .then(() => {
     notify.show('Document created successfully', 'success', 3000);
     browserHistory.push('/my-documents');
   }).catch((error) => {

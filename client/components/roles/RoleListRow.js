@@ -44,6 +44,19 @@ class RoleListRow extends React.Component {
     const { role, serial } = this.props;
     const newDate = new Date(role.updatedAt);
     const date = new Date(role.createdAt);
+    const editBtn = (
+      <button
+        className="btn-floating btn-large waves-effect waves-light">
+        <i className="material-icons">edit</i>
+      </button>
+    );
+    const deleteBtn = (
+      <button
+        className="btn-floating btn-large waves-effect waves-light cyan">
+        <i className="material-icons red">delete</i>
+      </button>
+    );
+
     return (
       <tr>
       <td> {serial} </td>
@@ -52,11 +65,7 @@ class RoleListRow extends React.Component {
       <td> {newDate.toDateString()} </td>
       <td>
         <div className="center">
-            <Modal header="Update Role" fixedFooter trigger={
-              <button
-                className="btn-floating btn-large waves-effect waves-light">
-                <i className="material-icons">edit</i>
-              </button>}>
+            <Modal header="Update Role" trigger={editBtn}>
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
                   <TextFieldGroup
@@ -79,12 +88,7 @@ class RoleListRow extends React.Component {
       </td>
       <td>
         <Prompt
-        trigger={
-          <button
-          className="btn-floating btn-large waves-effect waves-light cyan">
-          <i className="material-icons red">delete</i>
-        </button>
-        }
+        trigger={deleteBtn}
         onClickFunction={this.deleteRole}
       />
       </td>

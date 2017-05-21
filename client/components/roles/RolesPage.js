@@ -1,13 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Pagination } from 'react-materialize';
-import { fetchRoles } from '../../actions/rolesActions';
+import { fetchRoles, createRole } from '../../actions/rolesActions';
 import RoleListRow from './RoleListRow';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class RolesPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      title: '',
+    };
     this.onSelect = this.onSelect.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
   componentWillMount() {
     this.props.fetchRoles();
@@ -16,6 +22,16 @@ class RolesPage extends React.Component {
   onSelect(pageNumber) {
     const offset = (pageNumber - 1) * 10;
     this.props.fetchRoles(offset);
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    this.props.createRole(this.state);
+    this.setState({ title: ' ' });
   }
 
   render() {
@@ -29,6 +45,13 @@ class RolesPage extends React.Component {
       );
     }
     const { pageCount, currentPage, totalCount } = pagination;
+    const createBtn = (
+       <button
+          className="btn-floating btn-large waves-effect waves-light newBtn">
+          <i className="material-icons">add</i>
+        </button>
+    );
+
     return (
         <div className="container">
         <h3> {totalCount} roles </h3>
@@ -56,10 +79,25 @@ class RolesPage extends React.Component {
         />
       </div>
       <div className="right">
-        <button
-          className="btn-floating btn-large waves-effect waves-light newBtn">
-          <i className="material-icons">create</i>
-        </button>
+        <Modal header="Create Role" trigger={createBtn}>
+              <form className="col s12" onSubmit={this.onSubmit}>
+                <div className="row">
+                  <TextFieldGroup
+                    label="Title"
+                    onChange={this.onChange}
+                    value={this.state.title}
+                    icon="account_circle"
+                    field="title"
+                    placeholder="alphabets only"
+                  />
+
+                  <button className="btn waves-effect waves-light submitBtn"
+                    type="submit" name="action">Create
+                    <i className="material-icons right">send</i>
+                  </button>
+                </div>
+              </form>
+            </Modal>
       </div>
     </div>
     );
@@ -68,7 +106,8 @@ class RolesPage extends React.Component {
 
 RolesPage.propTypes = {
   fetchRoles: React.PropTypes.func.isRequired,
-  roles: React.PropTypes.object.isRequired,
+  createRole: React.PropTypes.func.isRequired,
+  roles: React.PropTypes.any.isRequired,
 };
 
 /**
@@ -83,4 +122,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchRoles })(RolesPage);
+export default connect(mapStateToProps, { fetchRoles, createRole })(RolesPage);

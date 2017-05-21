@@ -1,10 +1,30 @@
 import axios from 'axios';
 import { notify } from 'react-notify-toast';
-import { browserHistory } from 'react-router';
 import { DISPLAY_ALL_ROLES, DISPLAY_UPDATED_ROLE,
-  DELETE_ROLE } from '../actions/types';
+  DELETE_ROLE, CREATE_ROLE } from '../actions/types';
 
 const myColor = { background: '#ff0000', text: '#FFFFFF' };
+
+/**
+ *
+ *
+ * @export
+ * @param {any} role
+ * @returns {Object}
+ */
+export function createRole(role) {
+  return dispatch => axios.post('api/roles', role).then((res) => {
+    const newRole = res.data;
+    dispatch({
+      type: CREATE_ROLE,
+      newRole,
+    });
+    notify.show('Role created successfully', 'success', 3000);
+  })
+  .catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
+  });
+}
 
 /**
  *
@@ -38,7 +58,6 @@ export function updateRole(role) {
     });
     notify.show('Update successful',
       'success', 3000);
-    // browserHistory.push('/documents');
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, myColor);
   });

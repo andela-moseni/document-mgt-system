@@ -1,11 +1,14 @@
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
   UPDATE_DOCUMENT_SUCCESS, DOC_FETCHED,
-  DELETE_DOCUMENT } from '../actions/types';
+  DELETE_DOCUMENT, CREATE_DOCUMENT_SUCCESS } from '../actions/types';
 
 const initialState = { documents: [], document: {}, pagination: {} };
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
+    case CREATE_DOCUMENT_SUCCESS:
+      return Object.assign({}, state);
+
     case DISPLAY_ALL_DOCUMENTS:
       return Object.assign({}, state,
       { documents: action.allDocs, pagination: action.pagination });
