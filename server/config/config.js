@@ -10,6 +10,6 @@ module.exports = {
     "dialect": "postgres" 
   },
   "production": {
-    "use_env_variable": "DATABASE_URL"
+    "use_env_variable": "HEROKU_POSTGRESQL_SILVER_URL"
   }
 }
