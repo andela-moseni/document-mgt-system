@@ -1,0 +1,27 @@
+{
+  "name": "document-mgt-system",
+  "description": "A Document Management System that allows users to create and manage documents based on privileges",
+  "scripts": {
+  },
+  "env": {
+    "HEROKU_POSTGRESQL_SILVER_URL": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "SECRET": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
