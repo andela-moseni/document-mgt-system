@@ -1,1 +1,1 @@
-web: sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all && ./node_modules/.bin/babel-node server.js
+web: ./node_modules/.bin/babel-node server.js
