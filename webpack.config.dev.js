@@ -40,7 +40,7 @@ export default {
     extentions: ['', '.css', '.js'],
   },
   node: {
-    // net: 'empty',
+    net: 'empty',
     dns: 'empty',
   },
 };
