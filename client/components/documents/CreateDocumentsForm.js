@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import TinyMCE from 'react-tinymce';
 import { Input } from 'react-materialize';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createDocument, fetchDocument,
   updateDocument } from '../../actions/documentsActions';
-
-// import { SimpleMarkdownEditor } from 'react-simple-markdown-editor';
 
 class CreateDocumentsForm extends React.Component {
   constructor(props) {
@@ -20,6 +19,7 @@ class CreateDocumentsForm extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleEditorChange = this.handleEditorChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,6 +37,10 @@ class CreateDocumentsForm extends React.Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+  }
+
+  handleEditorChange(e) {
+    this.setState({ content: e.target.getContent() });
   }
 
   onSubmit(e) {
@@ -64,19 +68,17 @@ class CreateDocumentsForm extends React.Component {
               icon="folder"
               field="title"
             />
-
-            <div className="input-field col s12">
-              <i className="material-icons prefix left">mode_edit</i>
-              {/* <SimpleMarkdownEditor textAreaID={'textarea1'} />*/}
-              <textarea
-                onChange={this.onChange}
-                value={this.state.content}
-                name="content"
-                className="materialize-textarea"
-                id="content" required
-              />
-              <label>Content</label>
-            </div>
+            <br /><br /><br /><br />
+            <TinyMCE
+              content={this.state.content}
+              config={{
+                plugins: 'link image code',
+                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+              }}
+              onChange={this.handleEditorChange}
+              /* value={this.state.content}*/
+              field="content"
+            />
 
             <TextFieldGroup
               label="Type"
@@ -117,19 +119,6 @@ CreateDocumentsForm.propTypes = {
   updateDocument: PropTypes.func.isRequired,
   id: PropTypes.string,
 };
-
-// SimpleMarkdownEditor.propTypes = {
-//   // Required props
-//   textAreaID: PropTypes.string.isRequired,
-
-//   // Optional props
-//   styles: PropTypes.object,
-//   containerClass: PropTypes.string,
-//   buttonClass: PropTypes.string,
-//   enabledButtons: PropTypes.object,
-//   buttonHtmlText: PropTypes.object,
-//   additionalProps: PropTypes.object,
-// };
 
 export default
 connect(null,

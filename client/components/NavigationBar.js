@@ -50,7 +50,7 @@ class NavigationBar extends React.Component {
             </Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li>
-                <Modal header="Update Profile" fixedFooter trigger={
+                <Modal header="About Meek-DMS" fixedFooter trigger={
                 <Link to="/" >About</Link>}>
                 </Modal>
               </li>

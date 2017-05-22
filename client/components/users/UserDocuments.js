@@ -67,7 +67,6 @@ function mapDispatchToProps(dispatch) {
  * @returns
  */
 function mapStateToProps(state) {
-  console.log('my state', state);
   return {
     documents: state.users.documents,
     // userId: state.users.userId,

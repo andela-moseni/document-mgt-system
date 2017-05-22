@@ -1,4 +1,6 @@
 node_modules
 coverage
 .token
-.env  
+.env
+dist
+server/seeders/

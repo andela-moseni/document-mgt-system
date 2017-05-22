@@ -111,7 +111,6 @@ RoleListRow.propTypes = {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-  // console.log(state);
   return {
     roles: state.roles,
     roleId: state.roles.roleId,
