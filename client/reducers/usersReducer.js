@@ -1,9 +1,9 @@
 import findIndex from 'lodash/findIndex';
-import { DISPLAY_ALL_USERS, DISPLAY_USER_DOCUMENTS, DISPLAY_USER_PROFILE,
+import { DISPLAY_ALL_USERS, DISPLAY_USER_PROFILE,
   DISPLAY_UPDATED_USER, DISPLAY_UPDATED_USERS,
   DELETE_USER, CREATE_USER_SUCCESS } from '../actions/types';
 
-const initialState = { users: [], documents: [], user: {}, pagination: {} };
+const initialState = { users: [], user: {}, pagination: {} };
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
@@ -17,9 +17,6 @@ export default (state = initialState, action = {}) => {
       return Object.assign({}, state,
       { users: action.allUsers, pagination: action.pagination });
 
-    case DISPLAY_USER_DOCUMENTS:
-      return Object.assign({}, state, { documents: action.userDocs });
-
     case DISPLAY_USER_PROFILE:
       return Object.assign({}, state, { user: action.userData });
 
@@ -32,10 +29,6 @@ export default (state = initialState, action = {}) => {
       stateCopy.users[userIndex] = action.updatedUser;
       return stateCopy;
     }
-      // return Object.assign({}, state, { users:
-      // [...state.users.filter(user => user.id !== action.updatedUser.id),
-      //   Object.assign({}, action.updatedUser)],
-      // });
 
     case DELETE_USER:
       return Object.assign({}, state,

@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as usersActions from '../../actions/usersActions';
+import { fetchUserDocuments } from '../../actions/documentsActions';
 import DocumentListRow from '../documents/DocumentListRow';
 
 class UserDocuments extends React.Component {
   componentWillMount() {
-    // const { userId } = this.props;
     const { id } = this.props.params;
-    this.props.loadUserDocuments(id);
+    this.props.fetchUserDocuments(id);
   }
   render() {
     const { documents } = this.props;
-    const serial = 0;
+    let serial = 0;
 
     /* if (documents.length === 0) {
       return (
@@ -35,11 +34,11 @@ class UserDocuments extends React.Component {
             </tr>
           </thead>
         <tbody>
-          {/* {documents.map((document) => {
-            serial += 1;
-            return (<DocumentListRow
+           {documents.map((document) => {
+             serial += 1;
+             return (<DocumentListRow
             key={serial} document={document} serial={serial} />);
-          })}*/}
+           })}
         </tbody>
       </table>
     </div>
@@ -50,27 +49,13 @@ class UserDocuments extends React.Component {
 /**
  *
  *
- * @param {any} dispatch
- * @returns {Object}
- */
-function mapDispatchToProps(dispatch) {
-  return {
-    loadUserDocuments: id => dispatch(usersActions
-    .fetchUserDocuments(id)),
-  };
-}
-
-/**
- *
- *
  * @param {any} state
  * @returns
  */
 function mapStateToProps(state) {
   return {
-    documents: state.users.documents,
-    // userId: state.users.userId,
+    documents: state.document.documents,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDocuments);
+export default connect(mapStateToProps, { fetchUserDocuments })(UserDocuments);

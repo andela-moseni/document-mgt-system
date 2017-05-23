@@ -2,7 +2,7 @@ import axios from 'axios';
 import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
 import omit from 'lodash/omit';
-import { DISPLAY_ALL_USERS, DISPLAY_USER_DOCUMENTS,
+import { DISPLAY_ALL_USERS,
   DISPLAY_USER_PROFILE, DISPLAY_UPDATED_USER, DISPLAY_UPDATED_USERS,
   DELETE_USER, CREATE_USER_SUCCESS } from '../actions/types';
 import { logout } from './loginActions';
@@ -39,23 +39,6 @@ export function fetchUsers(offset = 0, limit = 10) {
       type: DISPLAY_ALL_USERS,
       allUsers,
       pagination: res.data.pagination,
-    });
-  });
-}
-
-/**
- *
- *
- * @export
- * @param {any} id
- * @returns {Object} userDocs
- */
-export function fetchUserDocuments(id) {
-  return dispatch => axios.get(`api/users/${id}/documents`).then((res) => {
-    const userDocs = res.data.documents;
-    dispatch({
-      type: DISPLAY_USER_DOCUMENTS,
-      userDocs,
     });
   });
 }
