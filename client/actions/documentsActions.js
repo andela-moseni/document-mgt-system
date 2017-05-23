@@ -15,7 +15,7 @@ const myColor = { background: '#ff0000', text: '#FFFFFF' };
  * @returns {Object}
  */
 export function createDocument(document) {
-  return dispatch => axios.post('api/documents', document).then((res) => {
+  return dispatch => axios.post('/api/documents', document).then((res) => {
     const newDoc = res.data.document;
     dispatch({
       type: CREATE_DOCUMENT_SUCCESS,
@@ -54,7 +54,7 @@ export function docFetched(doc) {
  */
 export function fetchDocuments(offset, limit) {
   return dispatch => axios
-  .get(`api/documents?offset=${offset}&limit=${limit}`).then((res) => {
+  .get(`/api/documents?offset=${offset}&limit=${limit}`).then((res) => {
     const allDocs = res.data.documents;
     dispatch({
       type: DISPLAY_ALL_DOCUMENTS,
@@ -91,7 +91,7 @@ export function fetchDocument(id) {
  */
 export function fetchMyDocuments(id, offset = 0, limit = 10) {
   return dispatch => axios
-  .get(`api/users/${id}/documents?offset=${offset}&limit=${limit}`)
+  .get(`/api/users/${id}/documents?offset=${offset}&limit=${limit}`)
   .then((res) => {
     const myDocs = res.data.documents;
     dispatch({
@@ -99,22 +99,10 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
       myDocs,
       pagination: res.data.pagination,
     });
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
   });
 }
-
-// export function fetchUserDocuments(id, offset = 0, limit = 10) {
-//   return dispatch => axios
-//   .get(`api/users/${id}/documents?offset=${offset}&limit=${limit}`)
-//   .then((res) => {
-//     const myDocs = res;
-//     console.log(myDocs);
-//     dispatch({
-//       type: DISPLAY_MY_DOCUMENTS,
-//       myDocs,
-//       pagination: res.data.pagination,
-//     });
-//   });
-// }
 
 /**
  *
@@ -127,7 +115,7 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
  */
 export function searchDocuments(search, offset = 0, limit = 10) {
   return dispatch => axios
-  .get(`api/search/documents?search=${search}&offset=${offset}&limit=${limit}`)
+  .get(`/api/search/documents?search=${search}&offset=${offset}&limit=${limit}`)
   .then((res) => {
     const allDocs = res.data.documents;
     dispatch({

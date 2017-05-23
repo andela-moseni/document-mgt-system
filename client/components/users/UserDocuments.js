@@ -1,27 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchUserDocuments } from '../../actions/documentsActions';
+import { Pagination } from 'react-materialize';
+import { fetchMyDocuments } from '../../actions/documentsActions';
 import DocumentListRow from '../documents/DocumentListRow';
 
 class UserDocuments extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onSelect = this.onSelect.bind(this);
+  }
+
   componentWillMount() {
     const { id } = this.props.params;
-    this.props.fetchUserDocuments(id);
+    this.props.fetchMyDocuments(id);
   }
+
+  onSelect(pageNumber) {
+    const { id } = this.props.params;
+    const offset = (pageNumber - 1) * 10;
+    this.props.fetchMyDocuments(id, offset);
+  }
+
   render() {
-    const { documents } = this.props;
+    const { documents, pagination } = this.props.documents;
     let serial = 0;
 
-    /* if (documents.length === 0) {
+    if (documents.length === 0) {
       return (
         <div className="container">
-          <h2>No documents found.</h2>
+          <h2>User has no documents...</h2>
         </div>
       );
-    }*/
+    }
+    const { pageCount, currentPage, totalCount } = pagination;
     return (
       <div className="container">
-        <h3> My Documents </h3>
+        <h3> {totalCount} Documents </h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>
@@ -41,10 +55,23 @@ class UserDocuments extends React.Component {
            })}
         </tbody>
       </table>
+      <div className="center-align">
+        <Pagination
+          items={pageCount} activePage={currentPage}
+          maxButtons={pageCount}
+          onSelect={this.onSelect}
+        />
+      </div>
     </div>
     );
   }
 }
+
+UserDocuments.propTypes = {
+  id: React.PropTypes.number,
+  fetchMyDocuments: React.PropTypes.func.isRequired,
+  documents: React.PropTypes.any.isRequired,
+};
 
 /**
  *
@@ -54,8 +81,8 @@ class UserDocuments extends React.Component {
  */
 function mapStateToProps(state) {
   return {
-    documents: state.document.documents,
+    documents: state.document,
   };
 }
 
-export default connect(mapStateToProps, { fetchUserDocuments })(UserDocuments);
+export default connect(mapStateToProps, { fetchMyDocuments })(UserDocuments);
