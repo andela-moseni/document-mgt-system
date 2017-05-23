@@ -128,6 +128,20 @@ export function searchDocuments(search, offset = 0, limit = 10) {
   });
 }
 
+export function searchUserDocuments(id, search, offset = 0, limit = 10) {
+  return dispatch => axios
+  .get(`/api/search/documents?search=${search}&offset=${offset}&limit=${limit}`)
+  .then((res) => {
+    const allDocs = res.data.documents.filter(doc => doc.OwnerId === Number(id));
+    dispatch({
+      type: DISPLAY_ALL_DOCUMENTS,
+      allDocs,
+      pagination: res.data.pagination,
+    });
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, myColor);
+  });
+}
 /**
  *
  *

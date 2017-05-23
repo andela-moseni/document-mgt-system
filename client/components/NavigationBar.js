@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { logout } from '../actions/loginActions';
 import SideNavBar from './SideNavBar';
-import { searchDocuments } from '../actions/documentsActions';
+import { searchDocuments, searchUserDocuments }
+from '../actions/documentsActions';
 import { searchUsers } from '../actions/usersActions';
 import { searchRoles } from '../actions/rolesActions';
 
@@ -26,12 +27,13 @@ class NavigationBar extends React.Component {
     const query = e.target.value;
     if (currentPath === '/documents' || currentPath === '/my-documents') {
       this.props.searchDocuments(query);
-    }
-    if (currentPath === '/users') {
+    } else if (currentPath === '/users') {
       this.props.searchUsers(query);
-    }
-    if (currentPath === '/roles') {
+    } else if (currentPath === '/roles') {
       this.props.searchRoles(query);
+    } else {
+      const id = currentPath.split('/')[2];
+      this.props.searchUserDocuments(id, query);
     }
   }
 
@@ -103,6 +105,7 @@ NavigationBar.propTypes = {
   searchDocuments: PropTypes.func.isRequired,
   searchRoles: PropTypes.func.isRequired,
   searchUsers: PropTypes.func.isRequired,
+  searchUserDocuments: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -111,4 +114,4 @@ const mapStateToProps = state => ({
 
 export default
 connect(mapStateToProps,
-{ logout, searchDocuments, searchUsers, searchRoles })(NavigationBar);
+{ logout, searchDocuments, searchUserDocuments, searchUsers, searchRoles })(NavigationBar);
