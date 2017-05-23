@@ -25,8 +25,11 @@ class NavigationBar extends React.Component {
   onChange(e) {
     const currentPath = location.pathname;
     const query = e.target.value;
-    if (currentPath === '/documents' || currentPath === '/my-documents') {
+    if (currentPath === '/documents') {
       this.props.searchDocuments(query);
+    } else if (currentPath === '/my-documents') {
+      const userId = this.props.auth.user.userId;
+      this.props.searchUserDocuments(userId, query);
     } else if (currentPath === '/users') {
       this.props.searchUsers(query);
     } else if (currentPath === '/roles') {
