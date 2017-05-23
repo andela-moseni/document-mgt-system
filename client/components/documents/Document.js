@@ -27,6 +27,11 @@ class Document extends React.Component {
     }
   }
 
+// modify content to plain text
+  createMarkup() {
+    return { __html: this.props.document.content };
+  }
+
   deleteDocument() {
     this.props.deleteDocument(this.props.document.id);
   }
@@ -65,9 +70,7 @@ class Document extends React.Component {
         <div className="row centered">
             <div className="card">
               <h3 id="heading"> {document.title} </h3>
-              <div className="card-content">
-                <p> {document.content} </p>
-              </div>
+              <div className="card-content" dangerouslySetInnerHTML={this.createMarkup()} />
               <div className="card-action">
                 <a href="/users" className="waves-effect waves-light btn">OwnerId: {document.OwnerId} </a>
                 <a href={`/documents/${document.id}`}> {editBtn}</a>

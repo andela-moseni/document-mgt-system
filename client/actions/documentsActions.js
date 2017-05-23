@@ -102,18 +102,19 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
   });
 }
 
-export function fetchUserDocuments(id, offset = 0, limit = 10) {
-  return dispatch => axios
-  .get(`api/users/${id}/documents?offset=${offset}&limit=${limit}`)
-  .then((res) => {
-    const myDocs = res.data.documents;
-    dispatch({
-      type: DISPLAY_MY_DOCUMENTS,
-      myDocs,
-      pagination: res.data.pagination,
-    });
-  });
-}
+// export function fetchUserDocuments(id, offset = 0, limit = 10) {
+//   return dispatch => axios
+//   .get(`api/users/${id}/documents?offset=${offset}&limit=${limit}`)
+//   .then((res) => {
+//     const myDocs = res;
+//     console.log(myDocs);
+//     dispatch({
+//       type: DISPLAY_MY_DOCUMENTS,
+//       myDocs,
+//       pagination: res.data.pagination,
+//     });
+//   });
+// }
 
 /**
  *

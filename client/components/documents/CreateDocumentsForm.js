@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import TinyMCEInput from 'react-tinymce-input';
+import TinyMCE from 'react-tinymce';
 import { Input } from 'react-materialize';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createDocument, fetchDocument,
@@ -19,6 +19,7 @@ class CreateDocumentsForm extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleEditorChange = this.handleEditorChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,7 +55,6 @@ class CreateDocumentsForm extends React.Component {
 
   render() {
     if (!this.props.document) return null;
-    // const { title, content, type } = this.props.document;
     return (
       <div className="row signupForm">
         <form className="col s12" onSubmit={this.onSubmit}>
@@ -69,9 +69,29 @@ class CreateDocumentsForm extends React.Component {
             />
             <br /><br /><br /><br />
 
-            <TinyMCEInput value={this.state.content}
-            onChange={this.onTinyMCEChange}
-            tinymceConfig={this.props.tinymceConfig} />
+          {(this.props.id && this.state.content) ?
+            <TinyMCE
+              content={this.state.content}
+              config={{
+                plugins: 'link image code',
+                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+              }}
+              onChange={this.handleEditorChange}
+              field="content"
+            /> :
+           ''
+            }
+            {(!this.props.id) ?
+               <TinyMCE
+                content={''}
+                config={{
+                  plugins: 'link image code',
+                  toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+                }}
+                onChange={this.handleEditorChange}
+                field="content"
+              /> : ''
+            }
 
             <TextFieldGroup
               label="Type"
@@ -111,7 +131,6 @@ CreateDocumentsForm.propTypes = {
   document: PropTypes.object,
   updateDocument: PropTypes.func.isRequired,
   id: PropTypes.string,
-  tinymceConfig: PropTypes.any,
 };
 
 export default
