@@ -48,7 +48,7 @@ class NavigationBar extends React.Component {
           <div className="nav-wrapper">
             <Link className="brand-logo" to="/">
               <span>
-                <i className="material-icons button-collapse"
+                <i className="material-icons button-collapse" id="menuBar"
                 data-activates="slide-out">menu</i>
                 Meek
               </span>
@@ -91,7 +91,7 @@ class NavigationBar extends React.Component {
       </Link>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
         <li><Link to="/login">Sign in</Link></li>
-        <li><Link to="/signup">Sign up</Link></li>
+        <li><Link to="/signup" id="signup">Sign up</Link></li>
       </ul>
       </div>
       </nav>

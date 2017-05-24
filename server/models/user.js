@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-
 import bcrypt from 'bcrypt-nodejs';
 
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     name: {
@@ -10,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          message: 'Name field cannot be empty.'
+          message: 'Name field cannot be empty.',
         },
-        is: /^[a-z ]+$/i
-      }
+        is: /^[a-z ]+$/i,
+      },
     },
     email: {
       type: DataTypes.STRING,
@@ -21,28 +19,28 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         isEmail: {
-          message: 'Please input a valid email address.'
-        }
-      }
+          message: 'Please input a valid email address.',
+        },
+      },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
-          message: 'Password field cannot be empty.'
+          message: 'Password field cannot be empty.',
         },
-        len: [4, 10]
-      }
+        len: [4, 20],
+      },
     },
-     roleId: {
+    roleId: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
   }, {
     classMethods: {
       associate: (models) => {
-        // associations can be defined here
+          // associations can be defined here
         User.hasMany(models.Document, {
           foreignKey: 'OwnerId',
           as: 'documents',
@@ -54,26 +52,26 @@ module.exports = (sequelize, DataTypes) => {
         });
       },
     },
-instanceMethods: {
-      /**
-       * Compare plain password to user's hashed password
-       * @method
-       * @param {String} password
-       * @return {Boolean} password match: true or false
-       */
+    instanceMethods: {
+        /**
+         * Compare plain password to user's hashed password
+         * @method
+         * @param {String} password
+         * @return {Boolean} password match: true or false
+         */
       validatePassword(password) {
         return bcrypt.compareSync(password, this.password);
       },
 
-      /**
-       * Hash the password
-       * @method
-       * @return {Void} no return
-       */
+        /**
+         * Hash the password
+         * @method
+         * @return {Void} no return
+         */
       hashPassword() {
         const salt = bcrypt.genSaltSync(8);
         this.password = bcrypt.hashSync(this.password, salt);
-      }
+      },
     },
 
     hooks: {
@@ -85,8 +83,8 @@ instanceMethods: {
         if (user._changed.password) {
           user.hashPassword();
         }
-      }
-    }
+      },
+    },
   });
   return User;
 };

@@ -16,7 +16,8 @@
     "test:server": "NODE_ENV=test babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/.bin/_mocha server/tests/**/*.spec.js",
     "test": "npm-run-all seed:test test:server reset:test",
     "travis": "npm-run-all seed:test test:server",
-    "server": "nodemon --watch server --exec babel-node -- server.js"
+    "server": "nodemon --watch server --exec babel-node -- server.js",
+    "test-e2e": "nightwatch"
   },
   "repository": {
     "type": "git",
@@ -105,6 +106,7 @@
     "eslint-watch": "^2.1.11",
     "events": "^1.1.1",
     "mocha": "^3.2.0",
+    "nightwatch": "^0.9.15",
     "node-mocks-http": "^1.6.1",
     "node-sass": "^3.13.1",
     "nodemon": "^1.11.0",
