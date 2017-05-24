@@ -14,7 +14,6 @@ class userProfile extends React.Component {
       password: '',
       roleId: this.props.user.roleId,
     };
-
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.deleteUser = this.deleteUser.bind(this);

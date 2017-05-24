@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
-import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
-  UPDATE_DOCUMENT_SUCCESS,
-  DELETE_DOCUMENT, DOC_FETCHED, CREATE_DOCUMENT_SUCCESS } from '../actions/types';
+import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS, UPDATE_DOCUMENT_SUCCESS,
+  DELETE_DOCUMENT, DOC_FETCHED, CREATE_DOCUMENT_SUCCESS, NO_DOCUMENTS_FOUND }
+  from '../actions/types';
 
 const myColor = { background: '#ff0000', text: '#FFFFFF' };
 
@@ -101,6 +101,9 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
     });
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, myColor);
+    dispatch({
+      type: NO_DOCUMENTS_FOUND,
+    });
   });
 }
 
