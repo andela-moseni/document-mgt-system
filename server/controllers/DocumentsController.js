@@ -1,18 +1,23 @@
 import db from '../models';
 import ControllerHelper from '../helpers/ControllerHelper';
+
 const Role = db.Role;
 const Document = db.Document;
 const User = db.User;
 
 /**
+ *
  * DocumentsController class to create and manage documents
+ * @class DocumentsController
  */
 class DocumentsController {
   /**
    * Create a new Document
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf DocumentsController
    */
   static createDocument(req, res) {
     Document
@@ -31,9 +36,11 @@ class DocumentsController {
 
   /**
    * List all Documents
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf DocumentsController
    */
   static listDocuments(req, res) {
     Role.findById(req.decoded.roleId)
@@ -85,7 +92,8 @@ class DocumentsController {
           Document
             .findAndCountAll(query)
             .then((documents) => {
-              const filteredDocuments = documents.rows.map(document => Object.assign({}, {
+              const filteredDocuments = documents.rows
+              .map(document => Object.assign({}, {
                 id: document.id,
                 title: document.title,
                 content: document.content,
@@ -107,10 +115,13 @@ class DocumentsController {
   }
 
   /**
+   *
    * Retrieve a specific document based on the id
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf DocumentsController
    */
   static retrieveDocument(req, res) {
     Role.findById(req.decoded.roleId)
@@ -127,14 +138,18 @@ class DocumentsController {
             if ((role.title !== 'admin') && (document.access === 'private') &&
               (document.OwnerId !== req.decoded.userId)) {
               return res.status(403)
-                .send({ message: 'You are not authorized to view this document' });
+                .send({
+                  message: 'You are not authorized to view this document',
+                });
             }
 
             User.findById(document.OwnerId).then((user) => {
               if ((role.title !== 'admin') && (document.access === 'role') &&
                 (user.roleId !== req.decoded.roleId)) {
                 return res.status(403)
-                  .send({ message: 'You are not authorized to view this document' });
+                  .send({
+                    message: 'You are not authorized to view this document',
+                  });
               }
 
               res.status(200).send({
@@ -149,10 +164,13 @@ class DocumentsController {
   }
 
   /**
+   *
    * Update a document based on the id
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @returns {Object} Response object
+   *
+   * @memberOf DocumentsController
    */
   static updateDocument(req, res) {
     Role.findById(req.decoded.roleId)
@@ -165,9 +183,12 @@ class DocumentsController {
                 message: 'Document Does Not Exist',
               });
             }
-            if ((role.title !== 'admin') && (document.OwnerId !== req.decoded.userId)) {
+            if ((role.title !== 'admin') &&
+            (document.OwnerId !== req.decoded.userId)) {
               return res.status(403)
-                .send({ message: 'You are not authorized to update this document' });
+                .send({
+                  message: 'You are not authorized to update this document',
+                });
             }
             if (req.body.OwnerId && !(role.title === 'admin')) {
               return res.status(403).send({
@@ -188,10 +209,13 @@ class DocumentsController {
   }
 
   /**
+   *
    * Delete a particular Document
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf DocumentsController
    */
   static deleteDocument(req, res) {
     Role
@@ -205,7 +229,8 @@ class DocumentsController {
                 message: 'Document Does Not Exist',
               });
             }
-            if ((role.title !== 'admin') && (document.OwnerId !== req.decoded.userId)) {
+            if ((role.title !== 'admin') &&
+            (document.OwnerId !== req.decoded.userId)) {
               return res.status(403).send({
                 message: 'You are not authorized to delete this document',
               });
@@ -223,11 +248,19 @@ class DocumentsController {
   }
 
   /**
+
+
+   * @return {Object} - Returns response object
+   */
+
+  /**
    * Gets all public documents relevant to search term
    * and documents with role access for priviledged users
+   * @static
    * @param {Object} req Request object
    * @param {Object} res Response object
-   * @return {Object} - Returns response object
+   *
+   * @memberOf DocumentsController
    */
   static searchDocuments(req, res) {
     Role.findById(req.decoded.roleId)
@@ -305,7 +338,8 @@ class DocumentsController {
         Document
           .findAndCountAll(query)
           .then((documents) => {
-            const filteredDocuments = documents.rows.map(document => Object.assign({}, {
+            const filteredDocuments = documents.rows
+            .map(document => Object.assign({}, {
               id: document.id,
               title: document.title,
               content: document.content,

@@ -49,6 +49,12 @@ export function fetchRoles(offset = 0, limit = 10) {
   });
 }
 
+/**
+ *
+ * @export
+ * @param {any} role
+ * @returns {Object}
+ */
 export function updateRole(role) {
   return dispatch => axios.put(`api/roles/${role.id}`, role).then((res) => {
     const updatedRole = res.data.updatedRole;
@@ -72,7 +78,8 @@ export function updateRole(role) {
  * @returns {Object}
  */
 export function searchRoles(search, offset = 0, limit = 10) {
-  return dispatch => axios.get(`api/search/roles?search=${search}&offset=${offset}&limit=${limit}`)
+  return dispatch => axios
+  .get(`api/search/roles?search=${search}&offset=${offset}&limit=${limit}`)
   .then((res) => {
     const allRoles = res.data.roles;
     dispatch({
@@ -86,6 +93,12 @@ export function searchRoles(search, offset = 0, limit = 10) {
   });
 }
 
+/**
+ *
+ * @export
+ * @param {number} roleId
+ * @returns {Object}
+ */
 export function deleteRole(roleId) {
   return dispatch => axios.delete(`api/roles/${roleId}`).then(() => {
     dispatch({

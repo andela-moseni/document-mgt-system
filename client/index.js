@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import thunk from 'redux-thunk';
 import { Router, browserHistory } from 'react-router';
+import { createStore, applyMiddleware, compose } from 'redux';
 import scss from './App.scss';
 import routes from './routes';
-import { createStore, applyMiddleware, compose } from 'redux';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import rootReducer from './rootReducer';
 import { setCurrentUser } from './actions/loginActions';
@@ -16,7 +16,7 @@ const store = createStore(
   compose(
     (state = {}) => state,
     applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+    window.devToolsExtension ? window.devToolsExtension() : f => f,
   ),
 );
 
@@ -29,3 +29,5 @@ render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />
   </Provider>, document.getElementById('app'));
+
+export default store;

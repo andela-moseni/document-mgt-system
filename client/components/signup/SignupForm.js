@@ -1,9 +1,7 @@
 import React from 'react';
-// import axios from 'axios';
+import { notify } from 'react-notify-toast';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { browserHistory } from 'react-router';
-import {notify} from 'react-notify-toast';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -12,11 +10,10 @@ class SignupForm extends React.Component {
       name: '',
       email: '',
       password: '',
-      passwordConfirmation: ''
-    }
+      passwordConfirmation: '',
+    };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-
   }
 
   onChange(e) {
@@ -24,16 +21,16 @@ class SignupForm extends React.Component {
   }
 
   onSubmit(e) {
-    let myColor = { background: '#ff0000', text: "#FFFFFF"};
+    const myColor = { background: '#ff0000', text: '#FFFFFF' };
     e.preventDefault();
     if (this.state.password.length < 4) {
-      return notify.show("password must be minimum of four characters only",
-      "custom", 3000, myColor);
+      return notify.show('password must be minimum of four characters only',
+        'custom', 3000, myColor);
     }
     if (this.state.password === this.state.passwordConfirmation) {
       return this.props.userSignupRequest(this.state);
     }
-   return notify.show("Passwords do not match", "custom", 3000, myColor);
+    return notify.show('Passwords do not match', 'custom', 3000, myColor);
   }
 
   render() {
@@ -42,7 +39,7 @@ class SignupForm extends React.Component {
         <form className="col s12" onSubmit={this.onSubmit}>
           <h3>Signup Form</h3>
           <div className="row">
-            <TextFieldGroup 
+            <TextFieldGroup
               label="Full Name"
               onChange={this.onChange}
               value={this.state.name}
@@ -50,8 +47,8 @@ class SignupForm extends React.Component {
               field="name"
               placeholder="alphabets only"
             />
-              
-            <TextFieldGroup 
+
+            <TextFieldGroup
               label="Email"
               onChange={this.onChange}
               value={this.state.email}
@@ -59,8 +56,8 @@ class SignupForm extends React.Component {
               field="email"
               type="email"
             />
-            
-            <TextFieldGroup 
+
+            <TextFieldGroup
               label="Password"
               onChange={this.onChange}
               value={this.state.password}
@@ -70,7 +67,7 @@ class SignupForm extends React.Component {
               placeholder="password must be minimum of four characters"
             />
 
-            <TextFieldGroup 
+            <TextFieldGroup
               label="Confirm Password"
               onChange={this.onChange}
               value={this.state.passwordConfirmation}
@@ -80,7 +77,8 @@ class SignupForm extends React.Component {
               placeholder="passwords must match"
             />
 
-            <button className="btn waves-effect waves-light submitBtn" type="submit" name="action">Submit
+            <button className="btn waves-effect waves-light submitBtn"
+            type="submit" name="action">Submit
               <i className="material-icons right">send</i>
             </button>
           </div>
@@ -91,7 +89,7 @@ class SignupForm extends React.Component {
 }
 
 SignupForm.propTypes = {
-  userSignupRequest: PropTypes.func.isRequired
-}
+  userSignupRequest: PropTypes.func.isRequired,
+};
 
 export default SignupForm;

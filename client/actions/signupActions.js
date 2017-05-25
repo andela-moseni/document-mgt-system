@@ -5,7 +5,13 @@ import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { setCurrentUser } from './loginActions';
 
-export function userSignupRequest(userData) {
+/**
+ *
+ * @export
+ * @param {any} userData
+ * @returns {Object} user
+ */
+export default function userSignupRequest(userData) {
   const myColor = { background: '#ff0000', text: '#FFFFFF' };
   return dispatch => axios.post('/api/users', userData).then((res) => {
     const token = res.data.token;

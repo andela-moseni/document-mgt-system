@@ -3,10 +3,10 @@ import LoginForm from './LoginForm';
 
 class LoginPage extends React.Component {
   render() {
-    return(
+    return (
       <div className="row signupPage">
         <div className="col-md-4 col-md-offset-4">
-          <LoginForm  />
+          <LoginForm />
         </div>
       </div>
     );

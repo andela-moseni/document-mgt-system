@@ -5,3 +5,5 @@ coverage
 dist
 server/seeders/
 reports
+selenium-debug.log
+npm-debug.log

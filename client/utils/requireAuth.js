@@ -7,6 +7,12 @@ import * as loginActions from '../actions/loginActions';
 
 const secret = 'YourJWTSecretKey';
 
+/**
+ *
+ * @export
+ * @param {any} ComposedComponent
+ * @returns {Object}
+ */
 export default function (ComposedComponent) {
   class Authenticate extends React.Component {
     componentWillMount() {
@@ -43,9 +49,8 @@ export default function (ComposedComponent) {
 
   /**
    *
-   *
    * @param {any} dispatch
-   * @returns
+   * @returns {Object}
    */
   function mapDispatchToProps(dispatch) {
     return {
@@ -55,9 +60,8 @@ export default function (ComposedComponent) {
 
   /**
    *
-   *
    * @param {any} state
-   * @returns
+   * @returns {Object}
    */
   function mapStateToProps(state) {
     return {

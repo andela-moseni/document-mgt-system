@@ -25,7 +25,7 @@ class RolesPage extends React.Component {
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ title: e.target.value });
   }
 
   onSubmit(e) {
@@ -47,7 +47,8 @@ class RolesPage extends React.Component {
     const { pageCount, currentPage, totalCount } = pagination;
     const createBtn = (
        <button
-          className="btn-floating btn-large waves-effect waves-light newBtn">
+          className="btn-floating btn-large waves-effect waves-light newBtn"
+          id="rolesBtn">
           <i className="material-icons">add</i>
         </button>
     );
@@ -80,9 +81,10 @@ class RolesPage extends React.Component {
       </div>
       <div className="right">
         <Modal header="Create Role" trigger={createBtn}>
-              <form className="col s12" onSubmit={this.onSubmit}>
+              <form className="col s12 rolesForm" onSubmit={this.onSubmit}>
                 <div className="row">
                   <TextFieldGroup
+                    id="titleUnique"
                     label="Title"
                     onChange={this.onChange}
                     value={this.state.title}
@@ -92,6 +94,7 @@ class RolesPage extends React.Component {
                   />
 
                   <button className="btn waves-effect waves-light submitBtn"
+                  id="crRole"
                     type="submit" name="action">Create
                     <i className="material-icons right">send</i>
                   </button>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal } from 'react-materialize';
+import { Modal } from 'react-materialize';
 import * as usersActions from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import Prompt from '../../Prompt';
@@ -26,12 +26,11 @@ class userProfile extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
-      const { user: { id, name, email, roleId } } = nextProps;
+      const { user: { id, name, email } } = nextProps;
       this.setState({
         id,
         name,
         email,
-        roleId,
       });
     }
   }

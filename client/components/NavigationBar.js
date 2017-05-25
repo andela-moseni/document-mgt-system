@@ -56,8 +56,7 @@ class NavigationBar extends React.Component {
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li>
                 <Modal header="About Meek-DMS" fixedFooter trigger={
-                <Link to="/" >About</Link>}>
-                </Modal>
+                <Link to="/" >About</Link>} />
               </li>
               <li><Link to="/" onClick={this.logout}>Logout</Link></li>
               <li><Link id="searchIcon">
@@ -90,7 +89,7 @@ class NavigationBar extends React.Component {
           Meek
       </Link>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
-        <li><Link to="/login">Sign in</Link></li>
+        <li><Link to="/login" id="signin">Sign in</Link></li>
         <li><Link to="/signup" id="signup">Sign up</Link></li>
       </ul>
       </div>
@@ -117,4 +116,8 @@ const mapStateToProps = state => ({
 
 export default
 connect(mapStateToProps,
-{ logout, searchDocuments, searchUserDocuments, searchUsers, searchRoles })(NavigationBar);
+  { logout,
+    searchDocuments,
+    searchUserDocuments,
+    searchUsers,
+    searchRoles })(NavigationBar);

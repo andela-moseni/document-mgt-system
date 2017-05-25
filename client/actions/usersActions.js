@@ -9,6 +9,12 @@ import { logout } from './loginActions';
 
 const myColor = { background: '#ff0000', text: '#FFFFFF' };
 
+/**
+ *
+ * @export
+ * @param {any} user
+ * @returns {Object}
+ */
 export function createUser(user) {
   return dispatch => axios.post('api/users', user).then((res) => {
     const newUser = res.data.user;
@@ -82,6 +88,12 @@ export function updateUser(user) {
   });
 }
 
+/**
+ *
+ * @export
+ * @param {any} user
+ * @returns {Object}
+ */
 export function updateUsers(user) {
   const newUser = omit(user, ['id']);
   return dispatch => axios.put(`/api/users/${user.id}`, newUser).then((res) => {
@@ -123,9 +135,9 @@ export function searchUsers(search, offset = 0, limit = 10) {
 
 /**
  *
- *
  * @export
- * @param {any} userId
+ * @param {number} userId
+ * @param {boolean} isAdmin
  * @returns {Object}
  */
 export function deleteUser(userId, isAdmin) {

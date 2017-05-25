@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Pagination } from 'react-materialize';
 import { fetchDocuments } from '../../actions/documentsActions';
@@ -66,8 +67,8 @@ class DocumentsPage extends React.Component {
 }
 
 DocumentsPage.propTypes = {
-  fetchDocuments: React.PropTypes.func.isRequired,
-  documents: React.PropTypes.any.isRequired,
+  fetchDocuments: PropTypes.func.isRequired,
+  documents: PropTypes.any,
 };
 
 /**

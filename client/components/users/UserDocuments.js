@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { fetchMyDocuments } from '../../actions/documentsActions';
 import DocumentListRow from '../documents/DocumentListRow';
@@ -68,16 +69,17 @@ class UserDocuments extends React.Component {
 }
 
 UserDocuments.propTypes = {
-  id: React.PropTypes.number,
-  fetchMyDocuments: React.PropTypes.func.isRequired,
-  documents: React.PropTypes.any.isRequired,
+  id: PropTypes.number,
+  fetchMyDocuments: PropTypes.func.isRequired,
+  documents: PropTypes.any.isRequired,
+  params: PropTypes.object,
 };
 
 /**
  *
  *
  * @param {any} state
- * @returns
+ * @returns {Object}
  */
 function mapStateToProps(state) {
   return {

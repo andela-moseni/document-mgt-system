@@ -25,6 +25,7 @@ class SideNavBar extends React.Component {
               <i className="material-icons">people</i>My Profile
             </Link>
           </li>
+          <li><div className="divider" /></li>
           <li>
             <Link className="subheader">Documents</Link>
           </li>
@@ -51,10 +52,11 @@ class SideNavBar extends React.Component {
           </li>
           <li><div className="divider" /></li>
           <li>
-            <Link to="/roles" className="waves-effect">
+            <Link to="/roles" className="waves-effect" id="roles">
               <i className="material-icons">domain</i>Roles
             </Link>
           </li>
+          <li><div className="divider" /></li>
         </ul>
       </div>
     );
@@ -65,6 +67,7 @@ class SideNavBar extends React.Component {
 SideNavBar.propTypes = {
   userName: React.PropTypes.string,
   email: React.PropTypes.string,
+  user: React.PropTypes.object,
 };
 
 /**

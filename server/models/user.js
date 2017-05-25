@@ -66,7 +66,6 @@ module.exports = (sequelize, DataTypes) => {
         /**
          * Hash the password
          * @method
-         * @return {Void} no return
          */
       hashPassword() {
         const salt = bcrypt.genSaltSync(8);

@@ -1,16 +1,21 @@
 import db from '../models';
 import ControllerHelper from '../helpers/ControllerHelper';
+
 const Role = db.Role;
 
 /**
  * RolesController class to create and manage roles
+ * @class RolesController
  */
 class RolesController {
   /**
    * Create a new Role
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf RolesController
    */
   static createRole(req, res) {
     Role.findOne({ where: { title: req.body.title } })
@@ -32,9 +37,12 @@ class RolesController {
 
   /**
    * List all Roles
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf RolesController
    */
   static listRoles(req, res) {
     const query = {};
@@ -54,9 +62,11 @@ class RolesController {
 
   /**
    * Retrive a Role based on id with all users on that role
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf RolesController
    */
   static retrieveRole(req, res) {
     Role
@@ -76,9 +86,11 @@ class RolesController {
 
   /**
    * Update a Role based on id
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf RolesController
    */
   static updateRole(req, res) {
     Role.findOne({ where: { title: req.body.title } })
@@ -116,9 +128,11 @@ class RolesController {
 
   /**
    * Delete a Role based on id
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf RolesController
    */
   static deleteRole(req, res) {
     Role
@@ -148,9 +162,10 @@ class RolesController {
   /**
    * Get all roles relevant to search term
    * @static
-   * @param {any} req
-   * @param {any} res
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
    *
+   * @returns {string}
    * @memberOf RolesController
    */
   static searchRoles(req, res) {

@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import jwt from 'jsonwebtoken';
-import { Button } from 'react-materialize';
 import { deleteDocument, fetchDocument,
   docFetched } from '../../actions/documentsActions';
 import Prompt from '../../Prompt';
@@ -70,9 +68,11 @@ class Document extends React.Component {
         <div className="row centered">
             <div className="card">
               <h3 id="heading"> {document.title} </h3>
-              <div className="card-content" dangerouslySetInnerHTML={this.createMarkup()} />
+              <div className="card-content"
+              dangerouslySetInnerHTML={this.createMarkup()} />
               <div className="card-action">
-                <a href="/users" className="waves-effect waves-light btn">OwnerId: {document.OwnerId} </a>
+                <a href="/users" className="waves-effect waves-light btn">
+                OwnerId: {document.OwnerId} </a>
                 <a href={`/documents/${document.id}`}> {editBtn}</a>
                 <Prompt
                   trigger={deleteBtn}

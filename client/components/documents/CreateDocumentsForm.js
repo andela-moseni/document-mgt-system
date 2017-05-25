@@ -74,7 +74,8 @@ class CreateDocumentsForm extends React.Component {
               content={this.state.content}
               config={{
                 plugins: 'link image code',
-                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+                toolbar: `undo redo | bold italic |
+                alignleft aligncenter alignright | code`,
               }}
               onChange={this.handleEditorChange}
               field="content"
@@ -86,7 +87,8 @@ class CreateDocumentsForm extends React.Component {
                 content={''}
                 config={{
                   plugins: 'link image code',
-                  toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+                  toolbar: `undo redo |
+                  bold italic | alignleft aligncenter alignright | code`,
                 }}
                 onChange={this.handleEditorChange}
                 field="content"

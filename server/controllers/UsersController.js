@@ -9,12 +9,18 @@ const secret = process.env.SECRET || 'mySecret';
 
 /**
  * UsersController class to create and manage users
+ *
+ * @class UsersController
  */
 class UsersController {
   /**
    * Login a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
+   *
+   * @memberOf UsersController
    */
   static login(req, res) {
     const query = {
@@ -28,7 +34,12 @@ class UsersController {
         }
         if (user && user.validatePassword(req.body.password)) {
           const token = jwt
-          .sign({ userId: user.id, roleId: user.roleId, user: user.name, email: user.email },
+          .sign({
+            userId: user.id,
+            roleId: user.roleId,
+            user: user.name,
+            email: user.email,
+          },
           secret, { expiresIn: '12 hours' });
           return res.status(200).send({
             token,
@@ -43,18 +54,27 @@ class UsersController {
 
   /**
    * Logout a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
+   *
+   * @memberOf UsersController
    */
   static logout(req, res) {
     res.status(200)
       .send({ message: 'Successfully logged out!' });
   }
 
+
   /**
    * Create a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
+   *
+   * @memberOf UsersController
    */
   static createUser(req, res) {
     User.findOne({ where: { email: req.body.email } })
@@ -95,8 +115,12 @@ class UsersController {
 
   /**
    * List all users
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
+   *
+   * @memberOf UsersController
    */
   static listUsers(req, res) {
     const query = {};
@@ -116,40 +140,40 @@ class UsersController {
       });
   }
 
-   /**
+  /**
    * Retrive a user's details
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
+   *
+   * @memberOf UsersController
    */
   static retrieveUser(req, res) {
-    Role
-    .findById(req.decoded.roleId)
-    .then((role) => {
-      User
-        .findById(req.params.id)
-        .then((user) => {
-          if (!user) {
-            return res.status(404).send({
-              message: 'User Does Not Exist',
-            });
-          }
-          // if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
-          //   return res.status(403)
-          //   .send({ message: 'You are not authorized to access this user' });
-          // }
-          req.decoded.user = user;
-          res.status(200).send(req.decoded.user);
-        })
-        .catch(() => res.status(400).send({
-          message: 'An error occured. Invalid parameters, try again!',
-        }));
-    });
+    User
+      .findById(req.params.id)
+      .then((user) => {
+        if (!user) {
+          return res.status(404).send({
+            message: 'User Does Not Exist',
+          });
+        }
+        req.decoded.user = user;
+        res.status(200).send(req.decoded.user);
+      })
+      .catch(() => res.status(400).send({
+        message: 'An error occured. Invalid parameters, try again!',
+      }));
   }
 
   /**
    * Update a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
+   *
+   * @memberOf UsersController
    */
   static updateUser(req, res) {
     Role.findById(req.decoded.roleId)
@@ -184,7 +208,7 @@ class UsersController {
             }
             user
               .update(req.body, { fields: Object.keys(req.body) })
-              .then(user => res.status(200).send({
+              .then(() => res.status(200).send({
                 message: 'Update Successful!',
                 user: {
                   id: user.id,
@@ -204,8 +228,12 @@ class UsersController {
 
   /**
    * Delete a particular Document
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
+   *
+   * @memberOf UsersController
    */
   static deleteUser(req, res) {
     Role
@@ -244,8 +272,12 @@ class UsersController {
 
   /**
    * Retrieve all documents belonging to a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
+   *
+   * @memberOf UsersController
    */
   static retrieveUserDocuments(req, res) {
     Role
@@ -322,9 +354,13 @@ class UsersController {
 
   /**
    * Gets all users relevant to search query
-   * @param {Object} req Request object
-   * @param {Object} res Response object
-   * @return {Object} - Returns response object
+   *
+   * @static
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {string} - Returns response object
+   *
+   * @memberOf UsersController
    */
   static searchUsers(req, res) {
     const search = req.query.search;

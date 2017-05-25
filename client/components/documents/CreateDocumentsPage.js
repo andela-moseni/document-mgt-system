@@ -42,6 +42,11 @@ CreateDocumentsPage.propTypes = {
   document: PropTypes.object,
   actions: PropTypes.object.isRequired,
   documentId: PropTypes.number,
+  props: PropTypes.object,
+  params: PropTypes.object,
+  fetchDocument: PropTypes.func.isRequired,
+  documents: PropTypes.array.isRequired,
+  docFetched: PropTypes.func.isRequired,
 };
 
 CreateDocumentsPage.contextTypes = {

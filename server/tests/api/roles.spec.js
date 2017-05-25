@@ -140,7 +140,7 @@ describe('Role API:', () => {
       // it should not edit default roles
       it('should not edit default admin role', (done) => {
         const fieldsToUpdate = { title: 'superAdmin' };
-        request.put(`/api/roles/1`)
+        request.put('/api/roles/1')
           .set({ Authorization: adminUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
@@ -153,7 +153,7 @@ describe('Role API:', () => {
 
       it('should not edit default regular role', (done) => {
         const fieldsToUpdate = { title: 'casual' };
-        request.put(`/api/roles/2`)
+        request.put('/api/roles/2')
           .set({ Authorization: adminUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
@@ -195,7 +195,7 @@ describe('Role API:', () => {
       it('should not delete role if id is invalid', (done) => {
         request.delete('/api/roles/8728')
           .set({
-            Authorization: adminUserToken
+            Authorization: adminUserToken,
           })
           .end((error, response) => {
             expect(response.status).to.equal(404);
@@ -207,7 +207,7 @@ describe('Role API:', () => {
       it('should not delete role if id is non-integer', (done) => {
         request.delete('/api/roles/5r')
           .set({
-            Authorization: adminUserToken
+            Authorization: adminUserToken,
           })
           .end((error, response) => {
             expect(response.status).to.equal(400);
@@ -218,7 +218,7 @@ describe('Role API:', () => {
       });
 
       it('should not delete default admin role', (done) => {
-        request.delete(`/api/roles/1`)
+        request.delete('/api/roles/1')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
@@ -229,7 +229,7 @@ describe('Role API:', () => {
       });
 
       it('should not delete default regular role', (done) => {
-        request.delete(`/api/roles/2`)
+        request.delete('/api/roles/2')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);

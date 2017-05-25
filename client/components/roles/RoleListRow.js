@@ -24,16 +24,6 @@ class RoleListRow extends React.Component {
     e.preventDefault();
     this.props.updateRole(this.state);
   }
-  // onSubmit(e) {
-  //   e.preventDefault();
-  //   if (this.props.id) {
-  //     this.props.updateRole(this.state);
-  //   } else {
-  //     this.props.createRole(this.state);
-  //   }
-  //   this.setState({ title: ' ' });
-  // }
-
 
   deleteRole() {
     const roleId = this.props.role.id;
@@ -65,10 +55,12 @@ class RoleListRow extends React.Component {
       <td> {newDate.toDateString()} </td>
       <td>
         <div className="center">
-            <Modal header="Update Role" trigger={editBtn}>
+            <Modal header="Update Role"
+            trigger={editBtn} id={`modal_${role.id}`}>
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
                   <TextFieldGroup
+                    id="editRole"
                     label="Title"
                     onChange={this.onChange}
                     value={this.state.title}
