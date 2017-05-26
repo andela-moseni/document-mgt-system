@@ -7,6 +7,7 @@ import SignupPage from './components/signup/SignupPage';
 import LoginPage from './components/login/LoginPage';
 import CreateDocumentsPage from './components/documents/CreateDocumentsPage';
 import requireAuth from './utils/requireAuth';
+import alreadyAuthenticated from './utils/alreadyAuthenticated';
 import DocumentsPage from './components/documents/DocumentsPage';
 import Document from './components/documents/Document';
 import MyDocumentsPage from './components/documents/MyDocumentsPage';
@@ -20,8 +21,8 @@ export default (
   <Router history={browserHistory} >
     <Route path="/" component={App} >
     <IndexRoute component={Greetings} />
-    <Route path="signup" component={SignupPage} />
-    <Route path="login" component={LoginPage} />
+    <Route path="signup" component={alreadyAuthenticated(SignupPage)} />
+    <Route path="login" component={alreadyAuthenticated(LoginPage)} />
     <Route path="create-document" component=
     {requireAuth(CreateDocumentsPage)} />
     <Route path="documents" component={requireAuth(DocumentsPage)} />
