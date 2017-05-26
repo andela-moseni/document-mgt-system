@@ -216,8 +216,6 @@ class UsersController {
                   email: user.email,
                   roleId: user.roleId,
                 },
-              })).catch(() => res.status(400).send({
-                message: 'An error occured. Invalid parameters, try again!',
               }));
           })
         .catch(() => res.status(400).send({

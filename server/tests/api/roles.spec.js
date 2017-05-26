@@ -250,5 +250,42 @@ describe('Role API:', () => {
           });
       });
     });
+      // GET requests - Search role(s): Gets all roles relevant to search query
+    describe('GET: (/api/search/roles?search) - ', () => {
+      const search = 'admin';
+      const term = 'xyz';
+      it('should not return role(s) if search term is empty', (done) => {
+        request.get('/api/search/roles?search=')
+            .set({ Authorization: adminUserToken })
+            .end((error, response) => {
+              expect(response.status).to.equal(400);
+              expect(response.body.message).to
+              .equal('Invalid Search Parameter!');
+              done();
+            });
+      });
+
+      it('should not return role(s) if search term doesn\'t match', (done) => {
+        request.get(`/api/search/roles?search=${term}`)
+            .set({ Authorization: adminUserToken })
+            .end((error, response) => {
+              expect(response.status).to.equal(404);
+              expect(response.body.message).to
+              .equal('Search Does Not Match Any Role!');
+              done();
+            });
+      });
+
+      it('should return matching roles if search term match',
+        (done) => {
+          request.get(`/api/search/roles?search=${search}`)
+            .set({ Authorization: adminUserToken })
+            .end((error, response) => {
+              expect(response.status).to.equal(200);
+              expect(Array.isArray(response.body.roles)).to.be.true;
+              done();
+            });
+        });
+    });
   });
 });
