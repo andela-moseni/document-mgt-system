@@ -27,9 +27,10 @@ class MyDocumentsPage extends React.Component {
     let serial = 0;
     if (documents.length === 0) {
       return (
-        <div className="container">
-          <h2>No documents found.</h2>
-            <h4>Kindly <Link to="/create-document"> create documents </Link>
+        <div className="container">< br/>
+          <h2 className="white-text">No documents found.</h2>
+            <h4 className="white-text">Kindly
+              <Link to="/create-document"> create documents </Link>
               to explore Meek DMS
             </h4>
         </div>
@@ -38,7 +39,9 @@ class MyDocumentsPage extends React.Component {
     const { pageCount, currentPage, totalCount } = pagination;
     return (
       <div className="container">
-        <h3> My Documents - {totalCount} documents</h3>
+        <h3 className="white-text center-align">
+          My Documents - {totalCount} documents
+        </h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>

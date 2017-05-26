@@ -1,9 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import jwt from 'jsonwebtoken';
 
 class SideNavBar extends React.Component {
   render() {
+    // conditional rendering for admin to access roles link
+    const curUser = jwt.decode(localStorage.jwtToken);
+    let rolesLink = null;
+    if (curUser) {
+      const curUserRole = curUser.roleId;
+      if (curUserRole === 1) {
+        rolesLink = (
+          <li>
+            <Link to="/roles" className="waves-effect" id="roles">
+              <i className="material-icons">domain</i>Roles
+            </Link>
+          </li>
+        );
+      }
+    }
     return (
       <div>
         <ul id="slide-out" className="side-nav">
@@ -51,11 +67,7 @@ class SideNavBar extends React.Component {
             </Link>
           </li>
           <li><div className="divider" /></li>
-          <li>
-            <Link to="/roles" className="waves-effect" id="roles">
-              <i className="material-icons">domain</i>Roles
-            </Link>
-          </li>
+          {rolesLink}
           <li><div className="divider" /></li>
         </ul>
       </div>

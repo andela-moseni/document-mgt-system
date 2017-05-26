@@ -55,7 +55,7 @@ class RolesPage extends React.Component {
 
     return (
         <div className="container">
-        <h3> {totalCount} roles </h3>
+        <h3 className="white-text center-align"> {totalCount} roles </h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>

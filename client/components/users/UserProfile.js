@@ -12,7 +12,6 @@ class userProfile extends React.Component {
       name: this.props.user.name,
       email: this.props.user.email,
       password: '',
-      roleId: this.props.user.roleId,
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -53,7 +52,7 @@ class userProfile extends React.Component {
     return (
       <div className="container">
         <div className="wrap">
-          <h3> My Profile </h3>
+          <h3 className="white-text center-align"> My Profile </h3>
           <table className="striped responsive-table highlight signupForm">
             <tbody>
               <tr>

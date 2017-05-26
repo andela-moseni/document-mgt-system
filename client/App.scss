@@ -1,10 +1,12 @@
 $primary-white: rgba(255, 255, 235, 0.7);
 
 body {
-  background: url('images/docs1.jpg');
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-position: cover;
+  background: url('images/image.jpg');
+  background-position: center center;
+  background-repeat:  no-repeat;
+  background-attachment: fixed;
+  background-size:  cover;
+  background-color: #999;
 }
 
 h2 {
@@ -24,13 +26,16 @@ nav .brand-logo {
 }
 
 .signupForm {
-  background: white;
-  margin: 0 auto;
+  background: whitesmoke;
+  // margin: 0 auto;
   width: 50%;
-  opacity: 0.7;
+  opacity: 0.8;
   margin-top: 3rem;
 }
 
+.color-text {
+  color: whitesmoke;
+}
 .signupPage {
   padding-top: 80px;
 }

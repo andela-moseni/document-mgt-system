@@ -55,8 +55,16 @@ class NavigationBar extends React.Component {
             </Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li>
-                <Modal header="About Meek-DMS" fixedFooter trigger={
-                <Link to="/" >About</Link>} />
+                <Modal header="About Meek-DMS" trigger={
+                <Link to="/" >About</Link>}>
+                  <div className="modal-content">
+                    <p className="text-justify">
+                      Meek <strong>document management system </strong>allows
+                       users to create and manage documents giving different
+                       privileges based on user roles and managing authentication using JWT.
+                    </p>
+                  </div>
+                </Modal>
               </li>
               <li><Link to="/" onClick={this.logout}>Logout</Link></li>
               <li><Link id="searchIcon">

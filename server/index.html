@@ -18,5 +18,17 @@
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
     <script src="/public/bundle.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#searchBar').hide();
+        $('#searchIcon').click(() => {
+          $('#searchBar').show();
+          $('#search').focus();
+        });
+        $('#search').focusout(() => {
+          $('#searchBar').hide();
+        });
+      });
+    </script>
   </body>
 </html>

@@ -14,7 +14,7 @@ export default {
       .setValue('Input[name=password]', 'admin')
       .click('button')
       .pause(1000)
-      .assert.containsText('h4#fiddle-text',
+      .assert.containsText('h3#fiddle-text',
       'Welcome to Meek - Document Management System')
       .pause(2000)
       .click('#menuBar')
@@ -57,7 +57,7 @@ export default {
       .pause(2000)
       // .waitForElementVisible('.rolesForm', 9000)
       // .click('.rolesForm')
-      .waitForElementVisible('#editRole', 70000)
+      .waitForElementVisible('#editRole', 5000)
       .setValue('Input#editRole', 'editors')
       .pause(5000)
       .click('#crRole')

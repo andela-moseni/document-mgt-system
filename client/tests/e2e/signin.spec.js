@@ -11,7 +11,7 @@ export default {
       .setValue('Input[name=password]', 'love')
       .click('button')
       .pause(2000)
-      .assert.containsText('h4#fiddle-text',
+      .assert.containsText('h3#fiddle-text',
       'Welcome to Meek - Document Management System')
       .click('#menuBar')
       .pause(2000)

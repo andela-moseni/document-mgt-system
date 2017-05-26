@@ -57,7 +57,7 @@ class usersPage extends React.Component {
     if (users.length === 0) {
       return (
         <div className="container">
-          <h2>No users found.</h2>
+          <h2 className="white-text center-align">No users found.</h2>
         </div>
       );
     }
@@ -79,7 +79,7 @@ class usersPage extends React.Component {
 
     return (
       <div className="container">
-        <h3> {totalCount} Users </h3>
+        <h3 className="white-text center-align"> {totalCount} Users </h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>

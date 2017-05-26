@@ -31,8 +31,11 @@ class Greetings extends React.Component {
 
   render() {
     return (
-      <div className="container homePage">
-        <h4 id="fiddle-text">Welcome to Meek - Document Management System</h4>
+      <div className="container homePage"><br /><br /><br /><br /><br /><br />
+      <br /><br /><br />
+        <h3 id="fiddle-text" className="color-text center-align">
+          Welcome to Meek - Document Management System
+        </h3>
       </div>
     );
   }

@@ -29,14 +29,14 @@ class UserDocuments extends React.Component {
     if (documents.length === 0) {
       return (
         <div className="container">
-          <h2>User has no documents...</h2>
+          <h2 className="white-text">User has no documents...</h2>
         </div>
       );
     }
     const { pageCount, currentPage, totalCount } = pagination;
     return (
       <div className="container">
-        <h3> {totalCount} Documents </h3>
+        <h3 className="white-text center-align"> {totalCount} Documents </h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>
