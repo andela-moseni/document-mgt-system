@@ -1,7 +1,7 @@
 {
-  "src_folders" : ["client/tests/e2e"],
+  "src_folders" : ["client/test/e2e"],
   "output_folder" : "reports",
-  "globals_path": "client/tests/e2e/globals",
+  "globals_path": "client/test/e2e/globals",
 
   "selenium" : {
     "start_process" : true,

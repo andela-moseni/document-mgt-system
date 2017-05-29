@@ -11,7 +11,7 @@ describe('SignUpForm', () => {
     props = {
       userSignupRequest: () => {},
     };
-    wrapper = shallow(<SignUpForm {...props} />);
+    wrapper = shallow(<SignUpForm />);
     wrapper.setState({ name: '',
       email: 'mercy@test.com',
       password: '',

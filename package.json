@@ -16,7 +16,7 @@
     "travis": "npm-run-all seed:test test:server",
     "server": "nodemon --watch server --exec babel-node -- server.js",
     "test-e2e": "nightwatch",
-    "client:test": "_mocha --reporter spec client/tests/testSetup.js client/tests/**/*.spec.js",
+    "client:test": "_mocha --reporter spec client/test/testSetup.js client/test/**/*.spec.js",
     "client:test:watch": "npm run client:test -- --watch"
   },
   "repository": {
@@ -110,6 +110,7 @@
     "jsdom": "8.5.0",
     "mocha": "^3.2.0",
     "nightwatch": "^0.9.15",
+    "nock": "^9.0.13",
     "node-mocks-http": "^1.6.1",
     "node-sass": "^3.13.1",
     "nodemon": "^1.11.0",
@@ -117,6 +118,7 @@
     "react-addons-test-utils": "^15.0.2",
     "react-dom": "^15.5.4",
     "react-test-renderer": "^15.5.4",
+    "redux-mock-store": "^1.2.3",
     "sass-loader": "^4.1.1",
     "sinon": "^1.17.7",
     "supertest": "^3.0.0",

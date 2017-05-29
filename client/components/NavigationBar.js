@@ -39,7 +39,6 @@ class NavigationBar extends React.Component {
       this.props.searchUserDocuments(id, query);
     }
   }
-
   render() {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (

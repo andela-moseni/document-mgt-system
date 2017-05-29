@@ -1,17 +1,31 @@
 import expect from 'expect';
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 import LoginForm from '../../components/login/LoginForm';
 
 let props;
 let wrapper;
 
-describe('SignUpForm', () => {
+const mockStore = configureMockStore();
+
+describe('LoginForm', () => {
   beforeEach(() => {
+    const initialState = {
+      auth: {
+        isAuthenticated: false,
+        user: {},
+      },
+    };
+
     props = {
       login: () => {},
     };
-    wrapper = mount(<LoginForm {...props} />);
+
+    const store = mockStore(initialState);
+
+    wrapper = mount(<Provider store={store}><LoginForm /></Provider>);
   });
 
   it('renders a form ', () => {
