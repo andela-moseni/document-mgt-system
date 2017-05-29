@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import jwt from 'jsonwebtoken';
+import image from '../images/docs1.jpg';
+import img from '../images/user.jpg';
 
 class SideNavBar extends React.Component {
   render() {
@@ -25,16 +27,17 @@ class SideNavBar extends React.Component {
         <ul id="slide-out" className="side-nav">
           <li>
             <div className="background">
-              <img src={require('../images/docs1.jpg')} width="300px"/>
+              <img src={image} width="300px"/>
             </div>
-            <div className="userView">
-              <Link><img className="circle"
-                src={require('../images/user.jpg')} />
-              </Link>
-              <span className="black-text name">Welcome,&nbsp;
-                {this.props.user.user}</span>
-              <p className="black-text email">{this.props.user.email}</p>
+            <div className="user-view">
+              <img className="circle" src={img} />
             </div>
+            <span className="name" id="black-text">Welcome,&nbsp;
+              {this.props.user.user}
+            </span>
+            <p className="email" id="black-text">
+              {this.props.user.email}
+            </p>
           </li>
           <li>
             <Link to="/profile" className="waves-effect">

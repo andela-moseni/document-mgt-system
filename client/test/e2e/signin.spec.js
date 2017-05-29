@@ -16,8 +16,8 @@ export default {
       .click('#menuBar')
       .pause(2000)
       .waitForElementVisible('#menuBar')
-      .assert.containsText('span.black-text', 'Welcome, Love Handle')
-      .assert.containsText('p.black-text', 'love@handle.com')
+      .assert.containsText('span#black-text', 'Welcome, Love Handle')
+      .assert.containsText('p#black-text', 'love@handle.com')
       .end(),
 
   'Invalid signin': browser =>

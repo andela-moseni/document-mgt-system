@@ -21,21 +21,21 @@ class SignupForm extends React.Component {
   }
 
   onSubmit(e) {
-    const myColor = { background: '#ff0000', text: '#FFFFFF' };
+    const custom = { background: '#ff0000', text: '#FFFFFF' };
     e.preventDefault();
     if (this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
-        'custom', 3000, myColor);
+        'custom', 3000, custom);
     }
     if (this.state.password === this.state.passwordConfirmation) {
       return this.props.userSignupRequest(this.state);
     }
-    return notify.show('Passwords do not match', 'custom', 3000, myColor);
+    return notify.show('Passwords do not match', 'custom', 3000, custom);
   }
 
   render() {
     return (
-      <div className="row signupForm">
+      <div className="row signup-form">
         <form className="col s12" onSubmit={this.onSubmit}>
           <h3>Signup Form</h3>
           <div className="row">

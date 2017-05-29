@@ -38,7 +38,7 @@ export function logout() {
  * @returns {Object} user
  */
 export function login(userData) {
-  const myColor = { background: '#ff0000', text: '#FFFFFF' };
+  const custom = { background: '#ff0000', text: '#FFFFFF' };
   return dispatch => axios.post('/api/users/login', userData).then((res) => {
     const token = res.data.token;
     localStorage.setItem('jwtToken', token);
@@ -47,6 +47,6 @@ export function login(userData) {
     browserHistory.push('/');
     notify.show('Login successful', 'success', 3000);
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }

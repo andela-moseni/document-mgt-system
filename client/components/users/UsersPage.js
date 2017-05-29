@@ -35,14 +35,14 @@ class usersPage extends React.Component {
   }
 
   onSubmit(e) {
-    const myColor = { background: '#FF0000', text: '#FFFFFF' };
+    const custom = { background: '#FF0000', text: '#FFFFFF' };
     e.preventDefault();
     if (this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
-      'custom', 3000, myColor);
+      'custom', 3000, custom);
     }
     if (this.state.password !== this.state.passwordConfirmation) {
-      return notify.show('Passwords do not match', 'custom', 3000, myColor);
+      return notify.show('Passwords do not match', 'custom', 3000, custom);
     }
     this.props.createUser(this.state);
     this.setState({ name: ' ',
