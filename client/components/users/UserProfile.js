@@ -53,7 +53,7 @@ class userProfile extends React.Component {
       <div className="container">
         <div className="wrap">
           <h3 className="white-text center-align"> My Profile </h3>
-          <table className="striped responsive-table highlight signupForm">
+          <table className="striped responsive-table highlight signup-form">
             <tbody>
               <tr>
                 <td>Name</td>

@@ -2,12 +2,10 @@ import axios from 'axios';
 import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
 import omit from 'lodash/omit';
-import { DISPLAY_ALL_USERS,
-  DISPLAY_USER_PROFILE, DISPLAY_UPDATED_USER, DISPLAY_UPDATED_USERS,
-  DELETE_USER, CREATE_USER_SUCCESS } from '../actions/types';
+import * as types from '../actions/types';
 import { logout } from './loginActions';
 
-const myColor = { background: '#ff0000', text: '#FFFFFF' };
+const custom = { background: '#ff0000', text: '#FFFFFF' };
 
 /**
  *
@@ -16,16 +14,16 @@ const myColor = { background: '#ff0000', text: '#FFFFFF' };
  * @returns {Object}
  */
 export function createUser(user) {
-  return dispatch => axios.post('api/users', user).then((res) => {
+  return dispatch => axios.post('/api/users', user).then((res) => {
     const newUser = res.data.user;
     dispatch({
-      type: CREATE_USER_SUCCESS,
+      type: types.CREATE_USER_SUCCESS,
       newUser,
     });
     notify.show('User created successfully', 'success', 3000);
   })
   .catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -38,11 +36,11 @@ export function createUser(user) {
  * @returns {Object} allUsers
  */
 export function fetchUsers(offset = 0, limit = 10) {
-  return dispatch => axios.get(`api/users?offset=${offset}&limit=${limit}`)
+  return dispatch => axios.get(`/api/users?offset=${offset}&limit=${limit}`)
   .then((res) => {
     const allUsers = res.data.users;
     dispatch({
-      type: DISPLAY_ALL_USERS,
+      type: types.DISPLAY_ALL_USERS,
       allUsers,
       pagination: res.data.pagination,
     });
@@ -57,10 +55,10 @@ export function fetchUsers(offset = 0, limit = 10) {
  * @returns {Object} userData
  */
 export function fetchUserProfile(id) {
-  return dispatch => axios.get(`api/users/${id}`).then((res) => {
+  return dispatch => axios.get(`/api/users/${id}`).then((res) => {
     const userData = res.data;
     dispatch({
-      type: DISPLAY_USER_PROFILE,
+      type: types.DISPLAY_USER_PROFILE,
       userData,
     });
   });
@@ -78,13 +76,13 @@ export function updateUser(user) {
   return dispatch => axios.put(`/api/users/${user.id}`, newUser).then((res) => {
     const updatedUser = res.data.user;
     dispatch({
-      type: DISPLAY_UPDATED_USER,
+      type: types.DISPLAY_UPDATED_USER,
       updatedUser,
     });
     notify.show('Update successful',
       'success', 3000);
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -99,13 +97,13 @@ export function updateUsers(user) {
   return dispatch => axios.put(`/api/users/${user.id}`, newUser).then((res) => {
     const updatedUser = res.data.user;
     dispatch({
-      type: DISPLAY_UPDATED_USERS,
+      type: types.DISPLAY_UPDATED_USERS,
       updatedUser,
     });
     notify.show('Update successful',
       'success', 3000);
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -120,16 +118,16 @@ export function updateUsers(user) {
  */
 export function searchUsers(search, offset = 0, limit = 10) {
   return dispatch => axios
-  .get(`api/search/users?search=${search}&offset=${offset}&limit=${limit}`)
+  .get(`/api/search/users?search=${search}&offset=${offset}&limit=${limit}`)
   .then((res) => {
     const allUsers = res.data.users;
     dispatch({
-      type: DISPLAY_ALL_USERS,
+      type: types.DISPLAY_ALL_USERS,
       allUsers,
       pagination: res.data.pagination,
     });
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -143,7 +141,7 @@ export function searchUsers(search, offset = 0, limit = 10) {
 export function deleteUser(userId, isAdmin) {
   return dispatch => axios.delete(`/api/users/${userId}`).then(() => {
     dispatch({
-      type: DELETE_USER,
+      type: types.DELETE_USER,
       userId,
     });
     notify.show('User deleted successfully',
@@ -154,6 +152,6 @@ export function deleteUser(userId, isAdmin) {
       browserHistory.push('/signup');
     }
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }

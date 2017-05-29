@@ -12,7 +12,7 @@ import { setCurrentUser } from './loginActions';
  * @returns {Object} user
  */
 export default function userSignupRequest(userData) {
-  const myColor = { background: '#ff0000', text: '#FFFFFF' };
+  const custom = { background: '#ff0000', text: '#FFFFFF' };
   return dispatch => axios.post('/api/users', userData).then((res) => {
     const token = res.data.token;
     localStorage.setItem('jwtToken', token);
@@ -21,6 +21,6 @@ export default function userSignupRequest(userData) {
     browserHistory.push('/');
     notify.show('Signup successful', 'success', 3000);
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }

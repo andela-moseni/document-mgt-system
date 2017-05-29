@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
-import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS, UPDATE_DOCUMENT_SUCCESS,
-  DELETE_DOCUMENT, DOC_FETCHED, CREATE_DOCUMENT_SUCCESS, NO_DOCUMENTS_FOUND }
-  from '../actions/types';
+import * as types from '../actions/types';
 
-const myColor = { background: '#ff0000', text: '#FFFFFF' };
+const custom = { background: '#ff0000', text: '#FFFFFF' };
 
 /**
  *
@@ -18,7 +16,7 @@ export function createDocument(document) {
   return dispatch => axios.post('/api/documents', document).then((res) => {
     const newDoc = res.data.document;
     dispatch({
-      type: CREATE_DOCUMENT_SUCCESS,
+      type: types.CREATE_DOCUMENT_SUCCESS,
       newDoc,
     });
   })
@@ -26,7 +24,7 @@ export function createDocument(document) {
     notify.show('Document created successfully', 'success', 3000);
     browserHistory.push('/my-documents');
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -39,7 +37,7 @@ export function createDocument(document) {
  */
 export function docFetched(doc) {
   return {
-    type: DOC_FETCHED,
+    type: types.DOC_FETCHED,
     doc,
   };
 }
@@ -57,7 +55,7 @@ export function fetchDocuments(offset, limit) {
   .get(`/api/documents?offset=${offset}&limit=${limit}`).then((res) => {
     const allDocs = res.data.documents;
     dispatch({
-      type: DISPLAY_ALL_DOCUMENTS,
+      type: types.DISPLAY_ALL_DOCUMENTS,
       allDocs,
       pagination: res.data.pagination,
     });
@@ -95,14 +93,14 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
   .then((res) => {
     const myDocs = res.data.documents;
     dispatch({
-      type: DISPLAY_MY_DOCUMENTS,
+      type: types.DISPLAY_MY_DOCUMENTS,
       myDocs,
       pagination: res.data.pagination,
     });
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
     dispatch({
-      type: NO_DOCUMENTS_FOUND,
+      type: types.NO_DOCUMENTS_FOUND,
     });
   });
 }
@@ -122,12 +120,12 @@ export function searchDocuments(search, offset = 0, limit = 10) {
   .then((res) => {
     const allDocs = res.data.documents;
     dispatch({
-      type: DISPLAY_ALL_DOCUMENTS,
+      type: types.DISPLAY_ALL_DOCUMENTS,
       allDocs,
       pagination: res.data.pagination,
     });
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -147,12 +145,12 @@ export function searchUserDocuments(id, search, offset = 0, limit = 10) {
     const allDocs = res.data.documents
       .filter(doc => doc.OwnerId === Number(id));
     dispatch({
-      type: DISPLAY_ALL_DOCUMENTS,
+      type: types.DISPLAY_ALL_DOCUMENTS,
       allDocs,
       pagination: res.data.pagination,
     });
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 /**
@@ -167,14 +165,14 @@ export function updateDocument(document) {
   .put(`/api/documents/${document.id}`, document).then((res) => {
     const updatedDocument = res.data.updatedDocument;
     dispatch({
-      type: UPDATE_DOCUMENT_SUCCESS,
+      type: types.UPDATE_DOCUMENT_SUCCESS,
       updatedDocument,
     });
   }).then(() => {
     notify.show('Document updated successfully', 'success', 3000);
     browserHistory.push('/my-documents');
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -188,13 +186,13 @@ export function updateDocument(document) {
 export const deleteDocument = documentId => dispatch => axios
 .delete(`/api/documents/${documentId}`).then(() => {
   dispatch({
-    type: DELETE_DOCUMENT,
+    type: types.DELETE_DOCUMENT,
     documentId,
   });
   notify.show('Document deleted successfully',
       'success', 3000);
   browserHistory.push('/my-documents');
 }).catch((error) => {
-  notify.show(error.response.data.message, 'custom', 3000, myColor);
+  notify.show(error.response.data.message, 'custom', 3000, custom);
   browserHistory.push('/documents');
 });

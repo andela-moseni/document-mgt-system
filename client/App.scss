@@ -25,9 +25,8 @@ nav .brand-logo {
   width: 90%;
 }
 
-.signupForm {
+.signup-form {
   background: whitesmoke;
-  // margin: 0 auto;
   width: 50%;
   opacity: 0.8;
   margin-top: 3rem;
@@ -40,9 +39,10 @@ nav .brand-logo {
   padding-top: 80px;
 }
 
-.black-text {
+#black-text {
   color: black;
-  font-size: 20px !important;
+  font-size: 20px;
+  margin: -10px -20px 2px 27px;
 }
 
 .welcome {
@@ -95,17 +95,19 @@ footer {
   margin-top: -90px;
 }
 
-.side-nav .userView {
+.side-nav .user-view {
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: -10px;
   padding-left: 2rem;
+  padding: 32px 32px 0;
+}
+
+.side-nav .user-view .circle {
+  height: 70px;
+  width: 71px;
 }
 
 div.background {
   width: 300px;
   height: 8rem;
-}
-
-.side-nav .userView .email {
-  padding-bottom: 0px;
 }

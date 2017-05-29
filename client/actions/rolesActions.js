@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { notify } from 'react-notify-toast';
-import { DISPLAY_ALL_ROLES, DISPLAY_UPDATED_ROLE,
-  DELETE_ROLE, CREATE_ROLE } from '../actions/types';
+import * as types from '../actions/types';
 
-const myColor = { background: '#ff0000', text: '#FFFFFF' };
+const custom = { background: '#ff0000', text: '#FFFFFF' };
 
 /**
  *
@@ -13,16 +12,16 @@ const myColor = { background: '#ff0000', text: '#FFFFFF' };
  * @returns {Object}
  */
 export function createRole(role) {
-  return dispatch => axios.post('api/roles', role).then((res) => {
+  return dispatch => axios.post('/api/roles', role).then((res) => {
     const newRole = res.data;
     dispatch({
-      type: CREATE_ROLE,
+      type: types.CREATE_ROLE,
       newRole,
     });
     notify.show('Role created successfully', 'success', 3000);
   })
   .catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -35,17 +34,17 @@ export function createRole(role) {
  * @returns {Object}
  */
 export function fetchRoles(offset = 0, limit = 10) {
-  return dispatch => axios.get(`api/roles?offset=${offset}&limit=${limit}`)
+  return dispatch => axios.get(`/api/roles?offset=${offset}&limit=${limit}`)
   .then((res) => {
     const allRoles = res.data.roles;
     dispatch({
-      type: DISPLAY_ALL_ROLES,
+      type: types.DISPLAY_ALL_ROLES,
       allRoles,
       pagination: res.data.pagination,
     });
   })
   .catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -56,16 +55,16 @@ export function fetchRoles(offset = 0, limit = 10) {
  * @returns {Object}
  */
 export function updateRole(role) {
-  return dispatch => axios.put(`api/roles/${role.id}`, role).then((res) => {
+  return dispatch => axios.put(`/api/roles/${role.id}`, role).then((res) => {
     const updatedRole = res.data.updatedRole;
     dispatch({
-      type: DISPLAY_UPDATED_ROLE,
+      type: types.DISPLAY_UPDATED_ROLE,
       updatedRole,
     });
     notify.show('Update successful',
       'success', 3000);
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -79,17 +78,17 @@ export function updateRole(role) {
  */
 export function searchRoles(search, offset = 0, limit = 10) {
   return dispatch => axios
-  .get(`api/search/roles?search=${search}&offset=${offset}&limit=${limit}`)
+  .get(`/api/search/roles?search=${search}&offset=${offset}&limit=${limit}`)
   .then((res) => {
     const allRoles = res.data.roles;
     dispatch({
-      type: DISPLAY_ALL_ROLES,
+      type: types.DISPLAY_ALL_ROLES,
       allRoles,
       pagination: res.data.pagination,
     });
   })
   .catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -100,14 +99,14 @@ export function searchRoles(search, offset = 0, limit = 10) {
  * @returns {Object}
  */
 export function deleteRole(roleId) {
-  return dispatch => axios.delete(`api/roles/${roleId}`).then(() => {
+  return dispatch => axios.delete(`/api/roles/${roleId}`).then(() => {
     dispatch({
-      type: DELETE_ROLE,
+      type: types.DELETE_ROLE,
       roleId,
     });
     notify.show('Role deleted successfully',
       'success', 3000);
   }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, myColor);
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }

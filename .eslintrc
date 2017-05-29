@@ -21,7 +21,7 @@
   "parser": "babel-eslint",
   "rules": {
     "max-len": [1, 80, 2],
-    "no-shadow": [1, { "allow": ["req", "res", "err"] }],
+    "no-shadow": [0, { "allow": ["req", "res", "err"] }],
     "jsx-quotes": 1,
     "consistent-return": 0,
     "import/no-extraneous-dependencies": 0,

@@ -25,7 +25,7 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <div className="row signupForm">
+      <div className="row signup-form">
         <form className="col s12" onSubmit={this.onSubmit}>
           <h3>Login form</h3>
           <div className="row">

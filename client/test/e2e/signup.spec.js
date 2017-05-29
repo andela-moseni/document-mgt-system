@@ -22,8 +22,8 @@ export default {
       .click('#menuBar')
       .pause(2000)
       .waitForElementVisible('#menuBar')
-      .assert.containsText('span.black-text', `Welcome, ${fakeName}`)
-      .assert.containsText('p.black-text', `${fakeEmail}`)
+      .assert.containsText('span#black-text', `Welcome, ${fakeName}`)
+      .assert.containsText('p#black-text', `${fakeEmail}`)
       .end(),
 
   'Invalid signup': browser =>

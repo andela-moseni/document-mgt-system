@@ -56,7 +56,7 @@ class CreateDocumentsForm extends React.Component {
   render() {
     if (!this.props.document) return null;
     return (
-      <div className="row signupForm">
+      <div className="row signup-form">
         <form className="col s12" onSubmit={this.onSubmit}>
           <h3>Create/Edit Document Form</h3>
           <div className="row">
@@ -67,34 +67,34 @@ class CreateDocumentsForm extends React.Component {
               icon="folder"
               field="title"
             />
-            <br /><br /><br /><br />
 
-          {(this.props.id && this.state.content) ?
-            <TinyMCE
-              content={this.state.content}
-              config={{
-                plugins: 'link image code',
-                toolbar: `undo redo | bold italic |
-                alignleft aligncenter alignright | code`,
-              }}
-              onChange={this.handleEditorChange}
-              field="content"
-            /> :
-           ''
-            }
-            {(!this.props.id) ?
-               <TinyMCE
-                content={''}
+          <div className="input-field col s12">
+            {(this.props.id && this.state.content) ?
+              <TinyMCE
+                content={this.state.content}
                 config={{
                   plugins: 'link image code',
-                  toolbar: `undo redo |
-                  bold italic | alignleft aligncenter alignright | code`,
+                  toolbar: `undo redo | bold italic |
+                  alignleft aligncenter alignright | code`,
                 }}
                 onChange={this.handleEditorChange}
                 field="content"
-              /> : ''
-            }
-
+              /> :
+            ''
+              }
+              {(!this.props.id) ?
+                <TinyMCE
+                  content={''}
+                  config={{
+                    plugins: 'link image code',
+                    toolbar: `undo redo |
+                    bold italic | alignleft aligncenter alignright | code`,
+                  }}
+                  onChange={this.handleEditorChange}
+                  field="content"
+                /> : ''
+              }
+            </div>
             <TextFieldGroup
               label="Type"
               onChange={this.onChange}
