@@ -7,11 +7,12 @@ const documentsRoute = (router) => {
    .post(UsersAuthentication.verifyToken, DocumentsController.createDocument)
    .get(UsersAuthentication.verifyToken, DocumentsController.listDocuments);
 
-  // Get, update and delete a particular document 
+  // Get, update and delete a particular document
   router.route('/documents/:id')
     .get(UsersAuthentication.verifyToken, DocumentsController.retrieveDocument)
     .put(UsersAuthentication.verifyToken, DocumentsController.updateDocument)
-    .delete(UsersAuthentication.verifyToken, DocumentsController.deleteDocument);
+    .delete(UsersAuthentication.verifyToken,
+      DocumentsController.deleteDocument);
 
   // Search documents
   router.route('/search/documents')

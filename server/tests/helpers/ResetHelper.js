@@ -8,12 +8,11 @@ class ResetHelper {
 
   /**
    * Resets the database models
-   * @return {Void} - Returns Void
    */
   static init() {
     logger.notice('Resetting the Database...Please wait...');
     model.sequelize.sync({
-      force: true
+      force: true,
     })
     .then(() => {
       logger.info('Database reset successfully.');

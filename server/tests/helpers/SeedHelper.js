@@ -18,12 +18,11 @@ class SeedHelper {
   /**
    * Perform the sequential population of the model
    * in order of associations
-   * @return {Void} - Returns Void
    */
   static init() {
     logger.notice('Populating the Database....');
     model.sequelize.sync({
-      force: true
+      force: true,
     })
       .then(() => {
         SeedHelper.populateRoleTable()
@@ -54,7 +53,7 @@ class SeedHelper {
    */
   static populateRoleTable() {
     const roles = [SpecHelper.adminRole, SpecHelper.regularRole,
-    SpecHelper.authorRole, SpecHelper.contributorRole];
+      SpecHelper.authorRole, SpecHelper.contributorRole];
     return model.Role.bulkCreate(roles);
   }
 
@@ -76,7 +75,8 @@ class SeedHelper {
     regularUser1.password = SeedHelper.hashPass(regularUser1.password);
     regularUser2.password = SeedHelper.hashPass(regularUser2.password);
     // authorUser.password = SpecHelper.hashPass(authorUser.password);
-    const users = [adminUser, regularUser1, regularUser2, authorUser1, authorUser2];
+    const users = [adminUser, regularUser1,
+      regularUser2, authorUser1, authorUser2];
     return model.User.bulkCreate(users);
   }
 

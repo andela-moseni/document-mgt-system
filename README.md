@@ -1,4 +1,4 @@
-## Document Management System
+## Document Management System (FullStack)
 
 [![Coverage Status](https://coveralls.io/repos/github/andela-moseni/document-mgt-system/badge.png?branch=master)](https://coveralls.io/github/andela-moseni/document-mgt-system?branch=master) [![Code Climate](https://codeclimate.com/github/andela-moseni/document-mgt-system/badges/gpa.svg)](https://codeclimate.com/github/andela-moseni/document-mgt-system) [![Build Status](https://travis-ci.org/andela-moseni/document-mgt-system.svg?branch=master)](https://travis-ci.org/andela-moseni/document-mgt-system)
 
@@ -51,7 +51,7 @@ The following features make up the Document Management System API:
 - It allows users on the same role to search through role-based documents 
 
 ## Hosted App on Heroku
-[Heroku Link](https://heroku.com/)
+[Meek-DMS](https://meek-dms-staging.herokuapp.com/)
 
 ## Below are the API endpoints and their functions
 EndPoint                                |   Functionality
@@ -63,13 +63,13 @@ GET /users                        		 |Find matching instances of user
 GET /users?limit=num                 		|Limits the users return, defaults to ten
 GET /users?limit=num&offset=num     		|Sets the next users to get 
 GET /users/:id                         	|Gets a single user
-GET /search/users?search=myname        |Search the users base on search query param
+GET /search/users?search=myname        |Search the users based on search query param
 GET /users/:id/documents                |Retrieve all documents belonging to a user
 PUT /users/:id                         	|Update user
 DELETE /users/:id                      |Delete user
 POST /documents                    	    |Creates a new document instance
 GET /documents               			      |Find matching instances of document
-GET /search/documents?search=doc       |Search the documents base on the query param 
+GET /search/documents?search=doc       |Search the documents based on the query param 
 GET /documents?limit=num                 	|Limits the documents return, defaults to ten
 GET /documents?limit=num&offset=num     	|Sets the next documents to get 
 GET /documents/:id            			  |Find document
@@ -80,6 +80,7 @@ GET /roles/                   			  |Find matching instances of role
 GET /roles?limit=num            			|limits the roles return, maximum of ten
 GET /roles?limit=num&offset=num     		|Sets the next role to get 
 GET /roles/:id               			  |Gets a single role
+GET /search/roles?search=regular       |Search the roles based on the query param 
 PUT /roles/:id              			  |Update role
 DELETE /roles/:id            			  |Delete role
 
@@ -379,8 +380,10 @@ Endpoint for document API.
 * Clone the project repository from your terminal `git clone https://github.com/andela-moseni/document-mgt-system.git`
 * Change directory into the `document-mgt-system` directory
 * Run `npm install` to install the dependencies in the `package.json` file
-* Run `npm run start:server` to start the project
-* Run `npm test` to run the tests
+* Run `npm run start:nodemon` to start the project
+* Run `npm test` to run the server-side(api) tests
+* Run `npm run test-e2e` to run the e2e tests
+* Run `npm run client:test` to run the client-side(React) tests
 * Use *Postman* or any API testing tool of your choice to access the endpoints
 
 ### **Endpoints**
@@ -388,7 +391,7 @@ Endpoint for document API.
 `'x-access-token': <token>` or `authorization: <token>`
 
 #### Limitations:
-The limitations to the Document Management System API are as follows:
+The limitations to the **Document Management System API** are as follows:
 * Users can only create plain textual documents and retrieve same when needed 
 * Users cannot share documents with people, but can make document `public` to make it available to other users
 * Users login and obtain a token which is verified on every request, but users cannot logout (nullify the token), however tokens become invalid when it expires (after 12 hours)
