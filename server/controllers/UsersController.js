@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
-import db from'../models';
+import db from '../models';
 import ControllerHelper from '../helpers/ControllerHelper';
+
 const User = db.User;
 const Role = db.Role;
 const Document = db.Document;
@@ -8,17 +9,22 @@ const secret = process.env.SECRET || 'mySecret';
 
 /**
  * UsersController class to create and manage users
+ *
+ * @class UsersController
  */
 class UsersController {
   /**
    * Login a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf UsersController
    */
   static login(req, res) {
     const query = {
-      where: { email: req.body.email }
+      where: { email: req.body.email },
     };
     User.findOne(query)
       .then((user) => {
@@ -27,129 +33,147 @@ class UsersController {
             .send({ message: 'Invalid Login Credentials. Try Again!' });
         }
         if (user && user.validatePassword(req.body.password)) {
-          const token = jwt.sign({ userId: user.id, roleId: user.roleId },
+          const token = jwt
+          .sign({
+            userId: user.id,
+            roleId: user.roleId,
+            user: user.name,
+            email: user.email,
+          },
           secret, { expiresIn: '12 hours' });
           return res.status(200).send({
             token,
             userId: user.id,
-            roleId: user.roleId
+            roleId: user.roleId,
           });
         }
         res.status(401)
-            .send({ message: 'Invalid Login Credentials. Try Again!' });
+          .send({ message: 'Invalid Login Credentials. Try Again!' });
       });
   }
 
   /**
    * Logout a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf UsersController
    */
   static logout(req, res) {
     res.status(200)
       .send({ message: 'Successfully logged out!' });
   }
 
+
   /**
    * Create a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf UsersController
    */
   static createUser(req, res) {
     User.findOne({ where: { email: req.body.email } })
       .then((existingUser) => {
         if (existingUser) {
           return res.status(400).send({
-            message: 'User Already Exist!'
+            message: 'User Already Exist!',
           });
         }
 
         User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            roleId: 2
-          })
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password,
+          roleId: 2,
+        })
           .then((user) => {
-            const token = jwt.sign({ userId: user.id, roleId: user.roleId },
+            const token = jwt
+            .sign({ userId: user.id,
+              roleId: user.roleId,
+              user: user.name,
+              email: user.email },
             secret, { expiresIn: '12 hours' });
             res.status(201).send({ token,
               user: {
                 id: user.id,
                 name: user.name,
                 email: user.email,
-                roleId: user.roleId
-              }
+                roleId: user.roleId,
+              },
             });
           })
           .catch(() => res.status(400).send({
-            message: 'An error occured. Invalid parameters, try again!'
+            message: 'An error occured. Invalid parameters, try again!',
           }));
       });
   }
 
   /**
    * List all users
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf UsersController
    */
   static listUsers(req, res) {
     const query = {};
     query.limit = (req.query.limit > 0) ? req.query.limit : 10;
     query.offset = (req.query.offset > 0) ? req.query.offset : 0;
     query.attributes = { exclude: ['password'] };
-    
+
     User
       .findAndCountAll(query)
       .then((users) => {
         const pagination = ControllerHelper.pagination(
-          query.limit, query.offset, users.count
+          query.limit, query.offset, users.count,
         );
         res.status(200).send({
-          pagination, users: users.rows
+          pagination, users: users.rows,
         });
       });
   }
 
-   /**
+  /**
    * Retrive a user's details
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf UsersController
    */
   static retrieveUser(req, res) {
-    Role
-    .findById(req.decoded.roleId)
-    .then((role) => {
-      User
-        .findById(req.params.id)
-        .then((user) => {
-          if (!user) {
-            return res.status(404).send({
-              message: 'User Does Not Exist',
-            });
-          }
-          if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
-            return res.status(403)
-            .send({ message: 'You are not authorized to access this user' });
-          }
-          req.decoded.user = user;
-          res.status(200).send(req.decoded.user);
-        })
-        .catch(() => res.status(400).send({
-          message: 'An error occured. Invalid parameters, try again!'
-        }));
+    User
+      .findById(req.params.id)
+      .then((user) => {
+        if (!user) {
+          return res.status(404).send({
+            message: 'User Does Not Exist',
+          });
+        }
+        req.decoded.user = user;
+        res.status(200).send(req.decoded.user);
       })
+      .catch(() => res.status(400).send({
+        message: 'An error occured. Invalid parameters, try again!',
+      }));
   }
 
   /**
    * Update a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf UsersController
    */
   static updateUser(req, res) {
     Role.findById(req.decoded.roleId)
@@ -164,43 +188,53 @@ class UsersController {
             }
             if (req.body.id) {
               return res.status(403).send({
-                message: 'Unauthorised access. You cannot update userId property'
+                message:
+                'Unauthorised access. You cannot update userId property',
               });
             }
             // roleId should not be updated by a regular user
-            if ((role.title !== 'admin') && req.body.roleId) {
+            if ((role.title !== 'admin') && (req.body.roleId)) {
               return res.status(403).send({
-                message: 'Unauthorised access. You cannot update roleId property'
+                message:
+                'Unauthorised access. You cannot update roleId property',
               });
             }
             // a user should not update another user's property
             if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
               return res.status(403).send({
-                message: 'Unauthorised access. You cannot update this user\'s property'
+                message:
+                'Unauthorised access. You cannot update this user\'s property',
               });
             }
             user
               .update(req.body, { fields: Object.keys(req.body) })
-              .then((user) => res.status(200).send({
+              .then(() => res.status(200).send({
                 message: 'Update Successful!',
                 user: {
                   id: user.id,
                   name: user.name,
-                  email: user.email
-                }
-            }));
-        })
+                  email: user.email,
+                  roleId: user.roleId,
+                },
+              }))
+             .catch(() => res.status(400).send({
+               message: 'An error occured. Invalid parameters, try again!',
+             }));
+          })
         .catch(() => res.status(400).send({
-          message: 'An error occured. Invalid parameters, try again!'
+          message: 'An error occured. Invalid parameters, try again!',
         }));
-    });
+      });
   }
 
   /**
    * Delete a particular Document
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf UsersController
    */
   static deleteUser(req, res) {
     Role
@@ -221,37 +255,42 @@ class UsersController {
             }
             if ((role.title === 'admin') && (Number(req.params.id) === 1)) {
               return res.status(403)
-              .send({ message: 'You cannot delete default admin user account' });
+              .send({ message:
+                'You cannot delete default admin user account',
+              });
             }
-          user
+            user
             .destroy()
             .then(() => res.status(200).send({
               message: 'User deleted successfully.',
-          }));
-        })
+            }));
+          })
       .catch(() => res.status(400).send({
-        message: 'An error occured. Invalid parameters, try again!'
+        message: 'An error occured. Invalid parameters, try again!',
       }));
-    });
+      });
   }
 
   /**
    * Retrieve all documents belonging to a user
+   *
+   * @static
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @return {Object} Response object
+   *
+   * @memberOf UsersController
    */
   static retrieveUserDocuments(req, res) {
-     Role
+    Role
       .findById(req.decoded.roleId)
       .then((role) => {
-        let query = {}
-        if (role.title == 'admin') {
+        let query = {};
+        if (role.title === 'admin') {
           query = {
             where: {
-              OwnerId: { $eq: req.params.id }
-            }
-          }
+              OwnerId: { $eq: req.params.id },
+            },
+          };
         } else {
           query = {
             where: {
@@ -261,23 +300,23 @@ class UsersController {
                   access: { $eq: 'public' },
                   $and: {
                     access: { $eq: 'private' },
-                    OwnerId: { $eq: req.decoded.userId }
+                    OwnerId: { $eq: req.decoded.userId },
                   },
-                 $or: {
+                  $or: {
                     $and: {
-                      access: { $eq: 'role' }, 
-                      '$User.roleId$': {$eq: req.decoded.roleId }
-                    }
-                  }
-                }
-              }
-            }, 
-            include: [ 
+                      access: { $eq: 'role' },
+                      '$User.roleId$': { $eq: req.decoded.roleId },
+                    },
+                  },
+                },
+              },
+            },
+            include: [
               {
-                model: User
-              }
-            ]
-          }
+                model: User,
+              },
+            ],
+          };
         }
 
         query.limit = (req.query.limit > 0) ? req.query.limit : 10;
@@ -285,83 +324,86 @@ class UsersController {
         Document
           .findAndCountAll(query)
           .then((documents) => {
-            const filteredDocuments = documents.rows.map((document) => {
-              return Object.assign({}, {
-                title: document.title,
-                content: document.content,
-                access: document.access,
-                type: document.type,
-                OwnerId: document.OwnerId,
-                createdAt: document.createdAt,
-                updatedAt: document.updatedAt
-              })
-            })
+            const filteredDocuments = documents.rows
+            .map(document => Object.assign({}, {
+              id: document.id,
+              title: document.title,
+              content: document.content,
+              access: document.access,
+              type: document.type,
+              OwnerId: document.OwnerId,
+              createdAt: document.createdAt,
+              updatedAt: document.updatedAt,
+            }));
             const pagination = ControllerHelper.pagination(
-              query.limit, query.offset, documents.count
+              query.limit, query.offset, documents.count,
             );
             if (documents.rows.length === 0) {
               return res.status(404).send({
-                message: 'No document match the request.'
-              })
+                message: 'No document match the request.',
+              });
             }
             res.status(200).send({
-              pagination, documents: filteredDocuments
+              pagination, documents: filteredDocuments,
             });
           })
           .catch(() => res.status(400).send({
-            message: 'An error occured. Invalid parameters, try again!'
+            message: 'An error occured. Invalid parameters, try again!',
           }));
       });
   }
 
   /**
    * Gets all users relevant to search query
-   * @param {Object} req Request object
-   * @param {Object} res Response object
-   * @return {Object} - Returns response object
+   *
+   * @static
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {string} - Returns response object
+   *
+   * @memberOf UsersController
    */
   static searchUsers(req, res) {
     const search = req.query.search;
 
     if (search === '') {
       return res.status(400).send({
-        message: 'Invalid Search Parameter!'
+        message: 'Invalid Search Parameter!',
       });
     }
-    
-    let query = {
+    const query = {
       where: {
-          $or: [{
-            name: {
-              $iLike: `%${search}%`
-            },
-            email: {
-              $iLike: `%${search}%`
-            }
-          }]
-      }
+        $or: [{
+          name: {
+            $iLike: `%${search}%`,
+          },
+          email: {
+            $iLike: `%${search}%`,
+          },
+        }],
+      },
     };
 
     query.limit = (req.query.limit > 0) ? req.query.limit : 10;
     query.offset = (req.query.offset > 0) ? req.query.offset : 0;
     query.order = '"createdAt" DESC';
-    query.attributes = { exclude: ['id', 'password', 'roleId'] };
+    query.attributes = { exclude: ['password'] };
     User
       .findAndCountAll(query)
       .then((users) => {
         const pagination = ControllerHelper.pagination(
-          query.limit, query.offset, users.count
+          query.limit, query.offset, users.count,
         );
         if (users.rows.length === 0) {
           return res.status(404).send({
-            message: 'Search Does Not Match Any User!'
+            message: 'Search Does Not Match Any User!',
           });
         }
         res.status(200).send({
-          pagination, users: users.rows
+          pagination, users: users.rows,
         });
       });
-  }; 
+  }
 }
 
 export default UsersController;

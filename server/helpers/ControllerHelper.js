@@ -1,13 +1,16 @@
 /**
  * Helpers class for Controllers
+ *
+ * @class ControllerHelper
  */
 class ControllerHelper {
   /**
-   * Resets the database models
+   * @static
    * @param {integer} limit
    * @param {integer} offset
    * @param {integer} count
-   * @return {Object} - Returns Pagination Result
+   * @returns {Object} - Returns Pagination Result
+   * @memberOf ControllerHelper
    */
   static pagination(limit, offset, count) {
     /** totalCount : total number of records based on query

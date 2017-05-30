@@ -1,4 +1,9 @@
 node_modules
 coverage
 .token
-.env  
+.env
+dist
+server/seeders/
+reports
+selenium-debug.log
+npm-debug.log
