@@ -255,17 +255,26 @@ describe('User API:', () => {
     //  PUT requests - Edit specific user
   describe('PUT: (/api/users/:id) - ', () => {
     it('should not edit user if id is invalid', (done) => {
-      const fieldsToUpdate =
-        {
-          title: 'LadiesInTech',
-          content: 'We love coding.',
-        };
+      const fieldsToUpdate = { name: 'ade' };
       request.put('/api/users/45000032')
           .set({ Authorization: regularUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(404);
             expect(response.body.message).to.equal('User Does Not Exist');
+            done();
+          });
+    });
+
+    it('should not edit user if required field is invalid', (done) => {
+      const fieldsToUpdate = { name: 'ade1' };
+      request.put('/api/users/1')
+          .set({ Authorization: adminUserToken })
+          .send(fieldsToUpdate)
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message)
+            .to.equal('An error occured. Invalid parameters, try again!');
             done();
           });
     });
