@@ -39,10 +39,6 @@ class CreateDocumentsForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  handleEditorChange(e) {
-    this.setState({ content: e.target.getContent() });
-  }
-
   onSubmit(e) {
     e.preventDefault();
     if (this.props.id) {
@@ -51,6 +47,10 @@ class CreateDocumentsForm extends React.Component {
       this.props.createDocument(this.state);
     }
     this.setState({ title: ' ', content: ' ', type: ' ' });
+  }
+
+  handleEditorChange(e) {
+    this.setState({ content: e.target.getContent() });
   }
 
   render() {
@@ -68,19 +68,18 @@ class CreateDocumentsForm extends React.Component {
               field="title"
             />
 
-          <div className="input-field col s12">
-            {(this.props.id && this.state.content) ?
-              <TinyMCE
-                content={this.state.content}
-                config={{
-                  plugins: 'link image code',
-                  toolbar: `undo redo | bold italic |
+            <div className="input-field col s12">
+              {(this.props.id && this.state.content) ?
+                <TinyMCE
+                  content={this.state.content}
+                  config={{
+                    plugins: 'link image code',
+                    toolbar: `undo redo | bold italic |
                   alignleft aligncenter alignright | code`,
-                }}
-                onChange={this.handleEditorChange}
-                field="content"
-              /> :
-            ''
+                  }}
+                  onChange={this.handleEditorChange}
+                  field="content"
+                /> : ''
               }
               {(!this.props.id) ?
                 <TinyMCE
@@ -105,19 +104,23 @@ class CreateDocumentsForm extends React.Component {
 
             <div className="col s12">
               <i className="material-icons prefix left">mode_edit</i>
-              <Input type="select"
+              <Input
+                type="select"
                 s={8}
                 name="access"
                 label="Select Acccess"
                 onChange={this.onChange}
-                value={this.state.access} >
+                value={this.state.access}
+              >
                 <option value="public">Public</option>
                 <option value="private">Private</option>
                 <option value="role">Role</option>
               </Input>
             </div>
-            <button className="btn waves-effect waves-light submitBtn"
-            type="submit" name="action">Submit
+            <button
+              className="btn waves-effect waves-light submitBtn"
+              type="submit" name="action"
+            >Submit
               <i className="material-icons right">send</i>
             </button>
           </div>

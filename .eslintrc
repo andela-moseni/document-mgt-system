@@ -12,7 +12,8 @@
     },
     "globals": {
     "localStorage": false,
-    "document": false
+    "document": false,
+    "window": false
     },
     "rules": {
     "max-len": ["error", 80, 4],

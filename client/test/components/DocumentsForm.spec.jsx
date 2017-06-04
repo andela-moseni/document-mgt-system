@@ -1,6 +1,6 @@
 import expect from 'expect';
 import React from 'react';
-import { shallow, mount, render } from 'enzyme';
+import { render } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import CreateDocumentsForm
@@ -20,9 +20,9 @@ describe('DocumentsForm', () => {
 
     const store = mockStore(initialState);
     wrapper = render(
-    <Provider store={store}>
-      <CreateDocumentsForm {...initialState}/>
-    </Provider>);
+      <Provider store={store}>
+        <CreateDocumentsForm {...initialState} />
+      </Provider>);
   });
 
   it('renders a form ', () => {

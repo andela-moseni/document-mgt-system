@@ -6,13 +6,14 @@ const TextFieldGroup = ({ field, value, label, type, onChange,
     <div className="input-field col s12">
       <i className="material-icons prefix">{icon}</i>
       <input
-      id={id}
-      value={value}
-      onChange={onChange}
-      name={field}
-      type={type}
-      placeholder={placeholder}
-      className="validate" required />
+        id={id}
+        value={value}
+        onChange={onChange}
+        name={field}
+        type={type}
+        placeholder={placeholder}
+        className="validate" required
+      />
       <label className="active">{label}</label>
     </div>
   );
