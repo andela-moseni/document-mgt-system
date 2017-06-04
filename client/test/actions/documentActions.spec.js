@@ -13,6 +13,7 @@ const document = {
   content: 'mercy.oseni@test.com',
   access: 'public',
 };
+
 describe('Document actions', () => {
   after(() => {
     nock.cleanAll();

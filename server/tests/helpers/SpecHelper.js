@@ -22,6 +22,7 @@ const SpecHelper = {
     email: 'mercy.oseni@andela.com',
     password: 'mercy',
     roleId: 1,
+    roleTitle: 'admin',
   },
 
   specUser2: {
@@ -29,6 +30,7 @@ const SpecHelper = {
     email: 'raphael.akpan@andela.com',
     password: 'raphael',
     roleId: 2,
+    roleTitle: 'regular',
   },
 
   invalidUser: {
@@ -51,6 +53,7 @@ const SpecHelper = {
     email: 'ade@test.com',
     password: 'adetest',
     roleId: 2,
+    roleTitle: 'regular',
   },
 
   specUser4: {
@@ -58,6 +61,7 @@ const SpecHelper = {
     email: 'faith.omokaro@andela.com',
     password: 'faith',
     roleId: 3,
+    roleTitle: 'author',
   },
 
   specUser5: {
@@ -65,6 +69,7 @@ const SpecHelper = {
     email: 'omotola.mercy@test.com',
     password: 'omotola',
     roleId: 4,
+    roleTitle: 'contributor',
   },
 
   specUser6: {
@@ -72,6 +77,7 @@ const SpecHelper = {
     email: 'adeshola@test.com',
     password: 'adeshola',
     roleId: 3,
+    roleTitle: 'author',
   },
 
   specUser7: {
@@ -79,6 +85,7 @@ const SpecHelper = {
     email: 'cindy@test.com',
     password: 'cindy',
     roleId: 3,
+    roleTitle: 'author',
   },
 
   specUser8: {
@@ -86,6 +93,7 @@ const SpecHelper = {
     email: 'sophiat@test.com',
     password: 'sophiat',
     roleId: 3,
+    roleTitle: 'author',
   },
 
   specUser9: {
@@ -93,6 +101,7 @@ const SpecHelper = {
     email: 'oyin@test.com',
     password: 'oyin',
     roleId: 3,
+    roleTitle: 'author',
   },
 
   specDocument1: {

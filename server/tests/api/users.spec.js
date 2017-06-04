@@ -296,6 +296,19 @@ describe('User API:', () => {
           });
     });
 
+    it('should not edit roleTitle property of the user', (done) => {
+      const fieldsToUpdate = { roleTitle: 'author' };
+      request.put(`/api/users/${user.id}`)
+          .set({ Authorization: regularUserToken })
+          .send(fieldsToUpdate)
+          .end((error, response) => {
+            expect(response.status).to.equal(403);
+            expect(response.body.message).to
+            .equal('Unauthorised access. You cannot update roleTitle property');
+            done();
+          });
+    });
+
     it('should not edit the user if id is non-integer', (done) => {
       request.put('/api/users/1q')
           .set({ Authorization: adminUserToken })

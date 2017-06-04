@@ -86,7 +86,7 @@ class usersPage extends React.Component {
               <th>S/NO</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Role Id</th>
+              <th>Role Title</th>
               <th>Edit</th>
               <th>Delete</th>
             </tr>

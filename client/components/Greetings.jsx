@@ -20,7 +20,7 @@ class Greetings extends React.Component {
       }, 2000, reduce);
     };
 
-    let reduce = () => {
+    const reduce = () => {
       $('#fiddle-text').animate({
         letterSpacing: '-=3px',
       }, 2000, enlarge);
@@ -31,8 +31,7 @@ class Greetings extends React.Component {
 
   render() {
     return (
-      <div className="container homePage"><br /><br /><br /><br /><br /><br />
-      <br /><br /><br />
+      <div className="container home-page">
         <h3 id="fiddle-text" className="color-text center-align">
           Welcome to Meek - Document Management System
         </h3>

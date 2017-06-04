@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'react-materialize';
+import { Input, Modal } from 'react-materialize';
 import * as usersActions from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import Prompt from '../../Prompt';
@@ -11,7 +11,7 @@ class userProfile extends React.Component {
     this.state = {
       name: this.props.user.name,
       email: this.props.user.email,
-      password: '',
+      // password: this.props.user.password,
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -68,8 +68,8 @@ class userProfile extends React.Component {
                 <td>******</td>
               </tr>
               <tr>
-                <td>RoleID</td>
-                <td>{user.roleId}</td>
+                <td>Role Title</td>
+                <td>{user.roleTitle}</td>
               </tr>
             </tbody>
           </table>
@@ -99,15 +99,18 @@ class userProfile extends React.Component {
                     type="email"
                   />
 
-                  <TextFieldGroup
-                    label="Password"
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    icon="vpn_key"
-                    field="password"
-                    type="password"
-                    placeholder="password must be minimum of four characters"
-                  />
+                  <div className="input-field col s12">
+                    <Input
+                      s={8}
+                      label="Password"
+                      onChange={this.onChange}
+                      value={this.state.password}
+                      icon="vpn_key"
+                      name="password"
+                      type="password"
+                      placeholder="password must be minimum of four characters"
+                    />
+                  </div>
 
                   <button className="btn waves-effect waves-light submitBtn"
                     type="submit" name="action">Update

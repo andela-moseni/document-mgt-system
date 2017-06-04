@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { Modal } from 'react-materialize';
+import { Input, Modal } from 'react-materialize';
 import jwt from 'jsonwebtoken';
 import Prompt from './../../Prompt';
 import { deleteUser, updateUsers,
@@ -14,7 +14,7 @@ class UserListRow extends React.Component {
     this.state = {
       name: this.props.user.name,
       email: this.props.user.email,
-      password: '',
+      // password: '',
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -87,7 +87,7 @@ class UserListRow extends React.Component {
       <td> {serial} </td>
       <td> <Link to={`/users/${user.id}/documents`}>{user.name}</Link> </td>
       <td> {user.email} </td>
-      <td> {user.roleId} </td>
+      <td> {user.roleTitle} </td>
       <td>
         <div className="center">
             <Modal header="Update user profile" fixedFooter trigger={editBtn}>
@@ -111,15 +111,18 @@ class UserListRow extends React.Component {
                     type="email"
                   />
 
-                  <TextFieldGroup
-                    label="Password"
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    icon="vpn_key"
-                    field="password"
-                    type="password"
-                    placeholder="password must be minimum of four characters"
-                  />
+                  <div className="input-field col s12">
+                    <Input
+                      s={8}
+                      label="Password"
+                      onChange={this.onChange}
+                      value={this.state.password}
+                      icon="vpn_key"
+                      name="password"
+                      type="password"
+                      placeholder="password must be minimum of four characters"
+                    />
+                  </div>
 
                   <button className="btn waves-effect waves-light submitBtn"
                     type="submit" name="action">Update
@@ -149,6 +152,7 @@ UserListRow.propTypes = {
   fetchUserProfile: PropTypes.func.isRequired,
   roleId: PropTypes.number,
   userId: PropTypes.number,
+  roleTitle: PropTypes.string,
 
 };
 
@@ -163,6 +167,7 @@ function mapStateToProps(state) {
     users: state.users.user,
     userId: state.auth.user.userId,
     roleId: state.auth.user.roleId,
+    roleTitle: state.auth.user.roleTitle,
   };
 }
 

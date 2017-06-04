@@ -5,7 +5,7 @@ export default {
   devtools: 'eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
-    path.join(__dirname, '/client/index.js'),
+    path.join(__dirname, '/client/index.jsx'),
   ],
   output: {
     path: '/',
@@ -25,8 +25,9 @@ export default {
         loaders: ['react-hot', 'babel'],
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader?root=.',
+        test: [/\.jsx$/],
+        include: path.join(__dirname, 'client'),
+        loaders: ['react-hot-loader', 'babel-loader'],
       },
       {
         test: /\.scss$/,
@@ -37,7 +38,7 @@ export default {
     ],
   },
   resolve: {
-    extentions: ['', '.css', '.js'],
+    extensions: ['', '.jsx', '.js'],
   },
   node: {
     net: 'empty',

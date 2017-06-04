@@ -20,22 +20,27 @@ import RolesPage from './components/roles/RolesPage';
 export default (
   <Router history={browserHistory} >
     <Route path="/" component={App} >
-    <IndexRoute component={Greetings} />
-    <Route path="signup" component={alreadyAuthenticated(SignupPage)} />
-    <Route path="login" component={alreadyAuthenticated(LoginPage)} />
-    <Route path="create-document" component=
-    {requireAuth(CreateDocumentsPage)} />
-    <Route path="documents" component={requireAuth(DocumentsPage)} />
-    <Route path="documents/view/:id" component={requireAuth(Document)} />
-    <Route path="my-documents" component={requireAuth(MyDocumentsPage)} />
-    <Route path="/documents/:id"
-    component={requireAuth(CreateDocumentsPage)} />
-    <Route path="users" component={requireAuth(UsersPage)} />
-    <Route path="/users/:id/documents"
-    component={requireAuth(UserDocuments)} />
-    <Route path="/profile" component={requireAuth(UserProfile)} />
-    <Route path="roles" component={requireAuth(RolesPage)} />
-    <Route path="*" component={requireAuth(NotFound)} />
-  </Route>
+      <IndexRoute component={Greetings} />
+      <Route path="signup" component={alreadyAuthenticated(SignupPage)} />
+      <Route path="login" component={alreadyAuthenticated(LoginPage)} />
+      <Route
+        path="create-document" component={requireAuth(CreateDocumentsPage)}
+      />
+      <Route path="documents" component={requireAuth(DocumentsPage)} />
+      <Route path="documents/view/:id" component={requireAuth(Document)} />
+      <Route path="my-documents" component={requireAuth(MyDocumentsPage)} />
+      <Route
+        path="/documents/:id"
+        component={requireAuth(CreateDocumentsPage)}
+      />
+      <Route path="users" component={requireAuth(UsersPage)} />
+      <Route
+        path="/users/:id/documents"
+        component={requireAuth(UserDocuments)}
+      />
+      <Route path="/profile" component={requireAuth(UserProfile)} />
+      <Route path="roles" component={requireAuth(RolesPage)} />
+      <Route path="*" component={requireAuth(NotFound)} />
+    </Route>
   </Router>
 );

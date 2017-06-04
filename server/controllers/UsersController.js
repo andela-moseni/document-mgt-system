@@ -39,12 +39,14 @@ class UsersController {
             roleId: user.roleId,
             user: user.name,
             email: user.email,
+            roleTitle: user.roleTitle,
           },
           secret, { expiresIn: '12 hours' });
           return res.status(200).send({
             token,
             userId: user.id,
             roleId: user.roleId,
+            roleTitle: user.roleTitle,
           });
         }
         res.status(401)
@@ -90,13 +92,15 @@ class UsersController {
           email: req.body.email,
           password: req.body.password,
           roleId: 2,
+          roleTitle: 'regular',
         })
           .then((user) => {
             const token = jwt
             .sign({ userId: user.id,
               roleId: user.roleId,
               user: user.name,
-              email: user.email },
+              email: user.email,
+              roleTitle: 'regular' },
             secret, { expiresIn: '12 hours' });
             res.status(201).send({ token,
               user: {
@@ -104,6 +108,7 @@ class UsersController {
                 name: user.name,
                 email: user.email,
                 roleId: user.roleId,
+                roleTitle: 'regular',
               },
             });
           })
@@ -199,6 +204,13 @@ class UsersController {
                 'Unauthorised access. You cannot update roleId property',
               });
             }
+            // roleTitle should not be updated by a regular user
+            if ((role.title !== 'admin') && (req.body.roleTitle)) {
+              return res.status(403).send({
+                message:
+                'Unauthorised access. You cannot update roleTitle property',
+              });
+            }
             // a user should not update another user's property
             if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
               return res.status(403).send({
@@ -210,12 +222,7 @@ class UsersController {
               .update(req.body, { fields: Object.keys(req.body) })
               .then(() => res.status(200).send({
                 message: 'Update Successful!',
-                user: {
-                  id: user.id,
-                  name: user.name,
-                  email: user.email,
-                  roleId: user.roleId,
-                },
+                user,
               }));
           })
         .catch(() => res.status(400).send({

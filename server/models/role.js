@@ -4,6 +4,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        notEmpty: {
+          message: 'Title cannot be empty.',
+        },
+        is: /^[a-z ]+$/i,
+        len: [4, 20],
+      },
     },
   }, {
     classMethods: {
