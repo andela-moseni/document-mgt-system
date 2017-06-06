@@ -1,6 +1,10 @@
 import UsersController from '../controllers/UsersController';
 import UsersAuthentication from '../middlewares/UsersAuthentication';
 
+/**
+ * Define users routes
+ * @param {function} router
+ */
 const usersRoute = (router) => {
   // create a new user or get all users
   router.route('/users')

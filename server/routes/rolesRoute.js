@@ -1,6 +1,10 @@
 import RolesController from '../controllers/RolesController';
 import UsersAuthentication from '../middlewares/UsersAuthentication';
 
+/**
+ * Define roles routes
+ * @param {function} router
+ */
 const rolesRoute = (router) => {
   // Create a new role or get all roles
   router.route('/roles')

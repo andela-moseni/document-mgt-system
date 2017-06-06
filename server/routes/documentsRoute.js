@@ -1,6 +1,10 @@
 import DocumentsController from '../controllers/DocumentsController';
 import UsersAuthentication from '../middlewares/UsersAuthentication';
 
+/**
+ * Define documents routes
+ * @param {function} router
+ */
 const documentsRoute = (router) => {
   // Create a new document or get all documents
   router.route('/documents')
