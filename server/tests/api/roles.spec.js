@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import supertest from 'supertest';
 import chai from 'chai';
 import app from '../../../server';
@@ -7,6 +6,14 @@ import SpecHelper from '../helpers/SpecHelper';
 const expect = chai.expect;
 const request = supertest.agent(app);
 const adminUser = SpecHelper.specUser1;
+
+// error messages
+const noRoleFound = 'Role does not exist';
+const invalid =
+'Validation error. Please enter unique parameters only!';
+const invalidParameters = 'An error occured. Invalid parameters, try again!';
+const notAllowed = 'An error occured. You cannot update default roles';
+const notPermitted = 'An error occured. You cannot delete default roles';
 
 describe('Role API:', () => {
   let adminUserToken;
@@ -26,7 +33,7 @@ describe('Role API:', () => {
   describe('ROLES REQUESTS:', () => {
     // POST requests - Create Roles
     describe('POST: (/api/roles)', () => {
-      it('should not create a role when required field is invalid', (done) => {
+      it('should not create a role when title field is invalid', (done) => {
         const newRole = { newTitle: 'basic' };
         request.post('/api/roles')
           .set({ Authorization: adminUserToken })
@@ -37,7 +44,7 @@ describe('Role API:', () => {
           });
       });
 
-      it('should create a role if required field is valid', (done) => {
+      it('should create a role if title field is valid', (done) => {
         const newRole = { title: 'basic' };
         request.post('/api/roles')
           .set({ Authorization: adminUserToken })
@@ -58,7 +65,7 @@ describe('Role API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('Validation error. Please enter unique parameters only!');
+            .equal(invalid);
             done();
           });
       });
@@ -71,7 +78,8 @@ describe('Role API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.roles)).to.be.true;
+            expect(Array.isArray(response.body.roles));
+            expect(response.body.roles.length).to.equal(5);
             done();
           });
       });
@@ -84,18 +92,18 @@ describe('Role API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('Role Does Not Exist');
+            expect(response.body.message).to.equal(noRoleFound);
             done();
           });
       });
 
-      it('should not return the role when id is non-integer', (done) => {
+      it('should not return the role when id is not an integer', (done) => {
         request.get('/api/roles/abc')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
@@ -119,12 +127,12 @@ describe('Role API:', () => {
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('Role Does Not Exist');
+            expect(response.body.message).to.equal(noRoleFound);
             done();
           });
       });
 
-      it('should not edit role if id is non-integer', (done) => {
+      it('should not edit role if id is not an integer', (done) => {
         const fieldsToUpdate = { title: 'intermediate' };
         request.put('/api/roles/1m')
           .set({ Authorization: adminUserToken })
@@ -132,7 +140,7 @@ describe('Role API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
@@ -146,7 +154,7 @@ describe('Role API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. You cannot update default roles');
+            .equal(notAllowed);
             done();
           });
       });
@@ -159,7 +167,7 @@ describe('Role API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. You cannot update default roles');
+            .equal(notAllowed);
             done();
           });
       });
@@ -172,19 +180,20 @@ describe('Role API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('Validation error. Please enter unique parameters only!');
+            .equal(invalid);
             done();
           });
       });
 
-      it('should edit roles when id and title is valid', (done) => {
+      it('should edit roles when id and title field is valid', (done) => {
         const fieldsToUpdate = { title: 'casual' };
         request.put(`/api/roles/${role.id}`)
           .set({ Authorization: adminUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            // expect(response.body.title).to.equal(fieldsToUpdate.title);
+            expect(response.body.updatedRole.title)
+            .to.equal(fieldsToUpdate.title);
             done();
           });
       });
@@ -199,12 +208,12 @@ describe('Role API:', () => {
           })
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('Role Does Not Exist');
+            expect(response.body.message).to.equal(noRoleFound);
             done();
           });
       });
 
-      it('should not delete role if id is non-integer', (done) => {
+      it('should not delete role if id is not an integer', (done) => {
         request.delete('/api/roles/5r')
           .set({
             Authorization: adminUserToken,
@@ -212,7 +221,7 @@ describe('Role API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
@@ -223,7 +232,7 @@ describe('Role API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. You cannot delete default roles');
+            .equal(notPermitted);
             done();
           });
       });
@@ -234,7 +243,7 @@ describe('Role API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. You cannot delete default roles');
+            .equal(notPermitted);
             done();
           });
       });
@@ -260,7 +269,7 @@ describe('Role API:', () => {
             .end((error, response) => {
               expect(response.status).to.equal(400);
               expect(response.body.message).to
-              .equal('Invalid Search Parameter!');
+              .equal('Invalid search parameter!');
               done();
             });
       });
@@ -271,7 +280,7 @@ describe('Role API:', () => {
             .end((error, response) => {
               expect(response.status).to.equal(404);
               expect(response.body.message).to
-              .equal('Search Does Not Match Any Role!');
+              .equal('Search does not match any role!');
               done();
             });
       });
@@ -282,7 +291,8 @@ describe('Role API:', () => {
             .set({ Authorization: adminUserToken })
             .end((error, response) => {
               expect(response.status).to.equal(200);
-              expect(Array.isArray(response.body.roles)).to.be.true;
+              expect(Array.isArray(response.body.roles));
+              expect(response.body.roles.length).to.equal(1);
               done();
             });
         });

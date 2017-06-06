@@ -74,7 +74,7 @@ class RolesController {
       .then((role) => {
         if (!role) {
           return res.status(404).send({
-            message: 'Role Does Not Exist',
+            message: 'Role does not exist',
           });
         }
         res.status(200).send(role);
@@ -104,7 +104,7 @@ class RolesController {
       .then((role) => {
         if (!role) {
           return res.status(404).send({
-            message: 'Role Does Not Exist',
+            message: 'Role does not exist',
           });
         }
         if (role.title === 'regular' || role.title === 'admin') {
@@ -140,7 +140,7 @@ class RolesController {
       .then((role) => {
         if (!role) {
           return res.status(404).send({
-            message: 'Role Does Not Exist',
+            message: 'Role does not exist',
           });
         }
         if (role.title === 'regular' || role.title === 'admin') {
@@ -173,7 +173,7 @@ class RolesController {
 
     if (search === '') {
       return res.status(400).send({
-        message: 'Invalid Search Parameter!',
+        message: 'Invalid search parameter!',
       });
     }
     const query = {
@@ -195,7 +195,7 @@ class RolesController {
         );
         if (roles.rows.length === 0) {
           return res.status(404).send({
-            message: 'Search Does Not Match Any Role!',
+            message: 'Search does not match any role!',
           });
         }
         res.status(200).send({
