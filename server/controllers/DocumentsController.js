@@ -131,7 +131,7 @@ class DocumentsController {
           .then((document) => {
             if (!document) {
               return res.status(404).send({
-                message: 'Document Does Not Exist',
+                message: 'Document does not exist',
               });
             }
 
@@ -139,7 +139,7 @@ class DocumentsController {
               (document.OwnerId !== req.decoded.userId)) {
               return res.status(403)
                 .send({
-                  message: 'You are not authorized to view this document',
+                  message: 'You are not allowed to view this document',
                 });
             }
 
@@ -148,7 +148,7 @@ class DocumentsController {
                 (user.roleId !== req.decoded.roleId)) {
                 return res.status(403)
                   .send({
-                    message: 'You are not authorized to view this document',
+                    message: 'You are not allowed to view this document',
                   });
               }
 
@@ -180,14 +180,14 @@ class DocumentsController {
           .then((document) => {
             if (!document) {
               return res.status(404).send({
-                message: 'Document Does Not Exist',
+                message: 'Document does not exist',
               });
             }
             if ((role.title !== 'admin') &&
             (document.OwnerId !== req.decoded.userId)) {
               return res.status(403)
                 .send({
-                  message: 'You are not authorized to update this document',
+                  message: 'You are not allowed to update this document',
                 });
             }
             if (req.body.OwnerId && !(role.title === 'admin')) {
@@ -226,7 +226,7 @@ class DocumentsController {
           .then((document) => {
             if (!document) {
               return res.status(404).send({
-                message: 'Document Does Not Exist',
+                message: 'Document does not exist',
               });
             }
             if ((role.title !== 'admin') &&
@@ -269,7 +269,7 @@ class DocumentsController {
 
         if (search === '') {
           return res.status(400).send({
-            message: 'Invalid Search Parameter!',
+            message: 'Invalid search parameter!',
           });
         }
 
@@ -354,7 +354,7 @@ class DocumentsController {
             );
             if (documents.rows.length === 0) {
               return res.status(404).send({
-                message: 'Search Does Not Match Any Document!',
+                message: 'Search does not match any document!',
               });
             }
             res.status(200).send({

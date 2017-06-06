@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import supertest from 'supertest';
 import chai from 'chai';
 import app from '../../../server';
@@ -6,7 +5,6 @@ import SpecHelper from '../helpers/SpecHelper';
 
 const expect = chai.expect;
 const request = supertest.agent(app);
-
 const adminUser = SpecHelper.specUser1;
 const regularUser = SpecHelper.specUser2;
 const authorUser = SpecHelper.specUser4;
@@ -15,6 +13,12 @@ const roleDocument2 = SpecHelper.specDocument2;
 const roleDocument = SpecHelper.specDocument3;
 const privateDocument = SpecHelper.specDocument4;
 const publicDocument = SpecHelper.specDocument5;
+
+// error messages
+const invalidParameters = 'An error occured. Invalid parameters, try again!';
+const notAllowed = 'You are not allowed to view this document';
+const noDocumentFound = 'Document does not exist';
+const documentDeleted = 'Document deleted successfully';
 
 describe('Document API:', () => {
   let adminUserToken;
@@ -58,7 +62,8 @@ describe('Document API:', () => {
   describe('Documents REQUESTS:', () => {
     // POST requests - Create Documents
     describe('POST: (/api/documents) - ', () => {
-      it('should not create a document when required fields are invalid',
+      it(`should not create a document when title, content, access and/or type
+      fields are invalid`,
       (done) => {
         request.post('/api/documents')
           .send(invalidDocument)
@@ -66,13 +71,13 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
 
-      it(`should create a document with role access when required fields
-      are valid`, (done) => {
+      it(`should create a document with role access when title, content,
+      access and type fields are valid`, (done) => {
         request.post('/api/documents')
           .send(roleDocument)
           .set({ Authorization: authorUserToken })
@@ -84,8 +89,8 @@ describe('Document API:', () => {
           });
       });
 
-      it(`should create a document with role access when required fields
-      are valid`, (done) => {
+      it(`should create a document with role access when title, content,
+      access and type fields are valid`, (done) => {
         request.post('/api/documents')
           .send(roleDocument2)
           .set({ Authorization: regularUserToken })
@@ -97,8 +102,8 @@ describe('Document API:', () => {
           });
       });
 
-      it(`should create a document with private access when required fields
-      are valid`, (done) => {
+      it(`should create a document with private access when title, content,
+      access and type fields are valid`, (done) => {
         request.post('/api/documents')
           .send(privateDocument)
           .set({ Authorization: regularUserToken })
@@ -110,8 +115,8 @@ describe('Document API:', () => {
           });
       });
 
-      it(`should create a document with public access when required fields
-      are valid`, (done) => {
+      it(`should create a document with public access when title, content,
+      access and type fields are valid`, (done) => {
         request.post('/api/documents')
           .send(publicDocument)
           .set({ Authorization: adminUserToken })
@@ -143,19 +148,20 @@ describe('Document API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.documents)).to.be.true;
+            expect(Array.isArray(response.body.documents));
             expect(response.body.documents.length).to.equal(10);
             done();
           });
       });
 
-      it('should return public documents if user is not admin', (done) => {
+      it(`should return private, public and role documents if user is not
+      admin but has access to the documents`, (done) => {
         request.get('/api/documents')
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.documents)).to.be.true;
-            expect(response.body.documents.length).to.be.greaterThan(0);
+            expect(Array.isArray(response.body.documents));
+            expect(response.body.documents.length).to.equal(9);
             done();
           });
       });
@@ -168,18 +174,18 @@ describe('Document API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('Document Does Not Exist');
+            expect(response.body.message).to.equal(noDocumentFound);
             done();
           });
       });
 
-      it('should not return the document if id is non-integer', (done) => {
+      it('should not return the document if id is not an integer', (done) => {
         request.get('/api/documents/aa')
           .set({ Authorization: authorUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
@@ -191,7 +197,7 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(403);
             expect(response.body.message).to
-            .equal('You are not authorized to view this document');
+            .equal(notAllowed);
             done();
           });
       });
@@ -213,7 +219,7 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(403);
             expect(response.body.message).to
-            .equal('You are not authorized to view this document');
+            .equal(notAllowed);
             done();
           });
       });
@@ -242,19 +248,19 @@ describe('Document API:', () => {
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('Document Does Not Exist');
+            expect(response.body.message).to.equal(noDocumentFound);
             done();
           });
       });
 
-      it('should not edit document if id is non-integer', (done) => {
+      it('should not edit document if id is not an integer', (done) => {
         request.put('/api/documents/id')
           .set({ Authorization: adminUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
@@ -266,7 +272,7 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(403);
             expect(response.body.message).to
-              .equal('You are not authorized to update this document');
+              .equal('You are not allowed to update this document');
             done();
           });
       });
@@ -307,18 +313,18 @@ describe('Document API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('Document Does Not Exist');
+            expect(response.body.message).to.equal(noDocumentFound);
             done();
           });
       });
 
-      it('should not delete document if id is non-integer', (done) => {
+      it('should not delete document if id is not an integer', (done) => {
         request.delete('/api/documents/id')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
@@ -340,7 +346,7 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(200);
             expect(response.body.message).to
-              .equal('Document deleted successfully');
+              .equal(documentDeleted);
             done();
           });
       });
@@ -351,7 +357,7 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(200);
             expect(response.body.message).to
-              .equal('Document deleted successfully');
+              .equal(documentDeleted);
             done();
           });
       });
@@ -368,7 +374,7 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('Invalid Search Parameter!');
+            .equal('Invalid search parameter!');
             done();
           });
       });
@@ -380,7 +386,7 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(404);
             expect(response.body.message).to
-            .equal('Search Does Not Match Any Document!');
+            .equal('Search does not match any document!');
             done();
           });
       });
@@ -391,8 +397,8 @@ describe('Document API:', () => {
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.documents)).to.be.true;
-            expect(response.body.documents.length).to.be.greaterThan(0);
+            expect(Array.isArray(response.body.documents));
+            expect(response.body.documents.length).to.equal(1);
             done();
           });
       });
@@ -404,8 +410,8 @@ describe('Document API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.documents)).to.be.true;
-            expect(response.body.documents.length).to.be.greaterThan(0);
+            expect(Array.isArray(response.body.documents));
+            expect(response.body.documents.length).to.equal(1);
             done();
           });
       });
@@ -419,8 +425,8 @@ describe('Document API:', () => {
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.documents)).to.be.true;
-            expect(response.body.documents.length).to.be.greaterThan(0);
+            expect(Array.isArray(response.body.documents));
+            expect(response.body.documents.length).to.equal(2);
             done();
           });
       });
