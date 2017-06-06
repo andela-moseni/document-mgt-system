@@ -30,7 +30,7 @@ class UsersController {
       .then((user) => {
         if (!req.body.password) {
           return res.status(401)
-            .send({ message: 'Invalid Login Credentials. Try Again!' });
+            .send({ message: 'Invalid login credentials. Try again!' });
         }
         if (user && user.validatePassword(req.body.password)) {
           const token = jwt
@@ -50,7 +50,7 @@ class UsersController {
           });
         }
         res.status(401)
-          .send({ message: 'Invalid Login Credentials. Try Again!' });
+          .send({ message: 'Invalid login credentials. Try again!' });
       });
   }
 
@@ -83,7 +83,7 @@ class UsersController {
       .then((existingUser) => {
         if (existingUser) {
           return res.status(400).send({
-            message: 'User Already Exist!',
+            message: 'User already exist!',
           });
         }
 
@@ -160,7 +160,7 @@ class UsersController {
       .then((user) => {
         if (!user) {
           return res.status(404).send({
-            message: 'User Does Not Exist',
+            message: 'User does not exist',
           });
         }
         req.decoded.user = user;
@@ -188,7 +188,7 @@ class UsersController {
           .then((user) => {
             if (!user) {
               return res.status(404).send({
-                message: 'User Does Not Exist',
+                message: 'User does not exist',
               });
             }
             if (req.body.id) {
@@ -252,7 +252,7 @@ class UsersController {
           .then((user) => {
             if (!user) {
               return res.status(404).send({
-                message: 'User Does Not Exist',
+                message: 'User does not exist',
               });
             }
             if ((role.title !== 'admin') && (req.decoded.userId !== user.id)) {
@@ -375,7 +375,7 @@ class UsersController {
 
     if (search === '') {
       return res.status(400).send({
-        message: 'Invalid Search Parameter!',
+        message: 'Invalid search parameter!',
       });
     }
     const query = {
@@ -403,7 +403,7 @@ class UsersController {
         );
         if (users.rows.length === 0) {
           return res.status(404).send({
-            message: 'Search Does Not Match Any User!',
+            message: 'Search does not match any user!',
           });
         }
         res.status(200).send({

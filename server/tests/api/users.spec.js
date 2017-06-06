@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import supertest from 'supertest';
 import chai from 'chai';
 
@@ -17,6 +16,15 @@ const regularUser2 = SpecHelper.specUser3;
 const regularUser3 = SpecHelper.specUser5;
 const authorUser = SpecHelper.specUser6;
 
+// error messages
+const invalidParameters = 'An error occured. Invalid parameters, try again!';
+const userExist = 'User already exist!';
+const invalidCredentials = 'Invalid login credentials. Try again!';
+const userNotFound = 'User does not exist';
+const notAllowed =
+'Unauthorised access. You cannot update this user\'s property';
+const noDocumentFound = 'No document match the request.';
+
 describe('User API:', () => {
   let adminUserToken;
   let regularUserToken;
@@ -28,19 +36,21 @@ describe('User API:', () => {
   describe('Users REQUESTS:', () => {
     // POST requests - Create Users
     describe('POST: (/api/users) - ', () => {
-      it('should not create a user when required fields are invalid',
+      it(`should not create a user when name,
+      email and/or password fields are invalid`,
       (done) => {
         request.post('/api/users')
           .send(invalidUser)
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
 
-      it('should create a user if user does not exists', (done) => {
+      it(`should create a user when name, email and password fields are valid
+      and user does not exists`, (done) => {
         request.post('/api/users')
           .send(regularUser2)
           .end((error, response) => {
@@ -51,7 +61,8 @@ describe('User API:', () => {
           });
       });
 
-      it('should create a user if user does not exists', (done) => {
+      it(`should create a user when name, email and password fields are valid
+      and user does not exists`, (done) => {
         request.post('/api/users')
           .send(authorUser)
           .end((error, response) => {
@@ -67,7 +78,7 @@ describe('User API:', () => {
           .send(regularUser2)
           .end((error, response) => {
             expect(response.status).to.equal(400);
-            expect(response.body.message).to.equal('User Already Exist!');
+            expect(response.body.message).to.equal(userExist);
             done();
           });
       });
@@ -77,7 +88,7 @@ describe('User API:', () => {
           .send(authorUser)
           .end((error, response) => {
             expect(response.status).to.equal(400);
-            expect(response.body.message).to.equal('User Already Exist!');
+            expect(response.body.message).to.equal(userExist);
             done();
           });
       });
@@ -86,13 +97,14 @@ describe('User API:', () => {
 
   // POST requests - Login User
   describe('POST: (/api/users/login) - ', () => {
-    it('should not login a user if required fields are invalid', (done) => {
+    it(`should not login a user if email and/or
+    password fields are invalid`, (done) => {
       request.post('/api/users/login')
           .send(invalidUser2)
           .end((error, response) => {
             expect(response.status).to.equal(401);
             expect(response.body.message).to
-            .equal('Invalid Login Credentials. Try Again!');
+            .equal(invalidCredentials);
             done();
           });
     });
@@ -103,7 +115,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(401);
             expect(response.body.message).to
-            .equal('Invalid Login Credentials. Try Again!');
+            .equal(invalidCredentials);
             done();
           });
     });
@@ -115,12 +127,13 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(401);
             expect(response.body.message).to
-            .equal('Invalid Login Credentials. Try Again!');
+            .equal(invalidCredentials);
             done();
           });
       });
 
-    it('should login a user if user details exists', (done) => {
+    it(`should login a user if user details exists and
+    email and password fields are valid`, (done) => {
       request.post('/api/users/login')
           .send(adminUser)
           .end((error, response) => {
@@ -171,7 +184,7 @@ describe('User API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.users)).to.be.true;
+            expect(Array.isArray(response.body.users));
             expect(response.body.users.length).to.equal(7);
             done();
           });
@@ -183,7 +196,8 @@ describe('User API:', () => {
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.users)).to.be.true;
+            expect(Array.isArray(response.body.users));
+            expect(response.body.users.length).to.equal(7);
             done();
           });
     });
@@ -193,7 +207,8 @@ describe('User API:', () => {
           .set({ Authorization: authorUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.users)).to.be.true;
+            expect(Array.isArray(response.body.users));
+            expect(response.body.users.length).to.equal(7);
             done();
           });
     });
@@ -230,13 +245,13 @@ describe('User API:', () => {
           });
     });
 
-    it('should not return the user if id is non-integer', (done) => {
+    it('should not return the user if id is not an integer', (done) => {
       request.get('/api/users/1q')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
     });
@@ -246,7 +261,7 @@ describe('User API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('User Does Not Exist');
+            expect(response.body.message).to.equal(userNotFound);
             done();
           });
     });
@@ -261,12 +276,13 @@ describe('User API:', () => {
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('User Does Not Exist');
+            expect(response.body.message).to.equal(userNotFound);
             done();
           });
     });
 
-    it('should not edit user if required field is invalid', (done) => {
+    it(`should not edit user if name, email and/or
+    password field is invalid`, (done) => {
       const fieldsToUpdate = { name: 'ade1' };
       request.put('/api/users/1')
           .set({ Authorization: adminUserToken })
@@ -274,7 +290,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message)
-            .to.equal('An error occured. Invalid parameters, try again!');
+            .to.equal(invalidParameters);
             done();
           });
     });
@@ -318,13 +334,13 @@ describe('User API:', () => {
           });
     });
 
-    it('should not edit the user if id is non-integer', (done) => {
+    it('should not edit the user if id is not an integer', (done) => {
       request.put('/api/users/1q')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
     });
@@ -360,6 +376,7 @@ describe('User API:', () => {
           .send(fieldsToUpdate)
           .end((error, response) => {
             expect(response.status).to.equal(403);
+            expect(response.body.message).to.equal(notAllowed);
             done();
           });
     });
@@ -385,13 +402,13 @@ describe('User API:', () => {
 
     // DELETE requests - Delete specific user
   describe('DELETE: (/api/users/:id) - ', () => {
-    it('should not delete user if id is non-integer', (done) => {
+    it('should not delete user if id is not an integer', (done) => {
       request.delete('/api/users/2ab')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
     });
@@ -401,7 +418,7 @@ describe('User API:', () => {
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(404);
-            expect(response.body.message).to.equal('User Does Not Exist');
+            expect(response.body.message).to.equal(userNotFound);
             done();
           });
     });
@@ -451,12 +468,12 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(404);
             expect(response.body.message).to
-            .equal('No document match the request.');
+            .equal(noDocumentFound);
             done();
           });
       });
 
-    it('should not return user\'s documents if id is non-integer',
+    it('should not return user\'s documents if id is not an integer',
       (done) => {
         request.get(`/api/users/${invalidId}/documents`)
           .set({
@@ -465,7 +482,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('An error occured. Invalid parameters, try again!');
+            .equal(invalidParameters);
             done();
           });
       });
@@ -477,8 +494,8 @@ describe('User API:', () => {
           })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.documents)).to.be.true;
-            expect(response.body.documents.length).to.be.greaterThan(0);
+            expect(Array.isArray(response.body.documents));
+            expect(response.body.documents.length).to.equal(4);
             done();
           });
     });
@@ -491,7 +508,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(404);
             expect(response.body.message).to
-              .equal('No document match the request.');
+              .equal(noDocumentFound);
             done();
           });
     });
@@ -502,7 +519,8 @@ describe('User API:', () => {
           .set({ Authorization: regularUser2Token })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.documents)).to.be.true;
+            expect(Array.isArray(response.body.documents));
+            expect(response.body.documents.length).to.equal(2);
             done();
           });
     });
@@ -514,7 +532,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(404);
             expect(response.body.message).to
-            .equal('No document match the request.');
+            .equal(noDocumentFound);
             done();
           });
     });
@@ -530,7 +548,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal('Invalid Search Parameter!');
+            .equal('Invalid search parameter!');
             done();
           });
     });
@@ -541,7 +559,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(404);
             expect(response.body.message).to
-            .equal('Search Does Not Match Any User!');
+            .equal('Search does not match any user!');
             done();
           });
     });
@@ -552,8 +570,8 @@ describe('User API:', () => {
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            expect(Array.isArray(response.body.users)).to.be.true;
-            expect(response.body.users.length).to.be.greaterThan(0);
+            expect(Array.isArray(response.body.users));
+            expect(response.body.users.length).to.equal(1);
             done();
           });
       });
