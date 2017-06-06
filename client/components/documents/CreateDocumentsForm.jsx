@@ -56,7 +56,7 @@ class CreateDocumentsForm extends React.Component {
   render() {
     if (!this.props.document) return null;
     return (
-      <div className="row signup-form">
+      <div className="row docs-form">
         <form className="col s12" onSubmit={this.onSubmit}>
           <h3>Create/Edit Document Form</h3>
           <div className="row">

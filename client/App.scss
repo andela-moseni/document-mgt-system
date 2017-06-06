@@ -1,4 +1,5 @@
-$primary-white: rgba(255, 255, 235, 0.7);
+$primary-white: rgba(245, 245, 245, 0.8);
+$white-smoke: rgb(245, 245, 245);
 
 body {
   background: url('images/image.jpg');
@@ -26,14 +27,18 @@ nav .brand-logo {
 }
 
 .signup-form {
-  background: whitesmoke;
+  background: $primary-white;
   width: 50%;
-  opacity: 0.8;
+}
+
+.docs-form {
+  background: $white-smoke;
+  width: 50%;
   margin-top: 3rem;
 }
 
 .color-text {
-  color: whitesmoke;
+  color: $white-smoke;
 }
 .signupPage {
   padding-top: 80px;

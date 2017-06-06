@@ -370,22 +370,23 @@ Endpoint for document API.
 ```
 
 ## Technologies Used
-- JavaScript (ES6)
-- Node.js
-- Express
-- Postgresql
-- Sequelize ORM  
+- **[JavaScript ES6](http://es6-features.org/)** - Codes were written in javascript to enhance HTML pages.
+- **[ReactJS](https://facebook.github.io/react/)** - React is an open-source JavaScript library for building user interfaces.
+- **[NodeJS](https://nodejs.org/)** - Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.
+- **[ExpressJS](https://expressjs.com/)** - Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. I used this framework for routing.
+- **[PostgreSQL](https://www.postgresql.org/)** - Postgres is an object-relational database management system (ORDBMS) with an emphasis on extensibility and standards compliance.
+- **[Sequelize](http://docs.sequelizejs.com/)** - Sequelize is a promise-based ORM for Node.js which supports the dialects of PostgreSQL and features solid transaction support, relations, read replication and more.
 
 ### **Installation Steps**
+* Ensure you have `node` installed or install [Node](https://nodejs.org/en/download/)
 * Clone the project repository from your terminal `git clone https://github.com/andela-moseni/document-mgt-system.git`
 * Change directory into the `document-mgt-system` directory
-* Ensure you have `node` installed or install [Node](https://nodejs.org/en/download/)
 * Run `npm install` to install the dependencies in the `package.json` file
 * Run `npm run start:nodemon` to start the project
 * Run `npm test` to run the server-side(api) tests
 * Run `npm run test-e2e` to run the e2e tests
 * Run `npm run client:test` to run the client-side(React) tests
-* Use *Postman* or any API testing tool of your choice to access the endpoints
+* Use [Postman](https://www.getpostman.com/) or any API testing tool of your choice to access the endpoints
 
 ### **Endpoints**
 **N/B:** For all endpoints that require authentication, use \
