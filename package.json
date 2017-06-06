@@ -18,7 +18,7 @@
     "test-e2e": "nightwatch",
     "client:test": "_mocha --reporter spec client/test/testSetup.js client/test/**/*.spec.**",
     "client:test:watch": "npm run client:test -- --watch",
-    "api-documentation": "rimraf docs/ && jsdoc -r -c ./conf.json --readme ./documentation/README.md --destination documentation/docs"
+    "api-documentation": "rimraf docs/ && jsdoc -r -c ./conf.json --readme ./documentation/README.md --destination docs"
   },
   "repository": {
     "type": "git",
