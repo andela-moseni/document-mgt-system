@@ -261,8 +261,8 @@ describe('Role API:', () => {
     });
       // GET requests - Search role(s): Gets all roles relevant to search query
     describe('GET: (/api/search/roles?search) - ', () => {
-      const search = 'admin';
-      const term = 'xyz';
+      const validQuery = 'admin';
+      const invalidQuery = 'xyz';
       it('should not return role(s) if search term is empty', (done) => {
         request.get('/api/search/roles?search=')
             .set({ Authorization: adminUserToken })
@@ -275,7 +275,7 @@ describe('Role API:', () => {
       });
 
       it('should not return role(s) if search term doesn\'t match', (done) => {
-        request.get(`/api/search/roles?search=${term}`)
+        request.get(`/api/search/roles?search=${invalidQuery}`)
             .set({ Authorization: adminUserToken })
             .end((error, response) => {
               expect(response.status).to.equal(404);
@@ -287,7 +287,7 @@ describe('Role API:', () => {
 
       it('should return matching roles if search term match',
         (done) => {
-          request.get(`/api/search/roles?search=${search}`)
+          request.get(`/api/search/roles?search=${validQuery}`)
             .set({ Authorization: adminUserToken })
             .end((error, response) => {
               expect(response.status).to.equal(200);

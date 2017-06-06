@@ -366,8 +366,8 @@ describe('Document API:', () => {
     // GET requests -
     // Search document(s): Gets all documents relevant to search query
     describe('GET: (/api/search/documents?search) - ', () => {
-      const search = 'computer';
-      const term = 'abc';
+      const validQuery = 'computer';
+      const invalidQuery = 'abc';
       it('should not return document(s) if search term is empty', (done) => {
         request.get('/api/search/documents?search=')
           .set({ Authorization: regularUserToken })
@@ -381,7 +381,7 @@ describe('Document API:', () => {
 
       it('should not return document(s) if search term doesn\'t match',
       (done) => {
-        request.get(`/api/search/documents?search=${term}`)
+        request.get(`/api/search/documents?search=${invalidQuery}`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(404);
@@ -393,7 +393,7 @@ describe('Document API:', () => {
 
       it('should return matching documents if search term match',
       (done) => {
-        request.get(`/api/search/documents?search=${search}`)
+        request.get(`/api/search/documents?search=${validQuery}`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
@@ -406,7 +406,7 @@ describe('Document API:', () => {
       it(`should search through all documents if user is admin
       and return matching documents if search term match`,
       (done) => {
-        request.get(`/api/search/documents?search=${search}`)
+        request.get(`/api/search/documents?search=${validQuery}`)
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
@@ -420,8 +420,8 @@ describe('Document API:', () => {
       or user have the same role as owner and return matching
       documents if search term match`,
       (done) => {
-        const newSearch = 'YOYOL';
-        request.get(`/api/search/documents?search=${newSearch}`)
+        const newQuery = 'YOYOL';
+        request.get(`/api/search/documents?search=${newQuery}`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);

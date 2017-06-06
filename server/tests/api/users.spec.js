@@ -540,8 +540,8 @@ describe('User API:', () => {
 
     // GET requests - Search user(s): Gets all users relevant to search query
   describe('GET: (/api/search/users?search) - ', () => {
-    const search = 'mercy';
-    const term = 'abc';
+    const validQuery = 'mercy';
+    const invalidQuery = 'abc';
     it('should not return user(s) if search term is empty', (done) => {
       request.get('/api/search/users?search=')
           .set({ Authorization: adminUserToken })
@@ -554,7 +554,7 @@ describe('User API:', () => {
     });
 
     it('should not return user(s) if search term doesn\'t match', (done) => {
-      request.get(`/api/search/users?search=${term}`)
+      request.get(`/api/search/users?search=${invalidQuery}`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(404);
@@ -566,7 +566,7 @@ describe('User API:', () => {
 
     it('should return matching users if search term match',
       (done) => {
-        request.get(`/api/search/users?search=${search}`)
+        request.get(`/api/search/users?search=${validQuery}`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
             expect(response.status).to.equal(200);
