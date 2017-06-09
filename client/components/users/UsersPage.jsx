@@ -44,7 +44,9 @@ class usersPage extends React.Component {
     if (this.state.password !== this.state.passwordConfirmation) {
       return notify.show('Passwords do not match', 'custom', 3000, custom);
     }
-    this.props.createUser(this.state);
+    this.props.createUser(this.state).then(() => {
+      notify.show('User created successfully', 'success', 3000);
+    });
     this.setState({
       name: ' ',
       email: ' ',

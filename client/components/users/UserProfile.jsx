@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Input, Modal } from 'react-materialize';
+import { notify } from 'react-notify-toast';
 import * as usersActions from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import Prompt from '../../Prompt';
@@ -44,7 +45,10 @@ class userProfile extends React.Component {
   }
 
   deleteUser() {
-    this.props.deleteUser(this.props.user.id);
+    this.props.deleteUser(this.props.user.id)
+    .then(() => {
+      notify.show('User deleted successfully', 'success', 3000);
+    });
   }
 
   render() {

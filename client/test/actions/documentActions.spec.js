@@ -13,7 +13,7 @@ describe('Document Actions:', () => {
 
   describe('Fetch all documents', () => {
     it('retrieves documents and dispatches DISPLAY_ALL_DOCUMENTS', () => {
-      moxios.stubRequest('/documents?offset=0&limit=10', {
+      moxios.stubRequest('/api/documents?offset=0&limit=10', {
         status: 200,
         response: { title: 'YOYOL', content: 'Self learning' }
       });

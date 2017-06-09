@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { notify } from 'react-notify-toast';
 import { connect } from 'react-redux';
 import { Input, Modal } from 'react-materialize';
 import jwt from 'jsonwebtoken';
@@ -51,9 +52,15 @@ class UserListRow extends React.Component {
     const userId = this.props.user.id;
     const roleId = this.props.roleId;
     if (roleId === 1) {
-      return this.props.deleteUser(userId, true);
+      return this.props.deleteUser(userId, true)
+      .then(() => {
+        notify.show('User deleted successfully', 'success', 3000);
+      });
     }
-    this.props.deleteUser(userId);
+    this.props.deleteUser(userId)
+    .then(() => {
+      notify.show('User deleted successfully', 'success', 3000);
+    });
   }
 
   render() {

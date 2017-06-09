@@ -20,7 +20,6 @@ export function createUser(user) {
       type: types.CREATE_USER_SUCCESS,
       newUser,
     });
-    notify.show('User created successfully', 'success', 3000);
   })
   .catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, custom);
@@ -141,12 +140,9 @@ export function searchUsers(search, offset = 0, limit = 10) {
 export function deleteUser(userId, isAdmin) {
   return dispatch => axios.delete(`/api/users/${userId}`).then(() => {
     dispatch({
-      type: types.DELETE_USER,
+      type: types.DELETE_USER_SUCCESS,
       userId,
     });
-    notify.show('User deleted successfully',
-      'success', 3000);
-
     if (!isAdmin) {
       dispatch(logout());
       browserHistory.push('/signup');
