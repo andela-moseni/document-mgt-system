@@ -20,10 +20,7 @@ export function createDocument(document) {
       newDoc,
     });
   })
-  .then(() => {
-    notify.show('Document created successfully', 'success', 3000);
-    browserHistory.push('/my-documents');
-  }).catch((error) => {
+  .catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
@@ -168,9 +165,6 @@ export function updateDocument(document) {
       type: types.UPDATE_DOCUMENT_SUCCESS,
       updatedDocument,
     });
-  }).then(() => {
-    notify.show('Document updated successfully', 'success', 3000);
-    browserHistory.push('/my-documents');
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, custom);
   });
@@ -186,12 +180,9 @@ export function updateDocument(document) {
 export const deleteDocument = documentId => dispatch => axios
 .delete(`/api/documents/${documentId}`).then(() => {
   dispatch({
-    type: types.DELETE_DOCUMENT,
+    type: types.DELETE_DOCUMENT_SUCCESS,
     documentId,
   });
-  notify.show('Document deleted successfully',
-      'success', 3000);
-  browserHistory.push('/my-documents');
 }).catch((error) => {
   notify.show(error.response.data.message, 'custom', 3000, custom);
   browserHistory.push('/documents');

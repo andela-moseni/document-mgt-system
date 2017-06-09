@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
+import { notify } from 'react-notify-toast';
+import { browserHistory } from 'react-router';
 import { deleteDocument, fetchDocument,
   docFetched } from '../../actions/documentsActions';
 import Prompt from '../../Prompt';
@@ -31,7 +33,11 @@ class Document extends React.Component {
   }
 
   deleteDocument() {
-    this.props.deleteDocument(this.props.document.id);
+    this.props.deleteDocument(this.props.document.id)
+      .then(() => {
+        notify.show('Document deleted successfully', 'success', 3000);
+        browserHistory.push('/my-documents');
+      });
   }
 
   render() {

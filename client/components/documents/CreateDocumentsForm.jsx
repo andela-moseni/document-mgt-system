@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TinyMCE from 'react-tinymce';
 import { Input } from 'react-materialize';
+import { notify } from 'react-notify-toast';
+import { browserHistory } from 'react-router';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createDocument, fetchDocument,
   updateDocument } from '../../actions/documentsActions';
@@ -42,9 +44,17 @@ class CreateDocumentsForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.props.id) {
-      this.props.updateDocument(this.state);
+      this.props.updateDocument(this.state)
+      .then(() => {
+        notify.show('Document updated successfully', 'success', 3000);
+        browserHistory.push('/my-documents');
+      });
     } else {
-      this.props.createDocument(this.state);
+      this.props.createDocument(this.state)
+      .then(() => {
+        notify.show('Document created successfully', 'success', 3000);
+        browserHistory.push('/my-documents');
+      });
     }
     this.setState({ title: ' ', content: ' ', type: ' ' });
   }

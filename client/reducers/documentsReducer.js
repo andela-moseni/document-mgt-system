@@ -1,5 +1,5 @@
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
-  UPDATE_DOCUMENT_SUCCESS, DOC_FETCHED, DELETE_DOCUMENT,
+  UPDATE_DOCUMENT_SUCCESS, DOC_FETCHED, DELETE_DOCUMENT_SUCCESS,
   CREATE_DOCUMENT_SUCCESS, NO_DOCUMENTS_FOUND } from '../actions/types';
 
 const initialState = { documents: [], document: {}, pagination: {} };
@@ -26,7 +26,7 @@ export default (state = initialState, action = {}) => {
     case DOC_FETCHED:
       return Object.assign({}, state, { document: action.doc });
 
-    case DELETE_DOCUMENT: {
+    case DELETE_DOCUMENT_SUCCESS: {
       return Object.assign({}, state);
     }
 
