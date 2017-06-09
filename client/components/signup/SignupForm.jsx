@@ -77,8 +77,10 @@ class SignupForm extends React.Component {
               placeholder="passwords must match"
             />
 
-            <button className="btn waves-effect waves-light submitBtn"
-            type="submit" name="action">Submit
+            <button
+              className="btn waves-effect waves-light submitBtn"
+              type="submit" name="action"
+            >Submit
               <i className="material-icons right">send</i>
             </button>
           </div>

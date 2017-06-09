@@ -34,10 +34,6 @@ class userProfile extends React.Component {
     }
   }
 
-  deleteUser() {
-    this.props.deleteUser(this.props.user.id);
-  }
-
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -45,6 +41,10 @@ class userProfile extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     this.props.updateUser(this.state);
+  }
+
+  deleteUser() {
+    this.props.deleteUser(this.props.user.id);
   }
 
   render() {
@@ -74,11 +74,14 @@ class userProfile extends React.Component {
             </tbody>
           </table>
           <div className="center">
-            <Modal header="Update Profile" fixedFooter trigger={
-              <button
-                className="btn-floating btn-large waves-effect waves-light">
-                <i className="material-icons">edit</i>
-              </button>}>
+            <Modal
+              header="Update Profile" fixedFooter trigger={
+                <button
+                  className="btn-floating btn-large waves-effect waves-light"
+                >
+                  <i className="material-icons">edit</i>
+                </button>}
+            >
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
                   <TextFieldGroup
@@ -112,8 +115,10 @@ class userProfile extends React.Component {
                     />
                   </div>
 
-                  <button className="btn waves-effect waves-light submitBtn"
-                    type="submit" name="action">Update
+                  <button
+                    className="btn waves-effect waves-light submitBtn"
+                    type="submit" name="action"
+                  >Update
                     <i className="material-icons right">send</i>
                   </button>
                 </div>
@@ -121,15 +126,16 @@ class userProfile extends React.Component {
             </Modal>&nbsp;&nbsp;&nbsp;
             <Prompt
               trigger={
-              <button
-                className="btn-floating btn-large waves-effect waves-light red">
-                <i className="material-icons">delete</i>
-              </button>}
+                <button
+                  className="btn-floating btn-large waves-effect waves-light red"
+                >
+                  <i className="material-icons">delete</i>
+                </button>}
               onClickFunction={this.deleteUser}
             />
+          </div>
         </div>
       </div>
-    </div>
     );
   }
 }

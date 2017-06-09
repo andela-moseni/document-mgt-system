@@ -69,13 +69,15 @@ class UserListRow extends React.Component {
       if (user.id === curUserId || curUserRole === 1) {
         editBtn = (
           <button
-            className="btn-floating btn-large waves-effect waves-light">
+            className="btn-floating btn-large waves-effect waves-light"
+          >
             <i className="material-icons">edit</i>
           </button>
         );
         deleteBtn = (
           <button
-            className="btn-floating btn-large waves-effect waves-light cyan">
+            className="btn-floating btn-large waves-effect waves-light cyan"
+          >
             <i className="material-icons red">delete</i>
           </button>
         );
@@ -84,12 +86,12 @@ class UserListRow extends React.Component {
 
     return (
       <tr>
-      <td> {serial} </td>
-      <td> <Link to={`/users/${user.id}/documents`}>{user.name}</Link> </td>
-      <td> {user.email} </td>
-      <td> {user.roleTitle} </td>
-      <td>
-        <div className="center">
+        <td> {serial} </td>
+        <td> <Link to={`/users/${user.id}/documents`}>{user.name}</Link> </td>
+        <td> {user.email} </td>
+        <td> {user.roleTitle} </td>
+        <td>
+          <div className="center">
             <Modal header="Update user profile" fixedFooter trigger={editBtn}>
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
@@ -124,22 +126,24 @@ class UserListRow extends React.Component {
                     />
                   </div>
 
-                  <button className="btn waves-effect waves-light submitBtn"
-                    type="submit" name="action">Update
+                  <button
+                    className="btn waves-effect waves-light submitBtn"
+                    type="submit" name="action"
+                  >Update
                     <i className="material-icons right">send</i>
                   </button>
                 </div>
               </form>
             </Modal>
-        </div>
-      </td>
-      <td>
-        <Prompt
-        trigger={deleteBtn}
-        onClickFunction={this.deleteUser}
-      />
-      </td>
-    </tr>
+          </div>
+        </td>
+        <td>
+          <Prompt
+            trigger={deleteBtn}
+            onClickFunction={this.deleteUser}
+          />
+        </td>
+      </tr>
     );
   }
 }

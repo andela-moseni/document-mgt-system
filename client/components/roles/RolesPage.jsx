@@ -46,15 +46,16 @@ class RolesPage extends React.Component {
     }
     const { pageCount, currentPage, totalCount } = pagination;
     const createBtn = (
-       <button
-          className="btn-floating btn-large waves-effect waves-light newBtn"
-          id="rolesBtn">
-          <i className="material-icons">add</i>
-        </button>
+      <button
+        className="btn-floating btn-large waves-effect waves-light newBtn"
+        id="rolesBtn"
+      >
+        <i className="material-icons">add</i>
+      </button>
     );
 
     return (
-        <div className="container">
+      <div className="container">
         <h3 className="white-text center-align"> {totalCount} roles </h3>
         <table className="striped responsive-table highlight">
           <thead>
@@ -67,42 +68,44 @@ class RolesPage extends React.Component {
               <th>Delete</th>
             </tr>
           </thead>
-        <tbody>
-          {roles.map((role, index) =>
-          <RoleListRow key={index} role={role} serial={index + 1} />)}
-        </tbody>
-      </table>
-      <div className="center-align">
-        <Pagination
-          items={pageCount} activePage={currentPage}
-          maxButtons={pageCount}
-          onSelect={this.onSelect}
-        />
-      </div>
-      <div className="right">
-        <Modal header="Create Role" trigger={createBtn}>
-              <form className="col s12 rolesForm" onSubmit={this.onSubmit}>
-                <div className="row">
-                  <TextFieldGroup
-                    id="titleUnique"
-                    label="Title"
-                    onChange={this.onChange}
-                    value={this.state.title}
-                    icon="account_circle"
-                    field="title"
-                    placeholder="alphabets only"
-                  />
+          <tbody>
+            {roles.map((role, index) =>
+              <RoleListRow key={index} role={role} serial={index + 1} />)}
+          </tbody>
+        </table>
+        <div className="center-align">
+          <Pagination
+            items={pageCount} activePage={currentPage}
+            maxButtons={pageCount}
+            onSelect={this.onSelect}
+          />
+        </div>
+        <div className="right">
+          <Modal header="Create Role" trigger={createBtn}>
+            <form className="col s12 rolesForm" onSubmit={this.onSubmit}>
+              <div className="row">
+                <TextFieldGroup
+                  id="titleUnique"
+                  label="Title"
+                  onChange={this.onChange}
+                  value={this.state.title}
+                  icon="account_circle"
+                  field="title"
+                  placeholder="alphabets only"
+                />
 
-                  <button className="btn waves-effect waves-light submitBtn"
+                <button
+                  className="btn waves-effect waves-light submitBtn"
                   id="crRole"
-                    type="submit" name="action">Create
+                  type="submit" name="action"
+                >Create
                     <i className="material-icons right">send</i>
-                  </button>
-                </div>
-              </form>
-            </Modal>
+                </button>
+              </div>
+            </form>
+          </Modal>
+        </div>
       </div>
-    </div>
     );
   }
 }

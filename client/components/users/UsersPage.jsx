@@ -39,16 +39,18 @@ class usersPage extends React.Component {
     e.preventDefault();
     if (this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
-      'custom', 3000, custom);
+        'custom', 3000, custom);
     }
     if (this.state.password !== this.state.passwordConfirmation) {
       return notify.show('Passwords do not match', 'custom', 3000, custom);
     }
     this.props.createUser(this.state);
-    this.setState({ name: ' ',
+    this.setState({
+      name: ' ',
       email: ' ',
       password: ' ',
-      passwordConfirmation: ' ' });
+      passwordConfirmation: ' '
+    });
   }
 
   render() {
@@ -70,7 +72,8 @@ class usersPage extends React.Component {
       if (curUserRole === 1) {
         createBtn = (
           <button
-            className="btn-floating btn-large waves-effect waves-light newBtn">
+            className="btn-floating btn-large waves-effect waves-light newBtn"
+          >
             <i className="material-icons">add</i>
           </button>
         );
@@ -91,69 +94,73 @@ class usersPage extends React.Component {
               <th>Delete</th>
             </tr>
           </thead>
-        <tbody>
-          {users.map((user, index) =>
-          <UserListRow key={index}
-          user={user} serial={index + 1} />)}
-        </tbody>
-      </table>
-      <div className="center-align">
-        <Pagination
-          items={pageCount} activePage={currentPage}
-          maxButtons={pageCount}
-          onSelect={this.onSelect}
-        />
-      </div>
-      <div className="right">
-        <Modal header="Create User" fixedFooter trigger={createBtn}>
-              <form className="col s12" onSubmit={this.onSubmit}>
-                <div className="row">
-                  <TextFieldGroup
-                    label="Full Name"
-                    onChange={this.onChange}
-                    value={this.state.name}
-                    icon="account_circle"
-                    field="name"
-                    placeholder="alphabets only"
-                  />
+          <tbody>
+            {users.map((user, index) =>
+              <UserListRow
+                key={index}
+                user={user} serial={index + 1}
+              />)}
+          </tbody>
+        </table>
+        <div className="center-align">
+          <Pagination
+            items={pageCount} activePage={currentPage}
+            maxButtons={pageCount}
+            onSelect={this.onSelect}
+          />
+        </div>
+        <div className="right">
+          <Modal header="Create User" fixedFooter trigger={createBtn}>
+            <form className="col s12" onSubmit={this.onSubmit}>
+              <div className="row">
+                <TextFieldGroup
+                  label="Full Name"
+                  onChange={this.onChange}
+                  value={this.state.name}
+                  icon="account_circle"
+                  field="name"
+                  placeholder="alphabets only"
+                />
 
-                  <TextFieldGroup
-                    label="Email"
-                    onChange={this.onChange}
-                    value={this.state.email}
-                    icon="email"
-                    field="email"
-                    type="email"
-                  />
+                <TextFieldGroup
+                  label="Email"
+                  onChange={this.onChange}
+                  value={this.state.email}
+                  icon="email"
+                  field="email"
+                  type="email"
+                />
 
-                  <TextFieldGroup
-                    label="Password"
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    icon="vpn_key"
-                    field="password"
-                    type="password"
-                    placeholder="password must be minimum of four characters"
-                  />
+                <TextFieldGroup
+                  label="Password"
+                  onChange={this.onChange}
+                  value={this.state.password}
+                  icon="vpn_key"
+                  field="password"
+                  type="password"
+                  placeholder="password must be minimum of four characters"
+                />
 
-                  <TextFieldGroup
-                    label="Confirm Password"
-                    onChange={this.onChange}
-                    value={this.state.passwordConfirmation}
-                    icon="vpn_key"
-                    field="passwordConfirmation"
-                    type="password"
-                    placeholder="passwords must match"
-                  />
-                  <button className="btn waves-effect waves-light submitBtn"
-                    type="submit" name="action">Create
+                <TextFieldGroup
+                  label="Confirm Password"
+                  onChange={this.onChange}
+                  value={this.state.passwordConfirmation}
+                  icon="vpn_key"
+                  field="passwordConfirmation"
+                  type="password"
+                  placeholder="passwords must match"
+                />
+                <button
+                  className="btn waves-effect waves-light submitBtn"
+                  type="submit" name="action"
+                >Create
                     <i className="material-icons right">send</i>
-                  </button>
-                </div>
-              </form>
-            </Modal>
+                </button>
+              </div>
+            </form>
+          </Modal>
+        </div>
       </div>
-    </div>
     );
   }
 }

@@ -27,7 +27,7 @@ class SideNavBar extends React.Component {
         <ul id="slide-out" className="side-nav">
           <li>
             <div className="background">
-              <img src={image} width="300px"/>
+              <img src={image} width="300px" />
             </div>
             <div className="user-view">
               <img className="circle" src={img} />

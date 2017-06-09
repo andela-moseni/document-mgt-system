@@ -51,13 +51,15 @@ class Document extends React.Component {
       if (document.OwnerId === curUserId || curUserRole === 1) {
         editBtn = (
           <button
-            className="btn-floating btn-large waves-effect waves-light">
+            className="btn-floating btn-large waves-effect waves-light"
+          >
             <i className="material-icons">edit</i>
           </button>
         );
         deleteBtn = (
           <button
-            className="btn-floating btn-large waves-effect waves-light cyan">
+            className="btn-floating btn-large waves-effect waves-light cyan"
+          >
             <i className="material-icons red">delete</i>
           </button>
         );
@@ -66,20 +68,22 @@ class Document extends React.Component {
     return (
       <div>
         <div className="row centered">
-            <div className="card">
-              <h3 id="heading"> {document.title} </h3>
-              <div className="card-content"
-              dangerouslySetInnerHTML={this.createMarkup()} />
-              <div className="card-action">
-                <a href="/users" className="waves-effect waves-light btn">
+          <div className="card">
+            <h3 id="heading"> {document.title} </h3>
+            <div
+              className="card-content"
+              dangerouslySetInnerHTML={this.createMarkup()}
+            />
+            <div className="card-action">
+              <a href="/users" className="waves-effect waves-light btn">
                 OwnerId: {document.OwnerId} </a>
-                <a href={`/documents/${document.id}`}> {editBtn}</a>
-                <Prompt
-                  trigger={deleteBtn}
-                  onClickFunction={this.deleteDocument}
-                />
-              </div>
+              <a href={`/documents/${document.id}`}> {editBtn}</a>
+              <Prompt
+                trigger={deleteBtn}
+                onClickFunction={this.deleteDocument}
+              />
             </div>
+          </div>
         </div>
       </div>
     );

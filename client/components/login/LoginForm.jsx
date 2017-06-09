@@ -46,8 +46,10 @@ class LoginForm extends React.Component {
               field="password"
               type="password"
             />
-            <button className="btn waves-effect waves-light submitBtn"
-            type="submit" name="action">Login
+            <button
+              className="btn waves-effect waves-light submitBtn"
+              type="submit" name="action"
+            >Login
               <i className="material-icons right">send</i>
             </button>
           </div>
@@ -62,4 +64,3 @@ LoginForm.propTypes = {
 };
 
 export default connect(null, { login })(LoginForm);
-// export default LoginForm;

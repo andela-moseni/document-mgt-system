@@ -48,22 +48,23 @@ class UserDocuments extends React.Component {
               <th> Last Updated </th>
             </tr>
           </thead>
-        <tbody>
-           {documents.map((document) => {
-             serial += 1;
-             return (<DocumentListRow
-            key={serial} document={document} serial={serial} />);
-           })}
-        </tbody>
-      </table>
-      <div className="center-align">
-        <Pagination
-          items={pageCount} activePage={currentPage}
-          maxButtons={pageCount}
-          onSelect={this.onSelect}
-        />
+          <tbody>
+            {documents.map((document) => {
+              serial += 1;
+              return (<DocumentListRow
+                key={serial} document={document} serial={serial}
+              />);
+            })}
+          </tbody>
+        </table>
+        <div className="center-align">
+          <Pagination
+            items={pageCount} activePage={currentPage}
+            maxButtons={pageCount}
+            onSelect={this.onSelect}
+          />
+        </div>
       </div>
-    </div>
     );
   }
 }

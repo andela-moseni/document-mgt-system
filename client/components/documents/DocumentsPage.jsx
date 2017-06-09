@@ -27,7 +27,7 @@ class DocumentsPage extends React.Component {
       return (
         <div className="container">
           <h2 className="white-text center-align">No documents found.</h2>
-            <h4 className="white-text center-align">Kindly
+          <h4 className="white-text center-align">Kindly
               <Link to="/create-document"> create documents </Link>
               to explore Meek DMS
             </h4>
@@ -51,20 +51,22 @@ class DocumentsPage extends React.Component {
               <th> Last Updated </th>
             </tr>
           </thead>
-        <tbody>
-          {documents.map((document, index) =>
-          <DocumentListRow key={index}
-          document={document} serial={index + 1} />)}
-        </tbody>
-      </table>
-      <div className="center-align">
-        <Pagination
-          items={pageCount} activePage={currentPage}
-          maxButtons={pageCount}
-          onSelect={this.onSelect}
-        />
+          <tbody>
+            {documents.map((document, index) =>
+              <DocumentListRow
+                key={index}
+                document={document} serial={index + 1}
+              />)}
+          </tbody>
+        </table>
+        <div className="center-align">
+          <Pagination
+            items={pageCount} activePage={currentPage}
+            maxButtons={pageCount}
+            onSelect={this.onSelect}
+          />
+        </div>
       </div>
-    </div>
     );
   }
 }

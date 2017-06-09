@@ -27,9 +27,9 @@ class MyDocumentsPage extends React.Component {
     let serial = 0;
     if (documents.length === 0) {
       return (
-        <div className="container">< br/>
+        <div className="container"><br />
           <h2 className="white-text">No documents found.</h2>
-            <h4 className="white-text">Kindly
+          <h4 className="white-text">Kindly
               <Link to="/create-document"> create documents </Link>
               to explore Meek DMS
             </h4>
@@ -53,22 +53,23 @@ class MyDocumentsPage extends React.Component {
               <th> Last Updated </th>
             </tr>
           </thead>
-        <tbody>
-          {documents.map((document) => {
-            serial += 1;
-            return (<DocumentListRow
-            key={serial} document={document} serial={serial} />);
-          })}
-        </tbody>
-      </table>
-      <div className="center-align">
-        <Pagination
-          items={pageCount} activePage={currentPage}
-          maxButtons={pageCount}
-          onSelect={this.onSelect}
-        />
+          <tbody>
+            {documents.map((document) => {
+              serial += 1;
+              return (<DocumentListRow
+                key={serial} document={document} serial={serial}
+              />);
+            })}
+          </tbody>
+        </table>
+        <div className="center-align">
+          <Pagination
+            items={pageCount} activePage={currentPage}
+            maxButtons={pageCount}
+            onSelect={this.onSelect}
+          />
+        </div>
       </div>
-    </div>
     );
   }
 }
