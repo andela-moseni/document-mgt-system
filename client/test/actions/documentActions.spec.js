@@ -3,6 +3,7 @@ import moxios from 'moxios';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as documentActions from '../../actions/documentsActions';
+import * as types from '../../actions/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -19,7 +20,7 @@ describe('Document Actions:', () => {
       });
       const expectedActions =
         [
-          { type: 'DISPLAY_ALL_DOCUMENTS',
+          { type: types.DISPLAY_ALL_DOCUMENTS,
             allDocs: [{ title: 'YOYOL', body: 'Self learning' }],
             offset: 0 },
         ];
@@ -34,12 +35,12 @@ describe('Document Actions:', () => {
   describe('Create Document', () => {
     it('creates a new document and dispatches CREATE_DOCUMENT_SUCCESS', () => {
       moxios.stubRequest('/api/documents', {
-        status: 200,
+        status: 201,
         response: { document: { title: 'Hello', content: 'Mercy is good' } }
       });
 
       const expectedActions = [
-        { type: 'CREATE_DOCUMENT_SUCCESS',
+        { type: types.CREATE_DOCUMENT_SUCCESS,
           newDoc: {
             title: 'Hello',
             content: 'Mercy is good'
@@ -68,7 +69,7 @@ describe('Document Actions:', () => {
       });
 
       const expectedActions = [
-        { type: 'UPDATE_DOCUMENT_SUCCESS',
+        { type: types.UPDATE_DOCUMENT_SUCCESS,
           updatedDocument: {
             title: 'Hello Mercy',
             content: 'Mercy is cool'
@@ -93,7 +94,7 @@ describe('Document Actions:', () => {
         status: 200
       });
       const expectedActions = [{
-        type: 'DELETE_DOCUMENT_SUCCESS',
+        type: types.DELETE_DOCUMENT_SUCCESS,
         documentId: 1
       }];
       const store = mockStore();
@@ -105,7 +106,7 @@ describe('Document Actions:', () => {
   });
 
   describe('Search Document', () => {
-    it('searches through a document and dispatches DISPLAY_ALL_DOCUMENTS',
+    it('searches for document(s) and dispatches DISPLAY_ALL_DOCUMENTS',
     () => {
       moxios
       .stubRequest('/api/search/documents?search=hello&offset=0&limit=10', {
@@ -122,7 +123,7 @@ describe('Document Actions:', () => {
       });
 
       const expectedActions = [{
-        type: 'DISPLAY_ALL_DOCUMENTS',
+        type: types.DISPLAY_ALL_DOCUMENTS,
         allDocs: [{ title: 'hello', content: 'Self learning' }],
         pagination: {
           totalCount: 1,
@@ -157,7 +158,7 @@ describe('Document Actions:', () => {
       });
 
       const expectedActions = [{
-        type: 'DISPLAY_MY_DOCUMENTS',
+        type: types.DISPLAY_MY_DOCUMENTS,
         myDocs: [{ title: 'hello', content: 'Self learning' }],
         pagination: {
           totalCount: 1,

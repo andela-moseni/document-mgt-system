@@ -15,10 +15,9 @@ export function createRole(role) {
   return dispatch => axios.post('/api/roles', role).then((res) => {
     const newRole = res.data;
     dispatch({
-      type: types.CREATE_ROLE,
+      type: types.CREATE_ROLE_SUCCESS,
       newRole,
     });
-    notify.show('Role created successfully', 'success', 3000);
   })
   .catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, custom);
@@ -61,8 +60,6 @@ export function updateRole(role) {
       type: types.DISPLAY_UPDATED_ROLE,
       updatedRole,
     });
-    notify.show('Update successful',
-      'success', 3000);
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, custom);
   });
@@ -101,11 +98,9 @@ export function searchRoles(search, offset = 0, limit = 10) {
 export function deleteRole(roleId) {
   return dispatch => axios.delete(`/api/roles/${roleId}`).then(() => {
     dispatch({
-      type: types.DELETE_ROLE,
+      type: types.DELETE_ROLE_SUCCESS,
       roleId,
     });
-    notify.show('Role deleted successfully',
-      'success', 3000);
   }).catch((error) => {
     notify.show(error.response.data.message, 'custom', 3000, custom);
   });

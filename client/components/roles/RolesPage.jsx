@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Pagination } from 'react-materialize';
+import { notify } from 'react-notify-toast';
 import { fetchRoles, createRole } from '../../actions/rolesActions';
 import RoleListRow from './RoleListRow';
 import TextFieldGroup from '../common/TextFieldGroup';
@@ -30,7 +31,9 @@ class RolesPage extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.createRole(this.state);
+    this.props.createRole(this.state).then(() => {
+      notify.show('Role created successfully', 'success', 3000);
+    });
     this.setState({ title: ' ' });
   }
 

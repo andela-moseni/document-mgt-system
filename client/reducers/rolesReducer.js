@@ -1,12 +1,12 @@
 import findIndex from 'lodash/findIndex';
 import { DISPLAY_ALL_ROLES, DISPLAY_UPDATED_ROLE,
-  DELETE_ROLE, CREATE_ROLE } from '../actions/types';
+  DELETE_ROLE_SUCCESS, CREATE_ROLE_SUCCESS } from '../actions/types';
 
 const initialState = { roles: [], role: {}, pagination: {} };
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case CREATE_ROLE: {
+    case CREATE_ROLE_SUCCESS: {
       const stateCopy = Object.assign({}, state);
       stateCopy.roles.push(action.newRole);
       return stateCopy;
@@ -23,7 +23,7 @@ export default (state = initialState, action = {}) => {
       return stateCopy;
     }
 
-    case DELETE_ROLE:
+    case DELETE_ROLE_SUCCESS:
       return Object.assign({}, state,
       { roles: state.roles.filter(role => role.id !== action.roleId) });
 

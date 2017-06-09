@@ -3,6 +3,7 @@ import moxios from 'moxios';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as userActions from '../../actions/usersActions';
+import * as types from '../../actions/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -29,7 +30,7 @@ describe('User Actions:', () => {
       });
 
       const expectedActions = [{
-        type: 'DISPLAY_ALL_USERS',
+        type: types.DISPLAY_ALL_USERS,
         allUsers: [{ name: 'Mercy Oseni', email: 'mercy@test.com' }],
         pagination: {
           totalCount: 1,
@@ -57,7 +58,7 @@ describe('User Actions:', () => {
       });
 
       const expectedActions = [{
-        type: 'DISPLAY_USER_PROFILE',
+        type: types.DISPLAY_USER_PROFILE,
         userData: { name: 'Mercy Oseni', email: 'mercy@test.com' }
       }];
 
@@ -82,7 +83,7 @@ describe('User Actions:', () => {
       });
 
       const expectedActions = [{
-        type: 'DISPLAY_UPDATED_USER',
+        type: types.DISPLAY_UPDATED_USER,
         updatedUser: { name: 'Mercy O', email: 'mercy@test.com' }
       }];
 
@@ -100,7 +101,7 @@ describe('User Actions:', () => {
         status: 200
       });
       const expectedActions = [{
-        type: 'DELETE_USER_SUCCESS',
+        type: types.DELETE_USER_SUCCESS,
         userId: 1
       }];
       const store = mockStore();
@@ -132,7 +133,7 @@ describe('User Actions:', () => {
       });
 
       const expectedActions = [{
-        type: 'DISPLAY_ALL_USERS',
+        type: types.DISPLAY_ALL_USERS,
         allUsers: [{
           name: 'Mercy Oseni',
           email: 'mercy@test.com'
@@ -155,7 +156,7 @@ describe('User Actions:', () => {
   describe('Create User', () => {
     it('creates a new user and dispatches CREATE_USER_SUCCESS', () => {
       moxios.stubRequest('/api/users', {
-        status: 200,
+        status: 201,
         response: { user: {
           name: 'Love Handle',
           email: 'love@handle.com',
@@ -164,7 +165,7 @@ describe('User Actions:', () => {
       });
 
       const expectedActions = [
-        { type: 'CREATE_USER_SUCCESS',
+        { type: types.CREATE_USER_SUCCESS,
           newUser: {
             name: 'Love Handle',
             email: 'love@handle.com',
@@ -172,7 +173,9 @@ describe('User Actions:', () => {
           }
         }
       ];
-      const store = mockStore({ loggedIn: false, user: {} });
+
+      const store = mockStore({ loggedIn: true,
+        user: { email: 'admin@test.com', password: 'admin' } });
 
       return store.dispatch(userActions.createUser({}))
         .then(() => {

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
+import { notify } from 'react-notify-toast';
 import { fetchRoles, updateRole, deleteRole } from '../../actions/rolesActions';
 import Prompt from '../../Prompt';
 import TextFieldGroup from '../common/TextFieldGroup';
@@ -22,12 +23,16 @@ class RoleListRow extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.updateRole(this.state);
+    this.props.updateRole(this.state).then(() => {
+      notify.show('Update successful', 'success', 3000);
+    });
   }
 
   deleteRole() {
     const roleId = this.props.role.id;
-    this.props.deleteRole(roleId);
+    this.props.deleteRole(roleId).then(() => {
+      notify.show('Role deleted successfully', 'success', 3000);
+    });
   }
 
   render() {
