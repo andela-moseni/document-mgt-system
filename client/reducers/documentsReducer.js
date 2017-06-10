@@ -1,3 +1,4 @@
+import findIndex from 'lodash/findIndex';
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
   UPDATE_DOCUMENT_SUCCESS, DOC_FETCHED, DELETE_DOCUMENT_SUCCESS,
   CREATE_DOCUMENT_SUCCESS, NO_DOCUMENTS_FOUND } from '../actions/types';
@@ -20,14 +21,23 @@ export default (state = initialState, action = {}) => {
     case NO_DOCUMENTS_FOUND:
       return Object.assign({}, state, { documents: [] });
 
-    case UPDATE_DOCUMENT_SUCCESS:
-      return Object.assign({}, state, { document: action.updatedDocument });
+    case UPDATE_DOCUMENT_SUCCESS: {
+      // return Object.assign({}, state, { document: action.updatedDocument });
+      const docIndex = findIndex(state.documents,
+      { id: action.updatedDocument.id });
+      const stateCopy = Object.assign({}, state);
+      stateCopy.documents[docIndex] = action.updatedDocument;
+      return stateCopy;
+    }
 
     case DOC_FETCHED:
       return Object.assign({}, state, { document: action.doc });
 
     case DELETE_DOCUMENT_SUCCESS: {
-      return Object.assign({}, state);
+      // return Object.assign({}, state);
+      return Object.assign({}, state,
+        { documents: state.documents
+        .filter(document => document.id !== action.documentId) });
     }
 
     default: return state;
