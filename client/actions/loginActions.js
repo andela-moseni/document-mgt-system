@@ -8,7 +8,7 @@ import { SET_CURRENT_USER } from './types';
 /**
  *
  * @export
- * @param {any} user
+ * @param {Object} user
  * @returns {Object} user
  */
 export function setCurrentUser(user) {
@@ -34,7 +34,7 @@ export function logout() {
 /**
  *
  * @export
- * @param {any} userData
+ * @param {Object} userData
  * @returns {Object} user
  */
 export function login(userData) {

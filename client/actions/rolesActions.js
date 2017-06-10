@@ -8,7 +8,7 @@ const custom = { background: '#ff0000', text: '#FFFFFF' };
  *
  *
  * @export
- * @param {any} role
+ * @param {Object} role
  * @returns {Object}
  */
 export function createRole(role) {
@@ -28,8 +28,8 @@ export function createRole(role) {
  *
  *
  * @export
- * @param {number} [offset=0]
- * @param {number} [limit=10]
+ * @param {Number} [offset=0]
+ * @param {Number} [limit=10]
  * @returns {Object}
  */
 export function fetchRoles(offset = 0, limit = 10) {
@@ -50,7 +50,7 @@ export function fetchRoles(offset = 0, limit = 10) {
 /**
  *
  * @export
- * @param {any} role
+ * @param {Object} role
  * @returns {Object}
  */
 export function updateRole(role) {
@@ -68,9 +68,9 @@ export function updateRole(role) {
 /**
  *
  * @export
- * @param {any} search
- * @param {number} [offset=0]
- * @param {number} [limit=10]
+ * @param {String} search
+ * @param {Number} [offset=0]
+ * @param {Number} [limit=10]
  * @returns {Object}
  */
 export function searchRoles(search, offset = 0, limit = 10) {
@@ -92,7 +92,7 @@ export function searchRoles(search, offset = 0, limit = 10) {
 /**
  *
  * @export
- * @param {number} roleId
+ * @param {Number} roleId
  * @returns {Object}
  */
 export function deleteRole(roleId) {

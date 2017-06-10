@@ -8,7 +8,7 @@ import { setCurrentUser } from './loginActions';
 /**
  *
  * @export
- * @param {any} userData
+ * @param {Object} userData
  * @returns {Object} user
  */
 export default function userSignupRequest(userData) {

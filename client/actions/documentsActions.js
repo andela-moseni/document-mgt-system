@@ -9,7 +9,7 @@ const custom = { background: '#ff0000', text: '#FFFFFF' };
  *
  *
  * @export
- * @param {any} document
+ * @param {Object} document
  * @returns {Object}
  */
 export function createDocument(document) {
@@ -29,7 +29,7 @@ export function createDocument(document) {
  *
  *
  * @export
- * @param {any} doc
+ * @param {Object} doc
  * @returns {Object}
  */
 export function docFetched(doc) {
@@ -43,8 +43,8 @@ export function docFetched(doc) {
  *
  *
  * @export
- * @param {any} offset
- * @param {any} limit
+ * @param {Number} offset
+ * @param {Number} limit
  * @returns {Object}
  */
 export function fetchDocuments(offset, limit) {
@@ -63,7 +63,7 @@ export function fetchDocuments(offset, limit) {
  *
  *
  * @export
- * @param {any} id
+ * @param {Number} id
  * @returns {Object}
  */
 export function fetchDocument(id) {
@@ -79,9 +79,9 @@ export function fetchDocument(id) {
  *
  *
  * @export
- * @param {any} id
- * @param {number} [offset=0]
- * @param {number} [limit=10]
+ * @param {Number} id
+ * @param {Number} [offset=0]
+ * @param {Number} [limit=10]
  * @returns {Object}
  */
 export function fetchMyDocuments(id, offset = 0, limit = 10) {
@@ -106,9 +106,9 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
  *
  *
  * @export
- * @param {any} search
- * @param {number} [offset=0]
- * @param {number} [limit=10]
+ * @param {String} search
+ * @param {Number} [offset=0]
+ * @param {Number} [limit=10]
  * @returns {Object}
  */
 export function searchDocuments(search, offset = 0, limit = 10) {
@@ -129,10 +129,10 @@ export function searchDocuments(search, offset = 0, limit = 10) {
 /**
  *
  * @export
- * @param {number} id
- * @param {string} search
- * @param {number} [offset=0]
- * @param {number} [limit=10]
+ * @param {Number} id
+ * @param {String} search
+ * @param {Number} [offset=0]
+ * @param {Number} [limit=10]
  * @returns {Object} user documents
  */
 export function searchUserDocuments(id, search, offset = 0, limit = 10) {
@@ -154,7 +154,7 @@ export function searchUserDocuments(id, search, offset = 0, limit = 10) {
  *
  *
  * @export
- * @param {any} document
+ * @param {Object} document
  * @returns {Object}
  */
 export function updateDocument(document) {
@@ -174,7 +174,7 @@ export function updateDocument(document) {
  *
  *
  * @export
- * @param {any} documentId
+ * @param {Number} documentId
  * @returns {Object}
  */
 export const deleteDocument = documentId => dispatch => axios

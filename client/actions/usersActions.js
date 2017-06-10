@@ -10,7 +10,7 @@ const custom = { background: '#ff0000', text: '#FFFFFF' };
 /**
  *
  * @export
- * @param {any} user
+ * @param {Object} user
  * @returns {Object}
  */
 export function createUser(user) {
@@ -30,8 +30,8 @@ export function createUser(user) {
  *
  *
  * @export
- * @param {number} [offset=0]
- * @param {number} [limit=10]
+ * @param {Number} [offset=0]
+ * @param {Number} [limit=10]
  * @returns {Object} allUsers
  */
 export function fetchUsers(offset = 0, limit = 10) {
@@ -50,7 +50,7 @@ export function fetchUsers(offset = 0, limit = 10) {
  *
  *
  * @export
- * @param {any} id
+ * @param {Number} id
  * @returns {Object} userData
  */
 export function fetchUserProfile(id) {
@@ -67,7 +67,7 @@ export function fetchUserProfile(id) {
  *
  *
  * @export
- * @param {any} user
+ * @param {Object} user
  * @returns {Object} updatedUser
  */
 export function updateUser(user) {
@@ -88,7 +88,7 @@ export function updateUser(user) {
 /**
  *
  * @export
- * @param {any} user
+ * @param {Object} user
  * @returns {Object}
  */
 export function updateUsers(user) {
@@ -110,9 +110,9 @@ export function updateUsers(user) {
  *
  *
  * @export
- * @param {any} search
- * @param {number} [offset=0]
- * @param {number} [limit=10]
+ * @param {String} search
+ * @param {Number} [offset=0]
+ * @param {Number} [limit=10]
  * @returns {Object} allUsers
  */
 export function searchUsers(search, offset = 0, limit = 10) {
@@ -133,8 +133,8 @@ export function searchUsers(search, offset = 0, limit = 10) {
 /**
  *
  * @export
- * @param {number} userId
- * @param {boolean} isAdmin
+ * @param {Number} userId
+ * @param {Boolean} isAdmin
  * @returns {Object}
  */
 export function deleteUser(userId, isAdmin) {
