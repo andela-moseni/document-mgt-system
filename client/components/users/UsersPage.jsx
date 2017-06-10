@@ -7,6 +7,11 @@ import { fetchUsers, createUser } from '../../actions/usersActions';
 import UserListRow from './UserListRow';
 import TextFieldGroup from '../common/TextFieldGroup';
 
+/**
+ *
+ * @class usersPage
+ * @extends {React.Component}
+ */
 class usersPage extends React.Component {
   constructor(props) {
     super(props);
@@ -21,22 +26,45 @@ class usersPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * Renders all users
+   * @memberOf usersPage
+   */
   componentWillMount() {
     this.props.fetchUsers();
   }
 
+  /**
+   * onSelect - Page count
+   * @param {Number} pageNumber
+   *
+   * @memberOf usersPage
+   */
   onSelect(pageNumber) {
     const offset = (pageNumber - 1) * 10;
     this.props.fetchUsers(offset);
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  /**
+   * Control input fields
+   * @param {any} event
+   *
+   * @memberOf usersPage
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  onSubmit(e) {
+  /**
+   * Create a user
+   * @param {Object} event
+   * @returns {Object}
+   *
+   * @memberOf usersPage
+   */
+  onSubmit(event) {
     const custom = { background: '#FF0000', text: '#FFFFFF' };
-    e.preventDefault();
+    event.preventDefault();
     if (this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
         'custom', 3000, custom);
@@ -55,6 +83,13 @@ class usersPage extends React.Component {
     });
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf usersPage
+   */
   render() {
     const { users, pagination } = this.props.users;
     if (!users) return null;
@@ -176,7 +211,7 @@ usersPage.propTypes = {
 /**
  *
  *
- * @param {any} state
+ * @param {Object} state
  * @returns {Object}
  */
 function mapStateToProps(state) {

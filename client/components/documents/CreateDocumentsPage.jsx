@@ -5,6 +5,11 @@ import CreateDocumentsForm from './CreateDocumentsForm';
 import { fetchDocument, updateDocument,
   docFetched } from '../../actions/documentsActions';
 
+/**
+ *
+ * @class CreateDocumentsPage
+ * @extends {React.Component}
+ */
 class CreateDocumentsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -18,19 +23,31 @@ class CreateDocumentsPage extends React.Component {
     }
   }
 
+  /**
+   * Renders a document if it exists
+   *
+   * @memberOf CreateDocumentsPage
+   */
   componentWillMount() {
     if (!this.props.document.title) {
       this.props.fetchDocument(this.props.params.id);
     }
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf CreateDocumentsPage
+   */
   render() {
     return (
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <CreateDocumentsForm
-          id={this.props.params.id}
-          document={this.props.document}
+            id={this.props.params.id}
+            document={this.props.document}
           />
         </div>
       </div>
@@ -59,6 +76,11 @@ const mapDispatchToProps = {
   docFetched,
 };
 
+/**
+ *
+ * @param {Object} state
+ * @returns {Object}
+ */
 const mapStateToProps = state => ({
   document: state.document.document,
   documents: state.document.documents,

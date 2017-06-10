@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { login } from '../../actions/loginActions';
 
+/**
+ *
+ * @class LoginForm
+ * @extends {React.Component}
+ */
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -14,15 +19,34 @@ class LoginForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf LoginForm
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  /**
+   * Login a user
+   * @param {Object} event
+   *
+   * @memberOf LoginForm
+   */
+  onSubmit(event) {
+    event.preventDefault();
     this.props.login(this.state);
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf LoginForm
+   */
   render() {
     return (
       <div className="row signup-form">

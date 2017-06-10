@@ -5,7 +5,19 @@ import jwt from 'jsonwebtoken';
 import image from '../images/docs1.jpg';
 import img from '../images/user.jpg';
 
+/**
+ *
+ * @class SideNavBar
+ * @extends {React.Component}
+ */
 class SideNavBar extends React.Component {
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf SideNavBar
+   */
   render() {
     // conditional rendering for admin to access roles link
     const curUser = jwt.decode(localStorage.jwtToken);
@@ -88,7 +100,7 @@ SideNavBar.propTypes = {
 /**
  *
  *
- * @param {any} state
+ * @param {Object} state
  * @returns {Object}
  */
 function mapStateToProps(state) {

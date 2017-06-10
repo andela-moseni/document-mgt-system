@@ -4,7 +4,17 @@ import PropTypes from 'prop-types';
 import SignupForm from './SignupForm';
 import userSignupRequest from '../../actions/signupActions';
 
+/**
+ *
+ * @class SignupPage
+ * @extends {React.Component}
+ */
 class SignupPage extends React.Component {
+  /**
+   * Renders the component
+   * @returns {Object} jsx component
+   * @memberOf SignupPage
+   */
   render() {
     const { userSignupRequest } = this.props;
     return (

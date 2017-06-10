@@ -9,6 +9,11 @@ import { deleteUser, updateUsers,
   fetchUserProfile } from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 
+/**
+ *
+ * @class UserListRow
+ * @extends {React.Component}
+ */
 class UserListRow extends React.Component {
   constructor(props) {
     super(props);
@@ -22,11 +27,21 @@ class UserListRow extends React.Component {
     this.deleteUser = this.deleteUser.bind(this);
   }
 
+  /**
+   * Renders user's profile
+   * @memberOf UserListRow
+   */
   componentWillMount() {
     const { userId } = this.props;
     this.props.fetchUserProfile(userId);
   }
 
+  /**
+   * Renders props of a user object if it exists
+   * @param {Object} nextProps
+   *
+   * @memberOf UserListRow
+   */
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
       const { user: { id, name, email } } = nextProps;
@@ -38,16 +53,34 @@ class UserListRow extends React.Component {
     }
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf UserListRow
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  /**
+   * Updates a user
+   * @param {Object} event
+   *
+   * @memberOf UserListRow
+   */
+  onSubmit(event) {
+    event.preventDefault();
     this.props.updateUsers(this.state);
   }
 
 
+  /**
+   * Deletes a user
+   * @returns {Object}
+   *
+   * @memberOf UserListRow
+   */
   deleteUser() {
     const userId = this.props.user.id;
     const roleId = this.props.roleId;
@@ -63,6 +96,13 @@ class UserListRow extends React.Component {
     });
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf UserListRow
+   */
   render() {
     const { user, serial } = this.props;
 
@@ -170,7 +210,7 @@ UserListRow.propTypes = {
 /**
  *
  *
- * @param {any} state
+ * @param {Object} state
  * @returns {Object}
  */
 function mapStateToProps(state) {

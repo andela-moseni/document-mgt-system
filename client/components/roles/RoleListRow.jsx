@@ -6,6 +6,11 @@ import { fetchRoles, updateRole, deleteRole } from '../../actions/rolesActions';
 import Prompt from '../../Prompt';
 import TextFieldGroup from '../common/TextFieldGroup';
 
+/**
+ *
+ * @class RoleListRow
+ * @extends {React.Component}
+ */
 class RoleListRow extends React.Component {
   constructor(props) {
     super(props);
@@ -17,17 +22,34 @@ class RoleListRow extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.deleteRole = this.deleteRole.bind(this);
   }
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf RoleListRow
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  /**
+   * Updates a role
+   * @param {Object} event
+   *
+   * @memberOf RoleListRow
+   */
+  onSubmit(event) {
+    event.preventDefault();
     this.props.updateRole(this.state).then(() => {
       notify.show('Update successful', 'success', 3000);
     });
   }
 
+  /**
+   * Deletes a role
+   *
+   * @memberOf RoleListRow
+   */
   deleteRole() {
     const roleId = this.props.role.id;
     this.props.deleteRole(roleId).then(() => {
@@ -35,6 +57,13 @@ class RoleListRow extends React.Component {
     });
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf RoleListRow
+   */
   render() {
     const { role, serial } = this.props;
     const newDate = new Date(role.updatedAt);

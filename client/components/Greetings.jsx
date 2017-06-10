@@ -1,6 +1,14 @@
 import React from 'react';
 
+/**
+ * @class Greetings
+ * @extends {React.Component}
+ */
 class Greetings extends React.Component {
+  /**
+   * Initiates sideNav, select, modal... before rendering component
+   * @memberOf Greetings
+   */
   componentDidMount() {
     $('.button-collapse').sideNav();
     $('select').material_select();
@@ -29,6 +37,13 @@ class Greetings extends React.Component {
     enlarge();
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf Greetings
+   */
   render() {
     return (
       <div className="container home-page">

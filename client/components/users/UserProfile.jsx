@@ -6,6 +6,11 @@ import * as usersActions from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import Prompt from '../../Prompt';
 
+/**
+ *
+ * @class userProfile
+ * @extends {React.Component}
+ */
 class userProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -19,11 +24,22 @@ class userProfile extends React.Component {
     this.deleteUser = this.deleteUser.bind(this);
   }
 
+  /**
+   * Render user's profile
+   *
+   * @memberOf userProfile
+   */
   componentWillMount() {
     const { userId } = this.props;
     this.props.loadUserProfile(userId);
   }
 
+  /**
+   * Renders a user profile
+   * @param {Object} nextProps
+   *
+   * @memberOf userProfile
+   */
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
       const { user: { id, name, email } } = nextProps;
@@ -35,15 +51,31 @@ class userProfile extends React.Component {
     }
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf userProfile
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  /**
+   * Updates a user
+   * @param {Object} event
+   *
+   * @memberOf userProfile
+   */
+  onSubmit(event) {
+    event.preventDefault();
     this.props.updateUser(this.state);
   }
 
+  /**
+   * Deletes a user
+   * @memberOf userProfile
+   */
   deleteUser() {
     this.props.deleteUser(this.props.user.id)
     .then(() => {
@@ -51,6 +83,13 @@ class userProfile extends React.Component {
     });
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf userProfile
+   */
   render() {
     const user = this.props.user;
     return (
@@ -155,7 +194,7 @@ userProfile.propTypes = {
 /**
  *
  *
- * @param {any} dispatch
+ * @param {Object} dispatch
  * @returns {Object}
  */
 function mapDispatchToProps(dispatch) {
@@ -169,7 +208,7 @@ function mapDispatchToProps(dispatch) {
 /**
  *
  *
- * @param {any} state
+ * @param {Object} state
  * @returns {Object}
  */
 function mapStateToProps(state) {

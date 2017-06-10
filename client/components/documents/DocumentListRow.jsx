@@ -1,6 +1,12 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+/**
+ * DocumentListRow
+ *
+ * @param {Object} props { document, serial }
+ * @returns {Object} jsx Object
+ */
 const DocumentListRow = ({ document, serial }) => {
   const date = new Date(document.updatedAt);
   return (

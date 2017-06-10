@@ -6,6 +6,11 @@ import { fetchRoles, createRole } from '../../actions/rolesActions';
 import RoleListRow from './RoleListRow';
 import TextFieldGroup from '../common/TextFieldGroup';
 
+/**
+ *
+ * @class RolesPage
+ * @extends {React.Component}
+ */
 class RolesPage extends React.Component {
   constructor(props) {
     super(props);
@@ -16,27 +21,57 @@ class RolesPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
+  /**
+   * Renders all roles
+   *
+   * @memberOf RolesPage
+   */
   componentWillMount() {
     this.props.fetchRoles();
   }
 
+  /**
+   * onSelect - Page count
+   * @param {Number} pageNumber
+   *
+   * @memberOf RolesPage
+   */
   onSelect(pageNumber) {
     const offset = (pageNumber - 1) * 10;
     this.props.fetchRoles(offset);
   }
 
-  onChange(e) {
-    this.setState({ title: e.target.value });
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf RolesPage
+   */
+  onChange(event) {
+    this.setState({ title: event.target.value });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  /**
+   * Creates a role
+   * @param {Object} event
+   *
+   * @memberOf RolesPage
+   */
+  onSubmit(event) {
+    event.preventDefault();
     this.props.createRole(this.state).then(() => {
       notify.show('Role created successfully', 'success', 3000);
     });
     this.setState({ title: ' ' });
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf RolesPage
+   */
   render() {
     const { roles, pagination } = this.props.roles;
     if (!roles) return null;

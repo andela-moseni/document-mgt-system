@@ -3,6 +3,11 @@ import { notify } from 'react-notify-toast';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 
+/**
+ *
+ * @class SignupForm
+ * @extends {React.Component}
+ */
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
@@ -16,13 +21,26 @@ class SignupForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf SignupForm
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  onSubmit(e) {
+  /**
+   * Signup a user
+   * @param {any} event
+   * @returns {Object}
+   *
+   * @memberOf SignupForm
+   */
+  onSubmit(event) {
     const custom = { background: '#ff0000', text: '#FFFFFF' };
-    e.preventDefault();
+    event.preventDefault();
     if (this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
         'custom', 3000, custom);
@@ -33,6 +51,13 @@ class SignupForm extends React.Component {
     return notify.show('Passwords do not match', 'custom', 3000, custom);
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf SignupForm
+   */
   render() {
     return (
       <div className="row signup-form">

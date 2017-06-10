@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * TextFieldGroup
+ *
+ * @param {Object} props { field, value, label, type, onChange,
+ *   icon, placeholder, id }
+ * @returns {Object} jsx Object
+ */
 const TextFieldGroup = ({ field, value, label, type, onChange,
   icon, placeholder, id }) => (
     <div className="input-field col s12">

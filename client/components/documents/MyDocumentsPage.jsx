@@ -5,23 +5,46 @@ import { Pagination } from 'react-materialize';
 import { fetchMyDocuments } from '../../actions/documentsActions';
 import DocumentListRow from './DocumentListRow';
 
+/**
+ *
+ * @class MyDocumentsPage
+ * @extends {React.Component}
+ */
 class MyDocumentsPage extends React.Component {
   constructor(props) {
     super(props);
     this.onSelect = this.onSelect.bind(this);
   }
 
+  /**
+   * Renders all user's documents
+   *
+   * @memberOf MyDocumentsPage
+   */
   componentWillMount() {
     const { userId } = this.props;
     this.props.fetchMyDocuments(userId);
   }
 
+  /**
+   * onSelect - Page count
+   * @param {Number} pageNumber
+   *
+   * @memberOf MyDocumentsPage
+   */
   onSelect(pageNumber) {
     const { userId } = this.props;
     const offset = (pageNumber - 1) * 10;
     this.props.fetchMyDocuments(userId, offset);
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf MyDocumentsPage
+   */
   render() {
     const { documents, pagination } = this.props.documents;
     let serial = 0;
@@ -83,7 +106,7 @@ MyDocumentsPage.propTypes = {
 /**
  *
  *
- * @param {any} state
+ * @param {Object} state
  * @returns {Object}
  */
 function mapStateToProps(state) {

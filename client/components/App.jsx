@@ -4,7 +4,18 @@ import Notifications from 'react-notify-toast';
 import NavigationBar from './NavigationBar';
 import Footer from '../components/Footer';
 
+/**
+ *
+ * @class App
+ * @extends {React.Component}
+ */
 class App extends React.Component {
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   * @memberOf App
+   */
   render() {
     return (
       <div>

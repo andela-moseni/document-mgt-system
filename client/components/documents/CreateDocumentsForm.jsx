@@ -9,6 +9,11 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import { createDocument, fetchDocument,
   updateDocument } from '../../actions/documentsActions';
 
+/**
+ *
+ * @class CreateDocumentsForm
+ * @extends {React.Component}
+ */
 class CreateDocumentsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +29,12 @@ class CreateDocumentsForm extends React.Component {
     this.handleEditorChange = this.handleEditorChange.bind(this);
   }
 
+  /**
+   * Renders props of a document if it exists
+   * @param {Object} nextProps
+   *
+   * @memberOf CreateDocumentsForm
+   */
   componentWillReceiveProps(nextProps) {
     if (nextProps.document) {
       const { document: { title, content, type, id, access } } = nextProps;
@@ -37,12 +48,24 @@ class CreateDocumentsForm extends React.Component {
     }
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf CreateDocumentsForm
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  /**
+   * Create or update document
+   * @param {Object} event
+   *
+   * @memberOf CreateDocumentsForm
+   */
+  onSubmit(event) {
+    event.preventDefault();
     if (this.props.id) {
       this.props.updateDocument(this.state)
       .then(() => {
@@ -59,10 +82,23 @@ class CreateDocumentsForm extends React.Component {
     this.setState({ title: ' ', content: ' ', type: ' ' });
   }
 
-  handleEditorChange(e) {
-    this.setState({ content: e.target.getContent() });
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf CreateDocumentsForm
+   */
+  handleEditorChange(event) {
+    this.setState({ content: event.target.getContent() });
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf CreateDocumentsForm
+   */
   render() {
     if (!this.props.document) return null;
     return (

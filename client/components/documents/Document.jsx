@@ -7,6 +7,11 @@ import { deleteDocument, fetchDocument,
   docFetched } from '../../actions/documentsActions';
 import Prompt from '../../Prompt';
 
+/**
+ *
+ * @class Document
+ * @extends {React.Component}
+ */
 class Document extends React.Component {
   constructor(props) {
     super(props);
@@ -21,17 +26,32 @@ class Document extends React.Component {
     }
   }
 
+  /**
+   * Renders a document if it exists
+   *
+   * @memberOf Document
+   */
   componentWillMount() {
     if (!this.props.document.title) {
       this.props.fetchDocument(this.props.params.id);
     }
   }
 
-// modify content to plain text
+  /**
+   * Modify content to plain text
+   * @returns {Object}
+   *
+   * @memberOf Document
+   */
   createMarkup() {
     return { __html: this.props.document.content };
   }
 
+  /**
+   * Delete a document
+   *
+   * @memberOf Document
+   */
   deleteDocument() {
     this.props.deleteDocument(this.props.document.id)
       .then(() => {
@@ -40,6 +60,13 @@ class Document extends React.Component {
       });
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf Document
+   */
   render() {
     const { document } = this.props;
     if (!document || (document && !document.title)) {
@@ -105,6 +132,11 @@ Document.propTypes = {
   fetchDocument: PropTypes.func.isRequired,
 };
 
+/**
+ *
+ * @param {Object} state
+ * @returns {Object}
+ */
 const mapStateToProps = state => ({
   document: state.document.document,
   documents: state.document.documents,

@@ -10,6 +10,11 @@ from '../actions/documentsActions';
 import { searchUsers } from '../actions/usersActions';
 import { searchRoles } from '../actions/rolesActions';
 
+/**
+ *
+ * @class NavigationBar
+ * @extends {React.Component}
+ */
 class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
@@ -17,9 +22,15 @@ class NavigationBar extends React.Component {
     this.logout = this.logout.bind(this);
   }
 
-  onChange(e) {
+  /**
+   * Control input fields
+   * @param {Object} event
+   *
+   * @memberOf NavigationBar
+   */
+  onChange(event) {
     const currentPath = location.pathname;
-    const query = e.target.value;
+    const query = event.target.value;
     if (currentPath === '/documents') {
       this.props.searchDocuments(query);
     } else if (currentPath === '/my-documents') {
@@ -35,11 +46,24 @@ class NavigationBar extends React.Component {
     }
   }
 
-  logout(e) {
-    e.preventDefault();
+  /**
+   * Logout a user
+   * @param {Object} event
+   *
+   * @memberOf NavigationBar
+   */
+  logout(event) {
+    event.preventDefault();
     this.props.logout();
   }
 
+  /**
+   * Renders the component
+   *
+   * @returns {Object} jsx component
+   *
+   * @memberOf NavigationBar
+   */
   render() {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
