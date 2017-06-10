@@ -10,12 +10,11 @@ export default {
       .setValue('Input[name=email]', 'love@handle.com')
       .setValue('Input[name=password]', 'love')
       .click('button')
-      .pause(2000)
+      .waitForElementVisible('h3#fiddle-text')
       .assert.containsText('h3#fiddle-text',
       'Welcome to Meek - Document Management System')
-      .click('#menuBar')
-      .pause(2000)
       .waitForElementVisible('#menuBar')
+      .click('#menuBar')
       .assert.containsText('span#black-text', 'Welcome, Love Handle')
       .assert.containsText('p#black-text', 'love@handle.com')
       .end(),

@@ -16,12 +16,12 @@ export default {
       .setValue('Input[name=password]', fakePassword)
       .setValue('Input[name=passwordConfirmation]', fakePassword)
       .click('button')
-      .pause(2000)
+      .waitForElementVisible('h3#fiddle-text')
       .assert.containsText('h3#fiddle-text',
       'Welcome to Meek - Document Management System')
+      .waitForElementVisible('#menuBar')
       .click('#menuBar')
       .pause(2000)
-      .waitForElementVisible('#menuBar')
       .assert.containsText('span#black-text', `Welcome, ${fakeName}`)
       .assert.containsText('p#black-text', `${fakeEmail}`)
       .end(),
