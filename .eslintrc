@@ -14,7 +14,8 @@
     "localStorage": false,
     "document": false,
     "window": false,
-    "$": false
+    "$": false,
+    "location": false
     },
     "rules": {
     "max-len": ["error", 80, 4],

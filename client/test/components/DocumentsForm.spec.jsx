@@ -15,6 +15,10 @@ describe('DocumentsForm', () => {
     const initialState = {
       document: {
         documents: [],
+        document: {
+          title: 'hello',
+          content: 'Mercy is cool',
+        }
       },
     };
 
@@ -33,7 +37,7 @@ describe('DocumentsForm', () => {
     expect(wrapper.find('button').length).toEqual(1);
   });
 
-  // it('renders text input for all fields', () => {
-  //   expect(wrapper.find('TextFieldGroup').length).toEqual(2);
-  // });
+  it('renders text input for all fields', () => {
+    expect(wrapper.find('.input-field').length).toEqual(4);
+  });
 });

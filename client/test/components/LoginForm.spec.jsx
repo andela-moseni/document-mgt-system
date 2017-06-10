@@ -25,7 +25,9 @@ describe('LoginForm', () => {
 
     const store = mockStore(initialState);
 
-    wrapper = mount(<Provider store={store}><LoginForm /></Provider>);
+    wrapper = mount(<Provider store={store}>
+      <LoginForm {...props} />
+    </Provider>);
   });
 
   it('renders a form ', () => {

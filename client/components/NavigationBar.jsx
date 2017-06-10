@@ -17,11 +17,6 @@ class NavigationBar extends React.Component {
     this.logout = this.logout.bind(this);
   }
 
-  logout(e) {
-    e.preventDefault();
-    this.props.logout();
-  }
-
   onChange(e) {
     const currentPath = location.pathname;
     const query = e.target.value;
@@ -39,6 +34,12 @@ class NavigationBar extends React.Component {
       this.props.searchUserDocuments(id, query);
     }
   }
+
+  logout(e) {
+    e.preventDefault();
+    this.props.logout();
+  }
+
   render() {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
@@ -47,20 +48,25 @@ class NavigationBar extends React.Component {
           <div className="nav-wrapper">
             <Link className="brand-logo" to="/">
               <span>
-                <i className="material-icons button-collapse" id="menuBar"
-                data-activates="slide-out">menu</i>
+                <i
+                  className="material-icons button-collapse" id="menuBar"
+                  data-activates="slide-out"
+                >menu</i>
                 Meek
               </span>
             </Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li>
-                <Modal header="About Meek-DMS" trigger={
-                <Link to="/" >About</Link>}>
+                <Modal
+                  header="About Meek-DMS" trigger={
+                    <Link to="/" >About</Link>}
+                >
                   <div className="modal-content">
                     <p className="text-justify">
                       Meek <strong>document management system </strong>allows
                        users to create and manage documents giving different
-                       privileges based on user roles and managing authentication using JWT.
+                       privileges based on user roles and managing
+                       authentication using JWT.
                     </p>
                   </div>
                 </Modal>
@@ -68,16 +74,18 @@ class NavigationBar extends React.Component {
               <li><Link to="/" onClick={this.logout}>Logout</Link></li>
               <li><Link id="searchIcon">
                 <i className="material-icons">search</i>
-                </Link>
+              </Link>
               </li>
             </ul>
           </div>
           <div className="nav-wrapper" id="searchBar">
             <form>
               <div className="input-field">
-                <input id="search" type="search"
-                placeholder="Search..."
-                onChange={this.onChange} name="search"required />
+                <input
+                  id="search" type="search"
+                  placeholder="Search..."
+                  onChange={this.onChange} name="search"required
+                />
                 <label className="label-icon">
                   <i className="material-icons">search</i>
                 </label>
@@ -87,23 +95,23 @@ class NavigationBar extends React.Component {
           </div>
           <SideNavBar />
         </div>
-     </nav>
+      </nav>
     );
     const guestLinks = (
       <nav>
-      <div className="nav-wrapper">
-      <Link className="brand-logo" to="/">
+        <div className="nav-wrapper">
+          <Link className="brand-logo" to="/">
           Meek
       </Link>
-      <ul id="nav-mobile" className="right hide-on-med-and-down">
-        <li><Link to="/login" id="signin">Sign in</Link></li>
-        <li><Link to="/signup" id="signup">Sign up</Link></li>
-      </ul>
-      </div>
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li><Link to="/login" id="signin">Sign in</Link></li>
+            <li><Link to="/signup" id="signup">Sign up</Link></li>
+          </ul>
+        </div>
       </nav>
     );
     return (
-     <span> {isAuthenticated ? userLinks : guestLinks } </span>
+      <span> {isAuthenticated ? userLinks : guestLinks } </span>
     );
   }
 }
