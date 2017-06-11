@@ -11,11 +11,11 @@ const Footer = () => (
     <div className="footer-copyright">
       <div className="container">
       © 2017 Meek-DMS
-      <Link
+      <a
         className="grey-text text-lighten-4 right"
-        to="https://github.com/andela-moseni"
-      >follow us on Github
-      </Link>
+        href="https://github.com/andela-moseni"
+      >follow me on Github
+        </a>
       </div>
     </div>
   </footer>
