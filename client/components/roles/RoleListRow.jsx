@@ -11,7 +11,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
  * @class RoleListRow
  * @extends {React.Component}
  */
-class RoleListRow extends React.Component {
+export class RoleListRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

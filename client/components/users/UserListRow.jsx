@@ -14,7 +14,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
  * @class UserListRow
  * @extends {React.Component}
  */
-class UserListRow extends React.Component {
+export class UserListRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
