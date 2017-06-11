@@ -12,7 +12,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
  * @class usersPage
  * @extends {React.Component}
  */
-class usersPage extends React.Component {
+export class UsersPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +28,7 @@ class usersPage extends React.Component {
 
   /**
    * Renders all users
-   * @memberOf usersPage
+   * @memberOf UsersPage
    */
   componentWillMount() {
     this.props.fetchUsers();
@@ -38,7 +38,7 @@ class usersPage extends React.Component {
    * onSelect - Page count
    * @param {Number} pageNumber
    *
-   * @memberOf usersPage
+   * @memberOf UsersPage
    */
   onSelect(pageNumber) {
     const offset = (pageNumber - 1) * 10;
@@ -49,7 +49,7 @@ class usersPage extends React.Component {
    * Control input fields
    * @param {any} event
    *
-   * @memberOf usersPage
+   * @memberOf UsersPage
    */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
@@ -60,7 +60,7 @@ class usersPage extends React.Component {
    * @param {Object} event
    * @returns {Object}
    *
-   * @memberOf usersPage
+   * @memberOf UsersPage
    */
   onSubmit(event) {
     const custom = { background: '#FF0000', text: '#FFFFFF' };
@@ -88,7 +88,7 @@ class usersPage extends React.Component {
    *
    * @returns {Object} jsx component
    *
-   * @memberOf usersPage
+   * @memberOf UsersPage
    */
   render() {
     const { users, pagination } = this.props.users;
@@ -102,7 +102,8 @@ class usersPage extends React.Component {
     }
     const { pageCount, currentPage, totalCount } = pagination;
     // conditional rendering for admin to add users
-    const curUser = jwt.decode(localStorage.jwtToken);
+    const curUser =
+    localStorage.jwtToken ? jwt.decode(localStorage.jwtToken) : '';
     let createBtn = null;
     if (curUser) {
       const curUserRole = curUser.roleId;
@@ -202,7 +203,7 @@ class usersPage extends React.Component {
   }
 }
 
-usersPage.propTypes = {
+UsersPage.propTypes = {
   fetchUsers: React.PropTypes.func.isRequired,
   createUser: React.PropTypes.func.isRequired,
   users: React.PropTypes.object.isRequired,
@@ -220,4 +221,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchUsers, createUser })(usersPage);
+export default connect(mapStateToProps, { fetchUsers, createUser })(UsersPage);

@@ -14,19 +14,6 @@ const wrapper = mount(<Provider store={store}>
   { context: { router: { push: () => {} } } });
 
 describe('LoginPage Component', () => {
-  it('renders the login input fields', () => {
-    expect(wrapper.find('input').length).toBe(2);
-  });
-
-  it('controls the login input fields', () => {
-    wrapper.find('input[name="email"]')
-      .simulate('change', { target:
-        { name: 'email', value: 'mercy@test.com' }
-      });
-    expect(wrapper.find('input[name="email"]')
-    .prop('value')).toEqual('mercy@test.com');
-  });
-
   it('renders the div', () => {
     expect(wrapper.find('div').length).toBe(6);
   });

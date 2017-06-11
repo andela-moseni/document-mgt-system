@@ -1,40 +1,19 @@
-
 import expect from 'expect';
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { shallow } from 'enzyme';
-import UsersPage
+import { UsersPage }
   from '../../../components/users/UsersPage';
 
-let props;
-let wrapper;
-const mockStore = configureMockStore();
+const props = {
+  users: { users:
+    [{ name: 'Mercy Test' }, { name: 'Admin Test' }],
+    pagination: {} },
+  fetchUsers: () => {},
+  createUser: () => {}
+};
+const wrapper = shallow(<UsersPage {...props} />);
 
 describe('UsersPage', () => {
-  beforeEach(() => {
-    const initialState = {
-      user: {
-        users: [],
-        user: {
-          email: 'mercy@test.com'
-        },
-      },
-    };
-    props = {
-      users: [{ name: 'Mercy Test' }, { name: 'Admin Test' }],
-      user: {},
-      onChange: () => {},
-      onSubmit: () => {},
-      deleteUser: () => {},
-    };
-    const store = mockStore(initialState);
-    wrapper = shallow(<Provider store={store}>
-      <UsersPage {...props} />
-    </Provider>,
-      { context: { router: { push: () => {} } } });
-  });
-
   it('renders the top container', () => {
     expect(wrapper.find('.container').length).toEqual(1);
   });

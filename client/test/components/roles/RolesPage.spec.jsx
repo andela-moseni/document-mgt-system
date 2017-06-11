@@ -1,39 +1,19 @@
-
 import expect from 'expect';
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { shallow } from 'enzyme';
-import RolesPage
+import { RolesPage }
   from '../../../components/roles/RolesPage';
 
-let props;
-let wrapper;
-const mockStore = configureMockStore();
+const props = {
+  roles: { roles:
+    [{ title: 'admin' }, { title: 'regular' }],
+    pagination: {} },
+  fetchRoles: () => {},
+  createRole: () => {}
+};
+const wrapper = shallow(<RolesPage {...props} />);
 
 describe('RolesPage', () => {
-  beforeEach(() => {
-    const initialState = {
-      auth: {
-        isAuthenticated: true,
-        // user: {},
-      },
-    };
-    props = {
-      roles: [{ title: 'admin' }, { title: 'regular' }],
-      role: {},
-      onChange: () => {},
-      onSubmit: () => {},
-      createRole: () => {},
-      fetchRoles: () => {},
-    };
-    const store = mockStore(initialState);
-    wrapper = shallow(<Provider store={store}>
-      <RolesPage {...props} />
-    </Provider>,
-      { context: { router: { push: () => {} } } });
-  });
-
   it('renders the top container', () => {
     expect(wrapper.find('.container').length).toEqual(1);
   });
