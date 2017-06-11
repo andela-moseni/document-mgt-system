@@ -16,7 +16,7 @@
     "travis": "npm-run-all seed:test test:server",
     "server": "nodemon --watch server --exec babel-node -- server.js",
     "test-e2e": "nightwatch",
-    "client:test": "_mocha --reporter spec client/test/testSetup.js client/test/**/*.spec.**",
+    "client:test": "_mocha --reporter spec client/test/testSetup.js client/test/**/**/**/*.spec.**",
     "client:test:watch": "npm run client:test -- --watch",
     "api-documentation": "rimraf docs/ && jsdoc -r -c ./conf.json --readme ./documentation/README.md --destination docs"
   },
@@ -108,6 +108,7 @@
     "babel-cli": "^6.8.0",
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
+    "cheerio": "^0.22.0",
     "css-loader": "^0.26.1",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-airbnb-base": "^11.1.0",

@@ -8,7 +8,7 @@ import { login } from '../../actions/loginActions';
  * @class LoginForm
  * @extends {React.Component}
  */
-class LoginForm extends React.Component {
+export class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

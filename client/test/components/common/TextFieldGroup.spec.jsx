@@ -1,7 +1,7 @@
 import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
-import TextFieldGroup from '../../components/common/TextFieldGroup';
+import TextFieldGroup from '../../../components/common/TextFieldGroup';
 
 let props;
 let wrapper;

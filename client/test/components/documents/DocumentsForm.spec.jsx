@@ -1,33 +1,32 @@
 import expect from 'expect';
 import React from 'react';
-import { mount } from 'enzyme';
+import { render } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import LoginForm from '../../components/login/LoginForm';
+import CreateDocumentsForm
+from '../../../components/documents/CreateDocumentsForm';
 
-let props;
 let wrapper;
 
 const mockStore = configureMockStore();
 
-describe('LoginForm', () => {
+describe('DocumentsForm', () => {
   beforeEach(() => {
     const initialState = {
-      auth: {
-        isAuthenticated: false,
-        user: {},
+      document: {
+        documents: [],
+        document: {
+          title: 'hello',
+          content: 'Mercy is cool',
+        }
       },
     };
 
-    props = {
-      login: () => {},
-    };
-
     const store = mockStore(initialState);
-
-    wrapper = mount(<Provider store={store}>
-      <LoginForm {...props} />
-    </Provider>);
+    wrapper = render(
+      <Provider store={store}>
+        <CreateDocumentsForm {...initialState} />
+      </Provider>);
   });
 
   it('renders a form ', () => {
@@ -39,6 +38,6 @@ describe('LoginForm', () => {
   });
 
   it('renders text input for all fields', () => {
-    expect(wrapper.find('TextFieldGroup').length).toEqual(2);
+    expect(wrapper.find('.input-field').length).toEqual(4);
   });
 });

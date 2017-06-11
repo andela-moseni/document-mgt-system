@@ -1,43 +1,56 @@
 import expect from 'expect';
 import React from 'react';
-import { shallow } from 'enzyme';
-import sinon from 'sinon';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import NavigationBar from '../../components/NavigationBar';
 
-const logout = sinon.spy(() => Promise.resolve());
-const searchDocuments = sinon.spy(() => Promise.resolve());
-const searchUserDocuments = sinon.spy(() => Promise.resolve());
-const searchUsers = sinon.spy(() => Promise.resolve());
-const searchRoles = sinon.spy(() => Promise.resolve());
-
-const props = {
-  logout,
-  searchDocuments,
-  searchUserDocuments,
-  searchUsers,
-  searchRoles,
-  isAuthenticated: { loggedIn: true, user: { email: 'mercy@test.com', id: 1 } }
-};
+let props;
+let wrapper;
 
 const mockStore = configureMockStore();
-const store = mockStore();
 
 describe('NavigationBar Component', () => {
-  it('renders the navigation bar', () => {
-    const wrapper = shallow(<Provider store={store}>
+  beforeEach(() => {
+    const initialState = {
+      auth: {
+        isAuthenticated: false,
+        user: {},
+      },
+    };
+
+    props = {
+      logout: () => {},
+      searchDocuments: () => {},
+      searchUserDocuments: () => {},
+      searchUsers: () => {},
+      searchRoles: () => {},
+    };
+
+    const store = mockStore(initialState);
+
+    wrapper = mount(<Provider store={store}>
       <NavigationBar {...props} />
     </Provider>,
-      { context: { router: { push: () => {} } } });
+  { context: { router: { push: () => {} } } });
+  });
+  it('renders the navigation bar', () => {
     expect(wrapper.find('nav').length).toEqual(1);
   });
 
   it('renders all navbar links', () => {
-    const wrapper = shallow(<Provider store={store}>
-      <NavigationBar {...props} />
-    </Provider>,
-      { context: { router: { push: () => {} } } });
-    expect(wrapper.find('Link').length).toEqual(10);
+    expect(wrapper.find('Link').length).toEqual(3);
+  });
+
+  it('renders the div element', () => {
+    expect(wrapper.find('div').length).toEqual(1);
+  });
+
+  it('renders the ul element', () => {
+    expect(wrapper.find('ul').length).toEqual(1);
+  });
+
+  it('renders the li element', () => {
+    expect(wrapper.find('li').length).toEqual(2);
   });
 });

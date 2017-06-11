@@ -126,7 +126,7 @@ class NavigationBar extends React.Component {
         <div className="nav-wrapper">
           <Link className="brand-logo" to="/">
           Meek
-      </Link>
+          </Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to="/login" id="signin">Sign in</Link></li>
             <li><Link to="/signup" id="signup">Sign up</Link></li>
