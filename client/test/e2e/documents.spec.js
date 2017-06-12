@@ -22,7 +22,6 @@ export default {
       .click('body')
       .waitForElementVisible('Input[name=title]')
       .setValue('Input[name=title]', faker.lorem.word())
-      .click('button.mce-close')
       .click('.mce-i-code')
       .setValue('.mce-textbox', faker.lorem.paragraphs())
       .click('.mce-floatpanel .mce-container-body button')

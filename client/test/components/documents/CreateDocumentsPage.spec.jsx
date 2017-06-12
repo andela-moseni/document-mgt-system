@@ -39,8 +39,8 @@ describe('CreateDocumentsPage', () => {
     expect(wrapper.find('div').length).toEqual(2);
   });
 
-  it('renders the CreateDocumentsForm component', () => {
-    expect(wrapper.find('CreateDocumentsForm').length).toEqual(1);
+  it('renders the col-md-4 element', () => {
+    expect(wrapper.find('.col-md-4').length).toEqual(1);
   });
 
   it('renders the row element', () => {
