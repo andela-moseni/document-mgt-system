@@ -1,32 +1,30 @@
 import expect from 'expect';
 import React from 'react';
-import { render } from 'enzyme';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import CreateDocumentsForm
+import { shallow } from 'enzyme';
+import { CreateDocumentsForm }
 from '../../../components/documents/CreateDocumentsForm';
 
-let wrapper;
+const props = {
+  document: { document: {
+    id: 1,
+    title: 'YOYOL',
+    content: 'You Own Your Own Learning',
+    access: 'public',
+    type: 'note', }
+  },
+  createDocument: () => {},
+  fetchDocument: () => {},
+  updateDocument: () => {},
+};
+const wrapper = shallow(<CreateDocumentsForm {...props} />);
 
-const mockStore = configureMockStore();
+describe('CreateDocumentsForm', () => {
+  it('renders a form ', () => {
+    expect(wrapper.find('form').length).toEqual(1);
+  });
 
-describe('DocumentsForm', () => {
-  beforeEach(() => {
-    const initialState = {
-      document: {
-        documents: [],
-        document: {
-          title: 'hello',
-          content: 'Mercy is cool',
-        }
-      },
-    };
-
-    const store = mockStore(initialState);
-    wrapper = render(
-      <Provider store={store}>
-        <CreateDocumentsForm {...initialState} />
-      </Provider>);
+  it('renders the row element ', () => {
+    expect(wrapper.find('.row').length).toEqual(2);
   });
 
   it('renders a form ', () => {
@@ -37,7 +35,19 @@ describe('DocumentsForm', () => {
     expect(wrapper.find('button').length).toEqual(1);
   });
 
-  it('renders text input for all fields', () => {
-    expect(wrapper.find('.input-field').length).toEqual(4);
+  it('renders text input fields', () => {
+    expect(wrapper.find('.input-field').length).toEqual(1);
+  });
+
+  it('renders TextFieldGroup component', () => {
+    expect(wrapper.find('TextFieldGroup').length).toEqual(2);
+  });
+
+  it('renders react-materialize Input element', () => {
+    expect(wrapper.find('Input').length).toEqual(1);
+  });
+
+  it('renders TinyMCE component', () => {
+    expect(wrapper.find('TinyMCE').length).toEqual(1);
   });
 });

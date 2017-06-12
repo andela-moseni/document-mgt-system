@@ -10,7 +10,7 @@ import DocumentListRow from './DocumentListRow';
  * @class MyDocumentsPage
  * @extends {React.Component}
  */
-class MyDocumentsPage extends React.Component {
+export class MyDocumentsPage extends React.Component {
   constructor(props) {
     super(props);
     this.onSelect = this.onSelect.bind(this);

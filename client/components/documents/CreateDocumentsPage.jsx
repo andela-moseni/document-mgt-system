@@ -10,7 +10,7 @@ import { fetchDocument, updateDocument,
  * @class CreateDocumentsPage
  * @extends {React.Component}
  */
-class CreateDocumentsPage extends React.Component {
+export class CreateDocumentsPage extends React.Component {
   constructor(props) {
     super(props);
     if (this.props.documents) {

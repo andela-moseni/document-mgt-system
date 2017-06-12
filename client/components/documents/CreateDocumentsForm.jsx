@@ -14,7 +14,7 @@ import { createDocument, fetchDocument,
  * @class CreateDocumentsForm
  * @extends {React.Component}
  */
-class CreateDocumentsForm extends React.Component {
+export class CreateDocumentsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -171,7 +171,6 @@ class CreateDocumentsForm extends React.Component {
             </button>
           </div>
         </form>
-        <div />
       </div>
     );
   }

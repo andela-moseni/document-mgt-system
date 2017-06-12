@@ -12,7 +12,7 @@ import Prompt from '../../Prompt';
  * @class Document
  * @extends {React.Component}
  */
-class Document extends React.Component {
+export class Document extends React.Component {
   constructor(props) {
     super(props);
     this.deleteDocument = this.deleteDocument.bind(this);
@@ -69,13 +69,10 @@ class Document extends React.Component {
    */
   render() {
     const { document } = this.props;
-    if (!document || (document && !document.title)) {
-      return (
-        <div>Loading content...</div>
-      );
-    }
     // conditional rendering for delete and edit
-    const curUser = jwt.decode(localStorage.jwtToken);
+    const curUser =
+    localStorage.jwtToken ? jwt.decode(localStorage.jwtToken) : '';
+
     let deleteBtn = null;
     let editBtn = null;
     if (curUser) {
