@@ -8,10 +8,10 @@ import Prompt from '../../Prompt';
 
 /**
  *
- * @class userProfile
+ * @class UserProfile
  * @extends {React.Component}
  */
-class userProfile extends React.Component {
+export class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ class userProfile extends React.Component {
   /**
    * Render user's profile
    *
-   * @memberOf userProfile
+   * @memberOf UserProfile
    */
   componentWillMount() {
     const { userId } = this.props;
@@ -38,7 +38,7 @@ class userProfile extends React.Component {
    * Renders a user profile
    * @param {Object} nextProps
    *
-   * @memberOf userProfile
+   * @memberOf UserProfile
    */
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
@@ -55,7 +55,7 @@ class userProfile extends React.Component {
    * Control input fields
    * @param {Object} event
    *
-   * @memberOf userProfile
+   * @memberOf UserProfile
    */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
@@ -65,7 +65,7 @@ class userProfile extends React.Component {
    * Updates a user
    * @param {Object} event
    *
-   * @memberOf userProfile
+   * @memberOf UserProfile
    */
   onSubmit(event) {
     event.preventDefault();
@@ -74,7 +74,7 @@ class userProfile extends React.Component {
 
   /**
    * Deletes a user
-   * @memberOf userProfile
+   * @memberOf UserProfile
    */
   deleteUser() {
     this.props.deleteUser(this.props.user.id)
@@ -88,7 +88,7 @@ class userProfile extends React.Component {
    *
    * @returns {Object} jsx component
    *
-   * @memberOf userProfile
+   * @memberOf UserProfile
    */
   render() {
     const user = this.props.user;
@@ -183,7 +183,7 @@ class userProfile extends React.Component {
   }
 }
 
-userProfile.propTypes = {
+UserProfile.propTypes = {
   user: React.PropTypes.object.isRequired,
   userId: React.PropTypes.number,
   loadUserProfile: React.PropTypes.func.isRequired,
@@ -219,4 +219,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(userProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

@@ -10,7 +10,7 @@ import img from '../images/user.jpg';
  * @class SideNavBar
  * @extends {React.Component}
  */
-class SideNavBar extends React.Component {
+export class SideNavBar extends React.Component {
   /**
    * Renders the component
    *

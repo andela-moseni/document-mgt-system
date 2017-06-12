@@ -9,7 +9,7 @@ import userSignupRequest from '../../actions/signupActions';
  * @class SignupPage
  * @extends {React.Component}
  */
-class SignupPage extends React.Component {
+export class SignupPage extends React.Component {
   /**
    * Renders the component
    * @returns {Object} jsx component
