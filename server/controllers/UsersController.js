@@ -371,13 +371,8 @@ class UsersController {
    * @memberOf UsersController
    */
   static searchUsers(req, res) {
-    const search = req.query.search;
+    const search = req.query.search.trim();
 
-    if (search === '') {
-      return res.status(400).send({
-        message: 'Invalid search parameter!',
-      });
-    }
     const query = {
       where: {
         $or: [{
@@ -401,7 +396,7 @@ class UsersController {
         const pagination = ControllerHelper.pagination(
           query.limit, query.offset, users.count,
         );
-        if (users.rows.length === 0) {
+        if (!users.rows.length) {
           return res.status(404).send({
             message: 'Search does not match any user!',
           });

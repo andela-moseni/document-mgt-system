@@ -1,7 +1,8 @@
 import findIndex from 'lodash/findIndex';
 import { DISPLAY_ALL_DOCUMENTS, DISPLAY_MY_DOCUMENTS,
   UPDATE_DOCUMENT_SUCCESS, DOC_FETCHED, DELETE_DOCUMENT_SUCCESS,
-  CREATE_DOCUMENT_SUCCESS, NO_DOCUMENTS_FOUND } from '../actions/types';
+  CREATE_DOCUMENT_SUCCESS, NO_DOCUMENTS_FOUND,
+  DISPLAY_ALL_DOCUMENTS_FAILED } from '../actions/types';
 
 const initialState = { documents: [], document: {}, pagination: {} };
 
@@ -13,6 +14,10 @@ export default (state = initialState, action = {}) => {
     case DISPLAY_ALL_DOCUMENTS:
       return Object.assign({}, state,
       { documents: action.allDocs, pagination: action.pagination });
+
+    case DISPLAY_ALL_DOCUMENTS_FAILED:
+      return Object.assign({}, state,
+      { documents: {}, pagination: {} });
 
     case DISPLAY_MY_DOCUMENTS:
       return Object.assign({}, state,

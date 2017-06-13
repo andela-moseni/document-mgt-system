@@ -93,7 +93,7 @@ export class UsersPage extends React.Component {
   render() {
     const { users, pagination } = this.props.users;
     if (!users) return null;
-    if (users.length === 0) {
+    if (!users.length) {
       return (
         <div className="container">
           <h2 className="white-text center-align">No users found.</h2>

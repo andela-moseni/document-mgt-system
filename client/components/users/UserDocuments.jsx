@@ -47,7 +47,7 @@ export class UserDocuments extends React.Component {
     const { documents, pagination } = this.props.documents;
     let serial = 0;
 
-    if (documents.length === 0) {
+    if (!documents.length) {
       return (
         <div className="container">
           <h2 className="white-text">User has no documents...</h2>

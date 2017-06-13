@@ -12,13 +12,14 @@
     "start": "npm-run-all build seed:db start:server",
     "start:nodemon": "nodemon server.js --exec babel-node --presets es2015,stage-2",
     "test:server": "NODE_ENV=test babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/.bin/_mocha server/tests/**/*.spec.js",
-    "test": "npm-run-all seed:test test:server reset:test",
+    "test": "npm-run-all seed:test test:server client:test reset:test",
     "travis": "npm-run-all seed:test test:server",
     "server": "nodemon --watch server --exec babel-node -- server.js",
     "test-e2e": "nightwatch",
     "client:test": "_mocha --reporter spec client/test/testSetup.js client/test/**/**/**/*.spec.**",
     "client:test:watch": "npm run client:test -- --watch",
-    "api-documentation": "rimraf docs/ && jsdoc -r -c ./conf.json --readme ./documentation/README.md --destination docs"
+    "api-documentation": "rimraf docs/ && jsdoc -r -c ./conf.json --readme ./documentation/README.md --destination docs",
+    "mocha:testClient": "nyc --reporter=html mocha client/test/testSetup.js \"client/test/**/**/**/*.spec.jsx\""
   },
   "repository": {
     "type": "git",
@@ -75,6 +76,7 @@
     "morgan": "^1.7.0",
     "node-sass": "^3.13.1",
     "npm-run-all": "^4.0.1",
+    "nyc": "^11.0.2",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.5.8",
@@ -102,7 +104,8 @@
     "validator": "^7.0.0",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
-    "webpack-hot-middleware": "^2.15.0"
+    "webpack-hot-middleware": "^2.15.0",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
@@ -131,5 +134,15 @@
     "sass-loader": "^4.1.1",
     "supertest": "^3.0.0",
     "webpack-hot-middleware": "^2.18.0"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js",
+      "build"
+    ],
+    "include": [
+      "server/**/*.js",
+      "client/**/*.js"
+    ]
   }
 }

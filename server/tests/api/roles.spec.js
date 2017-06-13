@@ -263,13 +263,13 @@ describe('Role API:', () => {
     describe('GET: (/api/search/roles?search) - ', () => {
       const validQuery = 'admin';
       const invalidQuery = 'xyz';
-      it('should not return role(s) if search term is empty', (done) => {
+      it('should return all role(s) if search term is empty', (done) => {
         request.get('/api/search/roles?search=')
             .set({ Authorization: adminUserToken })
             .end((error, response) => {
-              expect(response.status).to.equal(400);
-              expect(response.body.message).to
-              .equal('Invalid search parameter!');
+              expect(response.status).to.equal(200);
+              expect(Array.isArray(response.body.roles));
+              expect(response.body.roles.length).to.equal(4);
               done();
             });
       });

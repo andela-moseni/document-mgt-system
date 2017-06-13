@@ -48,6 +48,13 @@ export class MyDocumentsPage extends React.Component {
   render() {
     const { documents, pagination } = this.props.documents;
     let serial = 0;
+    if (!documents.length) {
+      return (
+        <div className="container"><br /><br />
+          <h2 className="white-text">No documents found.</h2>
+        </div>
+      );
+    }
     if (documents.length === 0) {
       return (
         <div className="container"><br />

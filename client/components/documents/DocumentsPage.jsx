@@ -47,6 +47,13 @@ export class DocumentsPage extends React.Component {
   render() {
     const { documents, pagination } = this.props.documents;
     if (!documents) return null;
+    if (!documents.length) {
+      return (
+        <div className="container"><br /><br />
+          <h2 className="white-text">No documents found.</h2>
+        </div>
+      );
+    }
     if (documents.length === 0) {
       return (
         <div className="container">

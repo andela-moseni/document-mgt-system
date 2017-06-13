@@ -542,13 +542,13 @@ describe('User API:', () => {
   describe('GET: (/api/search/users?search) - ', () => {
     const validQuery = 'mercy';
     const invalidQuery = 'abc';
-    it('should not return user(s) if search term is empty', (done) => {
+    it('should return all user(s) if search term is empty', (done) => {
       request.get('/api/search/users?search=')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
-            expect(response.status).to.equal(400);
-            expect(response.body.message).to
-            .equal('Invalid search parameter!');
+            expect(response.status).to.equal(200);
+            expect(Array.isArray(response.body.users));
+            expect(response.body.users.length).to.equal(6);
             done();
           });
     });

@@ -19,9 +19,6 @@ export function createDocument(document) {
       type: types.CREATE_DOCUMENT_SUCCESS,
       newDoc,
     });
-  })
-  .catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -122,6 +119,11 @@ export function searchDocuments(search, offset = 0, limit = 10) {
       pagination: res.data.pagination,
     });
   }).catch((error) => {
+    dispatch({
+      type: types.DISPLAY_ALL_DOCUMENTS_FAILED,
+      allDocs: {},
+      pagination: {},
+    });
     notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
@@ -147,6 +149,11 @@ export function searchUserDocuments(id, search, offset = 0, limit = 10) {
       pagination: res.data.pagination,
     });
   }).catch((error) => {
+    dispatch({
+      type: types.DISPLAY_ALL_DOCUMENTS_FAILED,
+      allDocs: {},
+      pagination: {},
+    });
     notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }

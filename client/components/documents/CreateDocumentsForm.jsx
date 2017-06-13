@@ -9,6 +9,8 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import { createDocument, fetchDocument,
   updateDocument } from '../../actions/documentsActions';
 
+const custom = { background: '#ff0000', text: '#FFFFFF' };
+
 /**
  *
  * @class CreateDocumentsForm
@@ -77,6 +79,8 @@ export class CreateDocumentsForm extends React.Component {
       .then(() => {
         notify.show('Document created successfully', 'success', 3000);
         browserHistory.push('/my-documents');
+      }).catch((error) => {
+        notify.show(error.response.data.message, 'custom', 3000, custom);
       });
     }
     this.setState({ title: ' ', content: ' ', type: ' ' });

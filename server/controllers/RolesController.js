@@ -169,13 +169,8 @@ class RolesController {
    * @memberOf RolesController
    */
   static searchRoles(req, res) {
-    const search = req.query.search;
+    const search = req.query.search.trim();
 
-    if (search === '') {
-      return res.status(400).send({
-        message: 'Invalid search parameter!',
-      });
-    }
     const query = {
       where: {
         title: {
@@ -193,7 +188,7 @@ class RolesController {
         const pagination = ControllerHelper.pagination(
           query.limit, query.offset, roles.count,
         );
-        if (roles.rows.length === 0) {
+        if (!roles.rows.length) {
           return res.status(404).send({
             message: 'Search does not match any role!',
           });

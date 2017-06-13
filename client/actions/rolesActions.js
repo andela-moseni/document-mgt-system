@@ -85,6 +85,11 @@ export function searchRoles(search, offset = 0, limit = 10) {
     });
   })
   .catch((error) => {
+    dispatch({
+      type: types.DISPLAY_ALL_ROLES_FAILED,
+      allRoles: {},
+      pagination: {},
+    });
     notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }

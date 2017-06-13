@@ -16,6 +16,7 @@ const publicDocument = SpecHelper.specDocument5;
 
 // error messages
 const invalidParameters = 'An error occured. Invalid parameters, try again!';
+const invalid = 'All fields are required.';
 const notAllowed = 'You are not allowed to view this document';
 const noDocumentFound = 'Document does not exist';
 const documentDeleted = 'Document deleted successfully';
@@ -71,7 +72,7 @@ describe('Document API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
-            .equal(invalidParameters);
+            .equal(invalid);
             done();
           });
       });
@@ -368,13 +369,13 @@ describe('Document API:', () => {
     describe('GET: (/api/search/documents?search) - ', () => {
       const validQuery = 'computer';
       const invalidQuery = 'abc';
-      it('should not return document(s) if search term is empty', (done) => {
+      it('should return all document(s) if search term is empty', (done) => {
         request.get('/api/search/documents?search=')
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
-            expect(response.status).to.equal(400);
-            expect(response.body.message).to
-            .equal('Invalid search parameter!');
+            expect(response.status).to.equal(200);
+            expect(Array.isArray(response.body.documents));
+            expect(response.body.documents.length).to.equal(7);
             done();
           });
       });

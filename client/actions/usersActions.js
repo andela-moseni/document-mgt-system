@@ -126,6 +126,11 @@ export function searchUsers(search, offset = 0, limit = 10) {
       pagination: res.data.pagination,
     });
   }).catch((error) => {
+    dispatch({
+      type: types.DISPLAY_ALL_USERS_FAILED,
+      allUsers: {},
+      pagination: {},
+    });
     notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }

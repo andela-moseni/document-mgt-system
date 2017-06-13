@@ -7,6 +7,7 @@ import http from 'http';
 import path from 'path';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
+import winston from 'winston';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from './webpack.config.dev';
 import routes from './server/routes';
@@ -44,7 +45,7 @@ app.get('/*', (req, res) => {
 
 const server = http.createServer(app);
 server.listen(port, () => {
-  console.log(`The server is running at localhost:${port}`);
+  winston.info(`The server is running at localhost:${port}`);
 });
 
 export default app;

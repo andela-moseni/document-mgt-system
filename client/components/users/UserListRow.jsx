@@ -20,8 +20,8 @@ export class UserListRow extends React.Component {
     this.state = {
       name: this.props.user.name,
       email: this.props.user.email,
-      // password: '',
     };
+
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
@@ -71,7 +71,15 @@ export class UserListRow extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.updateUsers(this.state);
+    const custom = { background: '#ff0000', text: '#FFFFFF' };
+    if (this.state.password && this.state.password.length < 4) {
+      return notify.show('password must be minimum of four characters only',
+        'custom', 3000, custom);
+    }
+    if (this.state.password === this.state.passwordConfirmation) {
+      return this.props.updateUsers(this.state);
+    }
+    return notify.show('Passwords do not match', 'custom', 3000, custom);
   }
 
 
@@ -170,6 +178,19 @@ export class UserListRow extends React.Component {
                       name="password"
                       type="password"
                       placeholder="password must be minimum of four characters"
+                    />
+                  </div>
+
+                  <div className="input-field col s12">
+                    <Input
+                      s={8}
+                      label="Confirm Password"
+                      onChange={this.onChange}
+                      value={this.state.passwordConfirmation}
+                      icon="vpn_key"
+                      name="passwordConfirmation"
+                      type="password"
+                      placeholder="passwords must match"
                     />
                   </div>
 

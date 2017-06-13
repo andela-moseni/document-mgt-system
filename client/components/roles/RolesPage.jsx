@@ -75,10 +75,10 @@ export class RolesPage extends React.Component {
   render() {
     const { roles, pagination } = this.props.roles;
     if (!roles) return null;
-    if (roles.length === 0) {
+    if (!roles.length) {
       return (
         <div className="container">
-          <h2>No roles found.</h2>
+          <h2 className="white-text center-align">No roles found.</h2>
         </div>
       );
     }

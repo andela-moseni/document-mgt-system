@@ -18,7 +18,7 @@ describe('UserProfile', () => {
   });
 
   it('renders the div element', () => {
-    expect(wrapper.find('div').length).toEqual(5);
+    expect(wrapper.find('div').length).toEqual(6);
   });
 
   it('renders a table', () => {
@@ -38,6 +38,6 @@ describe('UserProfile', () => {
   });
 
   it('renders react-materialize Input component', () => {
-    expect(wrapper.find('Input').length).toEqual(1);
+    expect(wrapper.find('Input').length).toEqual(2);
   });
 });

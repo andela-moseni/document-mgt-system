@@ -20,18 +20,27 @@ class DocumentsController {
    * @memberOf DocumentsController
    */
   static createDocument(req, res) {
-    Document
-      .create({
-        title: req.body.title,
-        content: req.body.content,
-        access: req.body.access,
-        type: req.body.type,
-        OwnerId: req.decoded.userId,
-      })
-      .then(document => res.status(201).send(document))
-      .catch(() => res.status(400).send({
-        message: 'An error occured. Invalid parameters, try again!',
-      }));
+    if (req.body.title &&
+        req.body.content &&
+        req.body.access &&
+        req.body.type) {
+      Document
+        .create({
+          title: req.body.title,
+          content: req.body.content,
+          access: req.body.access,
+          type: req.body.type,
+          OwnerId: req.decoded.userId,
+        })
+        .then(document => res.status(201).send(document))
+        .catch(() => res.status(400).send({
+          message: 'An error occured. Invalid parameters, try again!',
+        }));
+    } else {
+      return res.status(400).send({
+        message: 'All fields are required.'
+      });
+    }
   }
 
   /**
@@ -265,13 +274,7 @@ class DocumentsController {
   static searchDocuments(req, res) {
     Role.findById(req.decoded.roleId)
       .then((role) => {
-        const search = req.query.search;
-
-        if (search === '') {
-          return res.status(400).send({
-            message: 'Invalid search parameter!',
-          });
-        }
+        const search = req.query.search.trim();
 
         let query = {
           where: {
@@ -352,7 +355,7 @@ class DocumentsController {
             const pagination = ControllerHelper.pagination(
               query.limit, query.offset, documents.count,
             );
-            if (documents.rows.length === 0) {
+            if (!documents.rows.length) {
               return res.status(404).send({
                 message: 'Search does not match any document!',
               });
