@@ -18,17 +18,35 @@ export class CreateDocumentsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.document ? this.props.document.id : null,
-      title: this.props.document ? this.props.document.title : '',
-      content: this.props.document ? this.props.document.content : '',
-      access: this.props.document ? this.props.document.access : 'public',
-      type: this.props.document ? this.props.document.type : '',
+      id: this.props.document.id ? this.props.document.id : null,
+      title: this.props.document.id ? this.props.document.title : '',
+      content: this.props.document.id ? this.props.document.content : '',
+      access: this.props.document.id ? this.props.document.access : 'public',
+      type: this.props.document.id ? this.props.document.type : '',
     };
+
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
   }
 
+  /**
+   * Sets state for a document
+   *
+   * @memberOf CreateDocumentsForm
+   */
+  componentWillMount() {
+    const currentPath = location.pathname;
+    if (currentPath === '/create-document') {
+      this.setState({
+        id: null,
+        title: '',
+        content: '',
+        access: 'public',
+        type: '',
+      });
+    }
+  }
   /**
    * Renders props of a document if it exists
    * @param {Object} nextProps
@@ -36,7 +54,7 @@ export class CreateDocumentsForm extends React.Component {
    * @memberOf CreateDocumentsForm
    */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.document) {
+    if (nextProps.document !== this.props.document) {
       const { document: { title, content, type, id, access } } = nextProps;
       this.setState({
         title,

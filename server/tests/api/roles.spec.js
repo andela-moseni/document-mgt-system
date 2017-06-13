@@ -44,6 +44,18 @@ describe('Role API:', () => {
           });
       });
 
+      it(`should not create a role when title
+      field contains non-alphabets`, (done) => {
+        const newRole = { title: '12basic' };
+        request.post('/api/roles')
+          .set({ Authorization: adminUserToken })
+          .send(newRole)
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            done();
+          });
+      });
+
       it('should create a role if title field is valid', (done) => {
         const newRole = { title: 'basic' };
         request.post('/api/roles')
@@ -141,6 +153,19 @@ describe('Role API:', () => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
             .equal(invalidParameters);
+            done();
+          });
+      });
+
+      it('should not edit role if title field is empty', (done) => {
+        const fieldsToUpdate = { title: ' ' };
+        request.put('/api/roles/3')
+          .set({ Authorization: adminUserToken })
+          .send(fieldsToUpdate)
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message).to
+            .equal('Invalid parameters');
             done();
           });
       });

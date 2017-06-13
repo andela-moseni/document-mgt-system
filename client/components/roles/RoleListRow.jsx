@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
 import { notify } from 'react-notify-toast';
+import isEmpty from 'lodash/isEmpty';
 import { fetchRoles, updateRole, deleteRole } from '../../actions/rolesActions';
 import Prompt from '../../Prompt';
 import TextFieldGroup from '../common/TextFieldGroup';
@@ -41,13 +42,14 @@ export class RoleListRow extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const custom = { background: '#ff0000', text: '#FFFFFF' };
-    if (this.props.role.title) {
-      this.props.updateRole(this.state).then(() => {
-        notify.show('Update successful', 'success', 3000);
-      }).catch((error) => {
-        notify.show(error.response.data.message, 'custom', 3000, custom);
-      });
+    if (isEmpty(this.state.title)) {
+      return notify.show('Title field is required', 'custom', 3000, custom);
     }
+    this.props.updateRole(this.state).then(() => {
+      notify.show('Update successful', 'success', 3000);
+    }).catch((error) => {
+      notify.show(error.response.data.message, 'custom', 3000, custom);
+    });
   }
 
   /**

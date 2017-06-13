@@ -120,13 +120,13 @@ class RolesController {
         }
         role
           .update(req.body, {
-            fields: Object.keys(req.body),
+            fields: Object.keys(req.body)
           })
           .then(updatedRole => res.status(200).send({
             message: 'Update Successful', updatedRole,
           }))
           .catch(() => res.status(400).send({
-            message: 'Title field is required',
+            message: 'Invalid parameters',
           }));
       })
       .catch(() => res.status(400).send({

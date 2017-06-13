@@ -12,6 +12,7 @@ const regularUser = SpecHelper.specUser2;
 const invalidUser = SpecHelper.invalidUser;
 const invalidUser2 = SpecHelper.invalidUser2;
 const invalidUser3 = SpecHelper.invalidUser3;
+const invalidUser4 = SpecHelper.invalidUser4;
 const regularUser2 = SpecHelper.specUser3;
 const regularUser3 = SpecHelper.specUser5;
 const authorUser = SpecHelper.specUser6;
@@ -41,6 +42,19 @@ describe('User API:', () => {
       (done) => {
         request.post('/api/users')
           .send(invalidUser)
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message).to
+            .equal('All fields are required.');
+            done();
+          });
+      });
+
+      it(`should not create a user when name,
+      email and/or password fields are invalid`,
+      (done) => {
+        request.post('/api/users')
+          .send(invalidUser4)
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to

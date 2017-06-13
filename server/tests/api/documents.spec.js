@@ -9,6 +9,7 @@ const adminUser = SpecHelper.specUser1;
 const regularUser = SpecHelper.specUser2;
 const authorUser = SpecHelper.specUser4;
 const invalidDocument = SpecHelper.invalidDocument;
+const invalidDocument2 = SpecHelper.specDocument10;
 const roleDocument2 = SpecHelper.specDocument2;
 const roleDocument = SpecHelper.specDocument3;
 const privateDocument = SpecHelper.specDocument4;
@@ -73,6 +74,20 @@ describe('Document API:', () => {
             expect(response.status).to.equal(400);
             expect(response.body.message).to
             .equal(invalid);
+            done();
+          });
+      });
+
+      it(`should not create a document when title, content, access and/or type
+      fields are invalid`,
+      (done) => {
+        request.post('/api/documents')
+          .send(invalidDocument2)
+          .set({ Authorization: authorUserToken })
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message).to
+            .equal(invalidParameters);
             done();
           });
       });
@@ -243,6 +258,11 @@ describe('Document API:', () => {
         content: 'Its mostly about self-learning',
       };
 
+      const invalidFields = {
+        title: 'YOYOL - You Own Your Own Learning',
+        content: '',
+      };
+
       it('should not edit document if id is invalid', (done) => {
         request.put('/api/documents/76589')
           .set({ Authorization: adminUserToken })
@@ -288,6 +308,20 @@ describe('Document API:', () => {
             expect(response.status).to.equal(200);
             expect(updatedDocument.title).to.equal(fieldsToUpdate.title);
             expect(updatedDocument.content).to.equal(fieldsToUpdate.content);
+            done();
+          });
+      });
+
+      it(`should not edit document if title,
+      content, type and/or access field is invalid`,
+      (done) => {
+        request.put('/api/documents/2')
+          .set({ Authorization: regularUserToken })
+          .send(invalidFields)
+          .end((error, response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message).to
+            .equal('All fields are required');
             done();
           });
       });

@@ -48,6 +48,12 @@ const SpecHelper = {
     Email: 'ifiok@test.com',
   },
 
+  invalidUser4: {
+    name: 'Mercy1111',
+    email: 'mercy@test.com',
+    password: 'mercy',
+  },
+
   specUser3: {
     name: 'Ade Ade',
     email: 'ade@test.com',
@@ -209,6 +215,14 @@ const SpecHelper = {
     content: faker.lorem.paragraph(),
     access: 'role',
     type: 'Note',
+    OwnerId: 3,
+
+  },
+  specDocument10: {
+    title: 'YOYOL',
+    content: 'In Andela, we believe You Own Your Own Learning',
+    access: 'publics',
+    type: 'TIA',
     OwnerId: 3,
 
   },
