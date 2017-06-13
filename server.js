@@ -38,9 +38,7 @@ app.use('/api', router);
 
 // Setup a default catch-all route that sends back a welcome message in JSON format
 app.get('/*', (req, res) => {
-  res.status(200).send({
-    message: 'Welcome to the Document Management System API'
-  });
+  res.status(200).sendFile(path.join(__dirname, './server/index.html'));
 });
 
 const server = http.createServer(app);
