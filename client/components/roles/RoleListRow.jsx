@@ -40,9 +40,14 @@ export class RoleListRow extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.updateRole(this.state).then(() => {
-      notify.show('Update successful', 'success', 3000);
-    });
+    const custom = { background: '#ff0000', text: '#FFFFFF' };
+    if (this.props.role.title) {
+      this.props.updateRole(this.state).then(() => {
+        notify.show('Update successful', 'success', 3000);
+      }).catch((error) => {
+        notify.show(error.response.data.message, 'custom', 3000, custom);
+      });
+    }
   }
 
   /**

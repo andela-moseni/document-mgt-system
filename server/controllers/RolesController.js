@@ -25,13 +25,19 @@ class RolesController {
           message: 'Validation error. Please enter unique parameters only!',
         });
       }
-      Role.create({
-        title: req.body.title,
-      })
-      .then(role => res.status(201).send(role))
-      .catch(() => res.status(400).send({
-        message: 'An error occured. Invalid parameters, try again!',
-      }));
+      if (req.body.title) {
+        Role.create({
+          title: req.body.title,
+        })
+        .then(role => res.status(201).send(role))
+        .catch(() => res.status(400).send({
+          message: 'An error occured. Invalid parameters, try again!',
+        }));
+      } else {
+        return res.status(400).send({
+          message: 'Title field is required.'
+        });
+      }
     });
   }
 
@@ -118,6 +124,9 @@ class RolesController {
           })
           .then(updatedRole => res.status(200).send({
             message: 'Update Successful', updatedRole,
+          }))
+          .catch(() => res.status(400).send({
+            message: 'Title field is required',
           }));
       })
       .catch(() => res.status(400).send({

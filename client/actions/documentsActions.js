@@ -10,7 +10,7 @@ const custom = { background: '#ff0000', text: '#FFFFFF' };
  *
  * @export
  * @param {Object} document
- * @returns {Object}
+ * @returns {Object} document
  */
 export function createDocument(document) {
   return dispatch => axios.post('/api/documents', document).then((res) => {
@@ -42,7 +42,7 @@ export function docFetched(doc) {
  * @export
  * @param {Number} offset
  * @param {Number} limit
- * @returns {Object}
+ * @returns {Object} documents
  */
 export function fetchDocuments(offset, limit) {
   return dispatch => axios
@@ -61,14 +61,14 @@ export function fetchDocuments(offset, limit) {
  *
  * @export
  * @param {Number} id
- * @returns {Object}
+ * @returns {Object} document
  */
 export function fetchDocument(id) {
   return (dispatch) => {
     axios.get(`/api/documents/${id}`)
       .then((res) => {
         dispatch(docFetched(res.data.document));
-      });
+      }).catch(error => error);
   };
 }
 
@@ -79,7 +79,7 @@ export function fetchDocument(id) {
  * @param {Number} id
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object}
+ * @returns {Object} documents
  */
 export function fetchMyDocuments(id, offset = 0, limit = 10) {
   return dispatch => axios
@@ -106,7 +106,7 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
  * @param {String} search
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object}
+ * @returns {Object} documents
  */
 export function searchDocuments(search, offset = 0, limit = 10) {
   return dispatch => axios
@@ -162,7 +162,7 @@ export function searchUserDocuments(id, search, offset = 0, limit = 10) {
  *
  * @export
  * @param {Object} document
- * @returns {Object}
+ * @returns {Object} document
  */
 export function updateDocument(document) {
   return dispatch => axios
@@ -172,8 +172,6 @@ export function updateDocument(document) {
       type: types.UPDATE_DOCUMENT_SUCCESS,
       updatedDocument,
     });
-  }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 

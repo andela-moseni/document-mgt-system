@@ -86,14 +86,16 @@ class UsersController {
             message: 'User already exist!',
           });
         }
-
-        User.create({
-          name: req.body.name,
-          email: req.body.email,
-          password: req.body.password,
-          roleId: 2,
-          roleTitle: 'regular',
-        })
+        if (req.body.name &&
+        req.body.email &&
+        req.body.password) {
+          User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            roleId: 2,
+            roleTitle: 'regular',
+          })
           .then((user) => {
             const token = jwt
             .sign({ userId: user.id,
@@ -115,6 +117,11 @@ class UsersController {
           .catch(() => res.status(400).send({
             message: 'An error occured. Invalid parameters, try again!',
           }));
+        } else {
+          return res.status(400).send({
+            message: 'All fields are required.'
+          });
+        }
       });
   }
 

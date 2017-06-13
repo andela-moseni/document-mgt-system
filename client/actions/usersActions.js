@@ -11,7 +11,7 @@ const custom = { background: '#ff0000', text: '#FFFFFF' };
  *
  * @export
  * @param {Object} user
- * @returns {Object}
+ * @returns {Object} user
  */
 export function createUser(user) {
   return dispatch => axios.post('/api/users', user).then((res) => {
@@ -20,9 +20,6 @@ export function createUser(user) {
       type: types.CREATE_USER_SUCCESS,
       newUser,
     });
-  })
-  .catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -32,7 +29,7 @@ export function createUser(user) {
  * @export
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} allUsers
+ * @returns {Object} users
  */
 export function fetchUsers(offset = 0, limit = 10) {
   return dispatch => axios.get(`/api/users?offset=${offset}&limit=${limit}`)
@@ -51,7 +48,7 @@ export function fetchUsers(offset = 0, limit = 10) {
  *
  * @export
  * @param {Number} id
- * @returns {Object} userData
+ * @returns {Object} user
  */
 export function fetchUserProfile(id) {
   return dispatch => axios.get(`/api/users/${id}`).then((res) => {
@@ -68,7 +65,7 @@ export function fetchUserProfile(id) {
  *
  * @export
  * @param {Object} user
- * @returns {Object} updatedUser
+ * @returns {Object} user
  */
 export function updateUser(user) {
   const newUser = omit(user, ['id']);
@@ -89,7 +86,7 @@ export function updateUser(user) {
  *
  * @export
  * @param {Object} user
- * @returns {Object}
+ * @returns {Object} user
  */
 export function updateUsers(user) {
   const newUser = omit(user, ['id']);
@@ -113,7 +110,7 @@ export function updateUsers(user) {
  * @param {String} search
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} allUsers
+ * @returns {Object} users
  */
 export function searchUsers(search, offset = 0, limit = 10) {
   return dispatch => axios

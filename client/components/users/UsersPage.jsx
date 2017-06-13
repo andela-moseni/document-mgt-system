@@ -65,7 +65,7 @@ export class UsersPage extends React.Component {
   onSubmit(event) {
     const custom = { background: '#FF0000', text: '#FFFFFF' };
     event.preventDefault();
-    if (this.state.password.length < 4) {
+    if (this.state.password && this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
         'custom', 3000, custom);
     }
@@ -74,12 +74,14 @@ export class UsersPage extends React.Component {
     }
     this.props.createUser(this.state).then(() => {
       notify.show('User created successfully', 'success', 3000);
-    });
-    this.setState({
-      name: ' ',
-      email: ' ',
-      password: ' ',
-      passwordConfirmation: ' '
+      this.setState({
+        name: '',
+        email: '',
+        password: '',
+        passwordConfirmation: '',
+      });
+    }).catch((error) => {
+      notify.show(error.response.data.message, 'custom', 3000, custom);
     });
   }
 
@@ -120,7 +122,7 @@ export class UsersPage extends React.Component {
 
     return (
       <div className="container">
-        <h3 className="white-text center-align"> {totalCount} Users </h3>
+        <h3 className="white-text center-align"> {users.length} Users </h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>

@@ -209,6 +209,8 @@ class DocumentsController {
               .then(updatedDocument => res.status(200).send({
                 message: 'Update successful!',
                 updatedDocument,
+              })).catch(() => res.status(400).send({
+                message: 'All fields are required',
               }));
           })
           .catch(() => res.status(400).send({

@@ -59,10 +59,13 @@ export class RolesPage extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    const custom = { background: '#FF0000', text: '#FFFFFF' };
     this.props.createRole(this.state).then(() => {
       notify.show('Role created successfully', 'success', 3000);
+      this.setState({ title: '' });
+    }).catch((error) => {
+      notify.show(error.response.data.message, 'custom', 3000, custom);
     });
-    this.setState({ title: ' ' });
   }
 
   /**
@@ -82,7 +85,7 @@ export class RolesPage extends React.Component {
         </div>
       );
     }
-    const { pageCount, currentPage, totalCount } = pagination;
+    const { pageCount, currentPage } = pagination;
     const createBtn = (
       <button
         className="btn-floating btn-large waves-effect waves-light newBtn"
@@ -94,7 +97,7 @@ export class RolesPage extends React.Component {
 
     return (
       <div className="container">
-        <h3 className="white-text center-align"> {totalCount} roles </h3>
+        <h3 className="white-text center-align"> {roles.length} roles </h3>
         <table className="striped responsive-table highlight">
           <thead>
             <tr>

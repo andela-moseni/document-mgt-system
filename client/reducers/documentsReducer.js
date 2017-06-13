@@ -9,41 +9,39 @@ const initialState = { documents: [], document: {}, pagination: {} };
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case CREATE_DOCUMENT_SUCCESS:
-      return Object.assign({}, state);
+      return { ...state };
 
     case DISPLAY_ALL_DOCUMENTS:
-      return Object.assign({}, state,
-      { documents: action.allDocs, pagination: action.pagination });
+      return { ...state,
+        documents: action.allDocs,
+        pagination: action.pagination };
 
     case DISPLAY_ALL_DOCUMENTS_FAILED:
-      return Object.assign({}, state,
-      { documents: {}, pagination: {} });
+      return { ...state, documents: {}, pagination: {} };
 
     case DISPLAY_MY_DOCUMENTS:
-      return Object.assign({}, state,
-      { documents: action.myDocs, pagination: action.pagination });
+      return { ...state,
+        documents: action.myDocs,
+        pagination: action.pagination };
 
     case NO_DOCUMENTS_FOUND:
-      return Object.assign({}, state, { documents: [] });
+      return { ...state, documents: [] };
 
     case UPDATE_DOCUMENT_SUCCESS: {
-      // return Object.assign({}, state, { document: action.updatedDocument });
       const docIndex = findIndex(state.documents,
       { id: action.updatedDocument.id });
-      const stateCopy = Object.assign({}, state);
+      const stateCopy = { ...state };
       stateCopy.documents[docIndex] = action.updatedDocument;
       return stateCopy;
     }
 
     case DOC_FETCHED:
-      return Object.assign({}, state, { document: action.doc });
+      return { ...state, document: action.doc };
 
-    case DELETE_DOCUMENT_SUCCESS: {
-      // return Object.assign({}, state);
-      return Object.assign({}, state,
-        { documents: state.documents
-        .filter(document => document.id !== action.documentId) });
-    }
+    case DELETE_DOCUMENT_SUCCESS:
+      return { ...state,
+        documents: state.documents
+        .filter(document => document.id !== action.documentId) };
 
     default: return state;
   }

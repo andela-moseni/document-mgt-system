@@ -9,7 +9,7 @@ const custom = { background: '#ff0000', text: '#FFFFFF' };
  *
  * @export
  * @param {Object} role
- * @returns {Object}
+ * @returns {Object} role
  */
 export function createRole(role) {
   return dispatch => axios.post('/api/roles', role).then((res) => {
@@ -18,9 +18,6 @@ export function createRole(role) {
       type: types.CREATE_ROLE_SUCCESS,
       newRole,
     });
-  })
-  .catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -30,7 +27,7 @@ export function createRole(role) {
  * @export
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object}
+ * @returns {Object} roles
  */
 export function fetchRoles(offset = 0, limit = 10) {
   return dispatch => axios.get(`/api/roles?offset=${offset}&limit=${limit}`)
@@ -51,7 +48,7 @@ export function fetchRoles(offset = 0, limit = 10) {
  *
  * @export
  * @param {Object} role
- * @returns {Object}
+ * @returns {Object} role
  */
 export function updateRole(role) {
   return dispatch => axios.put(`/api/roles/${role.id}`, role).then((res) => {
@@ -60,8 +57,6 @@ export function updateRole(role) {
       type: types.DISPLAY_UPDATED_ROLE,
       updatedRole,
     });
-  }).catch((error) => {
-    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -71,7 +66,7 @@ export function updateRole(role) {
  * @param {String} search
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object}
+ * @returns {Object} roles
  */
 export function searchRoles(search, offset = 0, limit = 10) {
   return dispatch => axios
