@@ -6,11 +6,10 @@ import * as types from '../actions/types';
 const custom = { background: '#ff0000', text: '#FFFFFF' };
 
 /**
- *
- *
+ * Create new document
  * @export
- * @param {Object} document
- * @returns {Object} document
+ * @param {Object} document - object
+ * @returns {Object} newDoc - object
  */
 export function createDocument(document) {
   return dispatch => axios.post('/api/documents', document).then((res) => {
@@ -23,11 +22,10 @@ export function createDocument(document) {
 }
 
 /**
- *
- *
+ * Fetch documents
  * @export
- * @param {Object} doc
- * @returns {Object}
+ * @param {Object} doc - object
+ * @returns {Object} doc - object
  */
 export function docFetched(doc) {
   return {
@@ -37,12 +35,11 @@ export function docFetched(doc) {
 }
 
 /**
- *
- *
+ * Fetch all Documents
  * @export
  * @param {Number} offset
  * @param {Number} limit
- * @returns {Object} documents
+ * @returns {Object} allDocs - object
  */
 export function fetchDocuments(offset, limit) {
   return dispatch => axios
@@ -57,11 +54,10 @@ export function fetchDocuments(offset, limit) {
 }
 
 /**
- *
- *
+ * Fetch a document based on id
  * @export
- * @param {Number} id
- * @returns {Object} document
+ * @param {Number} id - documentId
+ * @returns {Object} document - object
  */
 export function fetchDocument(id) {
   return (dispatch) => {
@@ -73,13 +69,12 @@ export function fetchDocument(id) {
 }
 
 /**
- *
- *
+ * Fetch a user's documents
  * @export
- * @param {Number} id
+ * @param {Number} id - userId
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} documents
+ * @returns {Object} myDocs - object
  */
 export function fetchMyDocuments(id, offset = 0, limit = 10) {
   return dispatch => axios
@@ -100,13 +95,12 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
 }
 
 /**
- *
- *
+ * Get all documents relevant to search term
  * @export
- * @param {String} search
+ * @param {String} search - search term
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} documents
+ * @returns {Object} allDocs - object
  */
 export function searchDocuments(search, offset = 0, limit = 10) {
   return dispatch => axios
@@ -129,13 +123,14 @@ export function searchDocuments(search, offset = 0, limit = 10) {
 }
 
 /**
- *
+ * Search through a user's documents to get-
+ * all documents relevant to search term
  * @export
- * @param {Number} id
- * @param {String} search
+ * @param {Number} id - userId
+ * @param {String} search - search term
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} user documents
+ * @returns {Object} allDocs - object
  */
 export function searchUserDocuments(id, search, offset = 0, limit = 10) {
   return dispatch => axios
@@ -158,11 +153,10 @@ export function searchUserDocuments(id, search, offset = 0, limit = 10) {
   });
 }
 /**
- *
- *
+ * Update a document based on the id
  * @export
- * @param {Object} document
- * @returns {Object} document
+ * @param {Object} document - object
+ * @returns {Object} updatedDocument - object
  */
 export function updateDocument(document) {
   return dispatch => axios
@@ -176,11 +170,10 @@ export function updateDocument(document) {
 }
 
 /**
- *
- *
+ * Delete a document based on the id
  * @export
  * @param {Number} documentId
- * @returns {Object}
+ * @returns {Object} object
  */
 export const deleteDocument = documentId => dispatch => axios
 .delete(`/api/documents/${documentId}`).then(() => {

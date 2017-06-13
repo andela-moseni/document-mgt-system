@@ -6,10 +6,10 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { setCurrentUser } from './loginActions';
 
 /**
- *
+ * Signup a user
  * @export
- * @param {Object} userData
- * @returns {Object} user
+ * @param {Object} userData - object
+ * @returns {Object} user - object
  */
 export default function userSignupRequest(userData) {
   const custom = { background: '#ff0000', text: '#FFFFFF' };

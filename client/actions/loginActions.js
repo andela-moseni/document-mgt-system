@@ -6,10 +6,10 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { SET_CURRENT_USER } from './types';
 
 /**
- *
+ * Set current user
  * @export
- * @param {Object} user
- * @returns {Object} user
+ * @param {Object} user - object
+ * @returns {Object} user - object
  */
 export function setCurrentUser(user) {
   return {
@@ -19,9 +19,9 @@ export function setCurrentUser(user) {
 }
 
 /**
- *
+ * Logout a user
  * @export
- * @returns {Object}
+ * @returns {Object} - empty object
  */
 export function logout() {
   return (dispatch) => {
@@ -32,10 +32,10 @@ export function logout() {
 }
 
 /**
- *
+ * Login a user
  * @export
- * @param {Object} userData
- * @returns {Object} user
+ * @param {Object} userData - object
+ * @returns {Object} user - object
  */
 export function login(userData) {
   const custom = { background: '#ff0000', text: '#FFFFFF' };

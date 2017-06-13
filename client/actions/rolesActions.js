@@ -5,11 +5,10 @@ import * as types from '../actions/types';
 const custom = { background: '#ff0000', text: '#FFFFFF' };
 
 /**
- *
- *
+ * Create new role
  * @export
- * @param {Object} role
- * @returns {Object} role
+ * @param {Object} role - object
+ * @returns {Object} newRole - object
  */
 export function createRole(role) {
   return dispatch => axios.post('/api/roles', role).then((res) => {
@@ -22,12 +21,11 @@ export function createRole(role) {
 }
 
 /**
- *
- *
+ * Fetch all roles
  * @export
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} roles
+ * @returns {Object} allRoles - object
  */
 export function fetchRoles(offset = 0, limit = 10) {
   return dispatch => axios.get(`/api/roles?offset=${offset}&limit=${limit}`)
@@ -45,10 +43,10 @@ export function fetchRoles(offset = 0, limit = 10) {
 }
 
 /**
- *
+ * Update a role based on the id
  * @export
- * @param {Object} role
- * @returns {Object} role
+ * @param {Object} role - object
+ * @returns {Object} updatedRole - object
  */
 export function updateRole(role) {
   return dispatch => axios.put(`/api/roles/${role.id}`, role).then((res) => {
@@ -61,12 +59,12 @@ export function updateRole(role) {
 }
 
 /**
- *
+ * Get all roles relevant to search term
  * @export
- * @param {String} search
+ * @param {String} search - search term
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} roles
+ * @returns {Object} allRoles - object
  */
 export function searchRoles(search, offset = 0, limit = 10) {
   return dispatch => axios
@@ -90,10 +88,10 @@ export function searchRoles(search, offset = 0, limit = 10) {
 }
 
 /**
- *
+ * Delete a role based on the id
  * @export
  * @param {Number} roleId
- * @returns {Object}
+ * @returns {Object} object
  */
 export function deleteRole(roleId) {
   return dispatch => axios.delete(`/api/roles/${roleId}`).then(() => {

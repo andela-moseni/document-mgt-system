@@ -8,10 +8,10 @@ import { logout } from './loginActions';
 const custom = { background: '#ff0000', text: '#FFFFFF' };
 
 /**
- *
+ * Create new user
  * @export
- * @param {Object} user
- * @returns {Object} user
+ * @param {Object} user - object
+ * @returns {Object} newUser - object
  */
 export function createUser(user) {
   return dispatch => axios.post('/api/users', user).then((res) => {
@@ -24,12 +24,11 @@ export function createUser(user) {
 }
 
 /**
- *
- *
+ * Fetch all users
  * @export
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} users
+ * @returns {Object} allUsers - object
  */
 export function fetchUsers(offset = 0, limit = 10) {
   return dispatch => axios.get(`/api/users?offset=${offset}&limit=${limit}`)
@@ -44,11 +43,10 @@ export function fetchUsers(offset = 0, limit = 10) {
 }
 
 /**
- *
- *
+ * Fetch a user based on id
  * @export
- * @param {Number} id
- * @returns {Object} user
+ * @param {Number} id - userId
+ * @returns {Object} userData - object
  */
 export function fetchUserProfile(id) {
   return dispatch => axios.get(`/api/users/${id}`).then((res) => {
@@ -61,11 +59,10 @@ export function fetchUserProfile(id) {
 }
 
 /**
- *
- *
+ * Update a user based on the id
  * @export
- * @param {Object} user
- * @returns {Object} user
+ * @param {Object} user - object
+ * @returns {Object} updatedUser - object
  */
 export function updateUser(user) {
   const newUser = omit(user, ['id']);
@@ -83,10 +80,10 @@ export function updateUser(user) {
 }
 
 /**
- *
+ * Update a user based on the id
  * @export
- * @param {Object} user
- * @returns {Object} user
+ * @param {Object} user - object
+ * @returns {Object} updatedUser - object
  */
 export function updateUsers(user) {
   const newUser = omit(user, ['id']);
@@ -104,13 +101,12 @@ export function updateUsers(user) {
 }
 
 /**
- *
- *
+ * Get all users relevant to search term
  * @export
- * @param {String} search
+ * @param {String} search - search term
  * @param {Number} [offset=0]
  * @param {Number} [limit=10]
- * @returns {Object} users
+ * @returns {Object} allUsers - object
  */
 export function searchUsers(search, offset = 0, limit = 10) {
   return dispatch => axios
@@ -133,11 +129,11 @@ export function searchUsers(search, offset = 0, limit = 10) {
 }
 
 /**
- *
+ * Delete a user based on id
  * @export
  * @param {Number} userId
  * @param {Boolean} isAdmin
- * @returns {Object}
+ * @returns {Object} object
  */
 export function deleteUser(userId, isAdmin) {
   return dispatch => axios.delete(`/api/users/${userId}`).then(() => {
