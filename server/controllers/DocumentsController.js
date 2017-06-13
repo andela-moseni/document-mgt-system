@@ -102,16 +102,16 @@ class DocumentsController {
             .findAndCountAll(query)
             .then((documents) => {
               const filteredDocuments = documents.rows
-              .map(document => Object.assign({}, {
-                id: document.id,
-                title: document.title,
-                content: document.content,
-                access: document.access,
-                type: document.type,
-                OwnerId: document.OwnerId,
-                createdAt: document.createdAt,
-                updatedAt: document.updatedAt,
-              }));
+                .map(document => ({
+                  id: document.id,
+                  title: document.title,
+                  content: document.content,
+                  access: document.access,
+                  type: document.type,
+                  OwnerId: document.OwnerId,
+                  createdAt: document.createdAt,
+                  updatedAt: document.updatedAt, }));
+
               const pagination = ControllerHelper.pagination(
                 query.limit, query.offset, documents.count,
               );
@@ -344,7 +344,7 @@ class DocumentsController {
           .findAndCountAll(query)
           .then((documents) => {
             const filteredDocuments = documents.rows
-            .map(document => Object.assign({}, {
+            .map(document => ({
               id: document.id,
               title: document.title,
               content: document.content,
@@ -352,8 +352,8 @@ class DocumentsController {
               type: document.type,
               OwnerId: document.OwnerId,
               createdAt: document.createdAt,
-              updatedAt: document.updatedAt,
-            }));
+              updatedAt: document.updatedAt, }));
+
             const pagination = ControllerHelper.pagination(
               query.limit, query.offset, documents.count,
             );
