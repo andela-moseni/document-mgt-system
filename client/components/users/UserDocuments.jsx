@@ -50,7 +50,7 @@ export class UserDocuments extends React.Component {
     if (!documents.length) {
       return (
         <div className="container">
-          <h2 className="white-text">User has no documents...</h2>
+          <h2 className="white-text">No documents found</h2>
         </div>
       );
     }

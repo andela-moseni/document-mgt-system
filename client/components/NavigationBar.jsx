@@ -40,7 +40,8 @@ class NavigationBar extends React.Component {
       this.props.searchUsers(query);
     } else if (currentPath === '/roles') {
       this.props.searchRoles(query);
-    } else {
+    } else if ((currentPath.search('users') >= 0) &&
+     (currentPath.search('documents') >= 0)) {
       const id = currentPath.split('/')[2];
       this.props.searchUserDocuments(id, query);
     }
