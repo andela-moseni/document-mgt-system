@@ -138,6 +138,7 @@ export class CreateDocumentsForm extends React.Component {
               value={this.state.title}
               icon="folder"
               field="title"
+              placeholder="title"
             />
 
             <div className="input-field col s12">
@@ -166,13 +167,16 @@ export class CreateDocumentsForm extends React.Component {
                 /> : ''
               }
             </div>
-            <TextFieldGroup
-              label="Type"
-              onChange={this.onChange}
-              value={this.state.type}
-              icon="folder"
-              field="type"
-            />
+            <div className="input-field col s12">
+              <TextFieldGroup
+                label="Type"
+                onChange={this.onChange}
+                value={this.state.type}
+                icon="folder"
+                field="type"
+                placeholder="type"
+              />
+            </div>
 
             <div className="col s12">
               <i className="material-icons prefix left">mode_edit</i>

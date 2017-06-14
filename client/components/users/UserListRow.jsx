@@ -22,6 +22,8 @@ export class UserListRow extends React.Component {
     this.state = {
       name: props.user.name,
       email: props.user.email,
+      password: '',
+      passwordConfirmation: '',
     };
 
     this.onChange = this.onChange.bind(this);

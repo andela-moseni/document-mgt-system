@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Input, Modal } from 'react-materialize';
+import { Modal } from 'react-materialize';
 import { notify } from 'react-notify-toast';
 import validator from 'validator';
 import * as usersActions from '../../actions/usersActions';
@@ -16,10 +16,11 @@ import { validateUser } from '../../utils/validator';
 export class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      name: props.user.name,
-      email: props.user.email,
+      name: props.user.name || '',
+      email: props.user.email || '',
+      password: '',
+      passwordConfirmation: '',
     };
 
     this.onChange = this.onChange.bind(this);
@@ -162,51 +163,51 @@ export class UserProfile extends React.Component {
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
                   <div className="input-field col s12">
-                    <Input
+                    <TextFieldGroup
                       s={10}
                       label="Full Name"
                       onChange={this.onChange}
                       value={this.state.name}
                       icon="account_circle"
-                      name="name"
+                      field="name"
                       placeholder="alphabets only"
                     />
                   </div>
 
                   <div className="input-field col s12">
-                    <Input
+                    <TextFieldGroup
                       s={10}
                       label="Email"
                       onChange={this.onChange}
                       value={this.state.email}
                       icon="email"
-                      name="email"
+                      field="email"
                       type="email"
                       placeholder="Email"
                     />
                   </div>
 
                   <div className="input-field col s12">
-                    <Input
+                    <TextFieldGroup
                       s={10}
                       label="Password"
                       onChange={this.onChange}
                       value={this.state.password}
                       icon="vpn_key"
-                      name="password"
+                      field="password"
                       type="password"
                       placeholder="password must be minimum of four characters"
                     />
                   </div>
 
                   <div className="input-field col s12">
-                    <Input
+                    <TextFieldGroup
                       s={8}
                       label="Confirm Password"
                       onChange={this.onChange}
                       value={this.state.passwordConfirmation}
                       icon="vpn_key"
-                      name="passwordConfirmation"
+                      field="passwordConfirmation"
                       type="password"
                       placeholder="passwords must match"
                     />
