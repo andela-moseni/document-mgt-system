@@ -14,7 +14,7 @@ import { fetchDocument, updateDocument,
 export class CreateDocumentsPage extends React.Component {
   constructor(props) {
     super(props);
-    if (this.props.documents) {
+    if (this.props.documents && this.props.params.id) {
       const docId = this.props.params.id;
       const document = this.props.documents
       .find(doc => doc.id === Number(docId));
@@ -63,7 +63,7 @@ CreateDocumentsPage.propTypes = {
   props: PropTypes.object,
   params: PropTypes.object,
   fetchDocument: PropTypes.func.isRequired,
-  documents: PropTypes.array.isRequired,
+  documents: PropTypes.any.isRequired,
   docFetched: PropTypes.func.isRequired,
 };
 

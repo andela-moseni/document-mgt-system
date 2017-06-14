@@ -29,7 +29,7 @@ class UsersController {
     User.findOne(query)
       .then((user) => {
         if (!req.body.password) {
-          return res.status(401)
+          return res.status(200)
             .send({ message: 'Invalid login credentials. Try again!' });
         }
         if (user && user.validatePassword(req.body.password)) {
@@ -49,7 +49,7 @@ class UsersController {
             roleTitle: user.roleTitle,
           });
         }
-        res.status(401)
+        res.status(200)
           .send({ message: 'Invalid login credentials. Try again!' });
       });
   }
@@ -82,7 +82,7 @@ class UsersController {
     User.findOne({ where: { email: req.body.email } })
       .then((existingUser) => {
         if (existingUser) {
-          return res.status(400).send({
+          return res.status(200).send({
             message: 'User already exist!',
           });
         }
@@ -118,7 +118,7 @@ class UsersController {
             message: 'An error occured. Invalid parameters, try again!',
           }));
         } else {
-          return res.status(400).send({
+          return res.status(200).send({
             message: 'All fields are required.'
           });
         }
@@ -232,7 +232,7 @@ class UsersController {
                 user,
               }))
               .catch(() => res.status(400).send({
-                message: 'An error occured. Invalid parameters, try again!',
+                message: 'Invalid parameters, try again!',
               }));
           })
         .catch(() => res.status(400).send({
@@ -267,8 +267,9 @@ class UsersController {
                 message: 'You are not authorized to delete this user',
               });
             }
-            if ((role.title === 'admin') && (Number(req.params.id) === 1)) {
-              return res.status(403)
+            if ((role.title === 'admin') &&
+            ((Number(req.params.id) === 1) || user.id === 1)) {
+              return res.status(200)
               .send({ message:
                 'You cannot delete default admin user account',
               });
@@ -352,8 +353,8 @@ class UsersController {
             const pagination = ControllerHelper.pagination(
               query.limit, query.offset, documents.count,
             );
-            if (documents.rows.length === 0) {
-              return res.status(404).send({
+            if (!documents.rows.length) {
+              return res.status(200).send({
                 message: 'No document match the request.',
               });
             }
@@ -404,7 +405,7 @@ class UsersController {
           query.limit, query.offset, users.count,
         );
         if (!users.rows.length) {
-          return res.status(404).send({
+          return res.status(200).send({
             message: 'Search does not match any user!',
           });
         }

@@ -98,7 +98,10 @@ describe('User Actions:', () => {
   describe('Delete User', () => {
     it('deletes a user and dispatches DELETE_USER_SUCCESS', () => {
       moxios.stubRequest('/api/users/1', {
-        status: 200
+        status: 200,
+        response: {
+          data: undefined
+        }
       });
       const expectedActions = [{
         type: types.DELETE_USER_SUCCESS,

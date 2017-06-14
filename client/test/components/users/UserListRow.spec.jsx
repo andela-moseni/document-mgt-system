@@ -19,7 +19,7 @@ const wrapper = shallow(<UserListRow {...props} />);
 
 describe('UserListRow', () => {
   it('renders the div element', () => {
-    expect(wrapper.find('div').length).toEqual(4);
+    expect(wrapper.find('div').length).toEqual(2);
   });
 
   it('renders the tr element', () => {
@@ -35,11 +35,7 @@ describe('UserListRow', () => {
   });
 
   it('renders the TextFieldGroup element', () => {
-    expect(wrapper.find('TextFieldGroup').length).toEqual(2);
-  });
-
-  it('renders the Input element', () => {
-    expect(wrapper.find('Input').length).toEqual(2);
+    expect(wrapper.find('TextFieldGroup').length).toEqual(4);
   });
 
   it('renders the Modal component', () => {

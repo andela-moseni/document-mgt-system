@@ -75,9 +75,9 @@ describe('Role API:', () => {
           .set({ Authorization: adminUserToken })
           .send(newRole)
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
-            .equal(invalid);
+            .equal('Role already exist!');
             done();
           });
       });
@@ -177,7 +177,7 @@ describe('Role API:', () => {
           .set({ Authorization: adminUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(notAllowed);
             done();
@@ -190,7 +190,7 @@ describe('Role API:', () => {
           .set({ Authorization: adminUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(notAllowed);
             done();
@@ -203,7 +203,7 @@ describe('Role API:', () => {
           .set({ Authorization: adminUserToken })
           .send(fieldsToUpdate)
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(invalid);
             done();
@@ -255,7 +255,7 @@ describe('Role API:', () => {
         request.delete('/api/roles/1')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(notPermitted);
             done();
@@ -266,7 +266,7 @@ describe('Role API:', () => {
         request.delete('/api/roles/2')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(notPermitted);
             done();
@@ -303,7 +303,7 @@ describe('Role API:', () => {
         request.get(`/api/search/roles?search=${invalidQuery}`)
             .set({ Authorization: adminUserToken })
             .end((error, response) => {
-              expect(response.status).to.equal(404);
+              expect(response.status).to.equal(200);
               expect(response.body.message).to
               .equal('Search does not match any role!');
               done();

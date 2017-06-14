@@ -80,6 +80,15 @@ export function fetchMyDocuments(id, offset = 0, limit = 10) {
   return dispatch => axios
   .get(`/api/users/${id}/documents?offset=${offset}&limit=${limit}`)
   .then((res) => {
+    if (res.data.message === 'No document match the request.') {
+      dispatch({
+        type: types.DISPLAY_ALL_DOCUMENTS_FAILED,
+        allDocs: {},
+        pagination: {},
+      });
+      return notify
+      .show('No document match the request.', 'custom', 3000, custom);
+    }
     const myDocs = res.data.documents;
     dispatch({
       type: types.DISPLAY_MY_DOCUMENTS,
@@ -106,6 +115,15 @@ export function searchDocuments(search, offset = 0, limit = 10) {
   return dispatch => axios
   .get(`/api/search/documents?search=${search}&offset=${offset}&limit=${limit}`)
   .then((res) => {
+    if (res.data.message === 'Search does not match any document!') {
+      dispatch({
+        type: types.DISPLAY_ALL_DOCUMENTS_FAILED,
+        allDocs: {},
+        pagination: {},
+      });
+      return notify
+      .show('Search does not match any document!', 'custom', 3000, custom);
+    }
     const allDocs = res.data.documents;
     dispatch({
       type: types.DISPLAY_ALL_DOCUMENTS,
@@ -136,6 +154,15 @@ export function searchUserDocuments(id, search, offset = 0, limit = 10) {
   return dispatch => axios
   .get(`/api/search/documents?search=${search}&offset=${offset}&limit=${limit}`)
   .then((res) => {
+    if (res.data.message === 'Search does not match any document!') {
+      dispatch({
+        type: types.DISPLAY_ALL_DOCUMENTS_FAILED,
+        allDocs: {},
+        pagination: {},
+      });
+      return notify
+      .show('Search does not match any document!', 'custom', 3000, custom);
+    }
     const allDocs = res.data.documents
       .filter(doc => doc.OwnerId === Number(id));
     dispatch({

@@ -21,8 +21,8 @@ class RolesController {
     Role.findOne({ where: { title: req.body.title } })
     .then((existingRole) => {
       if (existingRole) {
-        return res.status(400).send({
-          message: 'Validation error. Please enter unique parameters only!',
+        return res.status(200).send({
+          message: 'Role already exist!',
         });
       }
       if (req.body.title) {
@@ -102,7 +102,7 @@ class RolesController {
     Role.findOne({ where: { title: req.body.title } })
     .then((existingRole) => {
       if (existingRole) {
-        return res.status(400).send({
+        return res.status(200).send({
           message: 'Validation error. Please enter unique parameters only!',
         });
       }
@@ -114,7 +114,7 @@ class RolesController {
           });
         }
         if (role.title === 'regular' || role.title === 'admin') {
-          return res.status(400).send({
+          return res.status(200).send({
             message: 'An error occured. You cannot update default roles',
           });
         }
@@ -153,7 +153,7 @@ class RolesController {
           });
         }
         if (role.title === 'regular' || role.title === 'admin') {
-          return res.status(400).send({
+          return res.status(200).send({
             message: 'An error occured. You cannot delete default roles',
           });
         }
@@ -198,7 +198,7 @@ class RolesController {
           query.limit, query.offset, roles.count,
         );
         if (!roles.rows.length) {
-          return res.status(404).send({
+          return res.status(200).send({
             message: 'Search does not match any role!',
           });
         }

@@ -82,6 +82,10 @@ export class UsersPage extends React.Component {
       return notify.show('Password must be minimum of four characters only',
         'custom', 3000, custom);
     }
+    if (this.state.password && this.state.password.length > 20) {
+      return notify.show('Password field must be maximum of twenty letters',
+      'custom', 3000, custom);
+    }
     if (this.state.password &&
     this.state.password !== this.state.passwordConfirmation) {
       return notify.show('Passwords do not match', 'custom', 3000, custom);

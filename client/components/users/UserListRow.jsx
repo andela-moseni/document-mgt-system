@@ -90,6 +90,10 @@ export class UserListRow extends React.Component {
       return notify.show('password must be minimum of four characters only',
         'custom', 3000, custom);
     }
+    if (this.state.password && this.state.password.length > 20) {
+      return notify.show('Password field must be maximum of twenty letters',
+      'custom', 3000, custom);
+    }
     if (this.state.password &&
     this.state.password !== this.state.passwordConfirmation) {
       return notify.show('Passwords do not match', 'custom', 3000, custom);
@@ -191,33 +195,30 @@ export class UserListRow extends React.Component {
                     icon="email"
                     field="email"
                     type="email"
+                    placeholder="Email"
                   />
 
-                  <div className="input-field col s12">
-                    <Input
-                      s={8}
-                      label="Password"
-                      onChange={this.onChange}
-                      value={this.state.password}
-                      icon="vpn_key"
-                      name="password"
-                      type="password"
-                      placeholder="password must be minimum of four characters"
-                    />
-                  </div>
+                  <TextFieldGroup
+                    s={8}
+                    label="Password"
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    icon="vpn_key"
+                    field="password"
+                    type="password"
+                    placeholder="password must be minimum of four characters"
+                  />
 
-                  <div className="input-field col s12">
-                    <Input
-                      s={8}
-                      label="Confirm Password"
-                      onChange={this.onChange}
-                      value={this.state.passwordConfirmation}
-                      icon="vpn_key"
-                      name="passwordConfirmation"
-                      type="password"
-                      placeholder="passwords must match"
-                    />
-                  </div>
+                  <TextFieldGroup
+                    s={8}
+                    label="Confirm Password"
+                    onChange={this.onChange}
+                    value={this.state.passwordConfirmation}
+                    icon="vpn_key"
+                    field="passwordConfirmation"
+                    type="password"
+                    placeholder="passwords must match"
+                  />
 
                   <button
                     className="btn waves-effect waves-light submitBtn"

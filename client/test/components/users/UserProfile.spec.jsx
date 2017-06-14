@@ -18,7 +18,7 @@ describe('UserProfile', () => {
   });
 
   it('renders the div element', () => {
-    expect(wrapper.find('div').length).toEqual(6);
+    expect(wrapper.find('div').length).toEqual(8);
   });
 
   it('renders a table', () => {
@@ -30,14 +30,10 @@ describe('UserProfile', () => {
   });
 
   it('renders the TextFieldGroup component', () => {
-    expect(wrapper.find('TextFieldGroup').length).toEqual(2);
+    expect(wrapper.find('TextFieldGroup').length).toEqual(4);
   });
 
   it('renders the Modal component', () => {
     expect(wrapper.find('Modal').length).toEqual(1);
-  });
-
-  it('renders react-materialize Input component', () => {
-    expect(wrapper.find('Input').length).toEqual(2);
   });
 });

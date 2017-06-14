@@ -43,7 +43,7 @@ describe('User API:', () => {
         request.post('/api/users')
           .send(invalidUser)
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal('All fields are required.');
             done();
@@ -91,7 +91,7 @@ describe('User API:', () => {
         request.post('/api/users')
           .send(regularUser2)
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to.equal(userExist);
             done();
           });
@@ -101,7 +101,7 @@ describe('User API:', () => {
         request.post('/api/users')
           .send(authorUser)
           .end((error, response) => {
-            expect(response.status).to.equal(400);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to.equal(userExist);
             done();
           });
@@ -116,7 +116,7 @@ describe('User API:', () => {
       request.post('/api/users/login')
           .send(invalidUser2)
           .end((error, response) => {
-            expect(response.status).to.equal(401);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(invalidCredentials);
             done();
@@ -127,7 +127,7 @@ describe('User API:', () => {
       request.post('/api/users/login')
           .send(regularUser3)
           .end((error, response) => {
-            expect(response.status).to.equal(401);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(invalidCredentials);
             done();
@@ -139,7 +139,7 @@ describe('User API:', () => {
         request.post('/api/users/login')
           .send(invalidUser3)
           .end((error, response) => {
-            expect(response.status).to.equal(401);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(invalidCredentials);
             done();
@@ -304,7 +304,7 @@ describe('User API:', () => {
           .end((error, response) => {
             expect(response.status).to.equal(400);
             expect(response.body.message)
-            .to.equal(invalidParameters);
+            .to.equal('Invalid parameters, try again!');
             done();
           });
     });
@@ -453,7 +453,7 @@ describe('User API:', () => {
       request.delete('/api/users/1')
           .set({ Authorization: adminUserToken })
           .end((error, response) => {
-            expect(response.status).to.equal(403);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
               .equal('You cannot delete default admin user account');
             done();
@@ -480,7 +480,7 @@ describe('User API:', () => {
         request.get('/api/users/324785/documents')
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
-            expect(response.status).to.equal(404);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(noDocumentFound);
             done();
@@ -520,7 +520,7 @@ describe('User API:', () => {
             Authorization: regularUserToken,
           })
           .end((error, response) => {
-            expect(response.status).to.equal(404);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
               .equal(noDocumentFound);
             done();
@@ -544,7 +544,7 @@ describe('User API:', () => {
       request.get(`/api/users/${authorUser.id}/documents`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
-            expect(response.status).to.equal(404);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal(noDocumentFound);
             done();
@@ -571,7 +571,7 @@ describe('User API:', () => {
       request.get(`/api/search/users?search=${invalidQuery}`)
           .set({ Authorization: regularUserToken })
           .end((error, response) => {
-            expect(response.status).to.equal(404);
+            expect(response.status).to.equal(200);
             expect(response.body.message).to
             .equal('Search does not match any user!');
             done();

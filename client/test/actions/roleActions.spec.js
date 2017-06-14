@@ -102,7 +102,10 @@ describe('Role Actions:', () => {
   describe('Delete Role', () => {
     it('deletes a role and dispatches DELETE_ROLE_SUCCESS', () => {
       moxios.stubRequest('/api/roles/3', {
-        status: 200
+        status: 200,
+        response: {
+          data: undefined
+        }
       });
       const expectedActions = [{
         type: types.DELETE_ROLE_SUCCESS,

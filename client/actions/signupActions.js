@@ -14,6 +14,9 @@ import { setCurrentUser } from './loginActions';
 export default function userSignupRequest(userData) {
   const custom = { background: '#ff0000', text: '#FFFFFF' };
   return dispatch => axios.post('/api/users', userData).then((res) => {
+    if (res.data.message === 'User already exist!') {
+      return notify.show('User already exist!', 'custom', 3000, custom);
+    }
     const token = res.data.token;
     localStorage.setItem('jwtToken', token);
     setAuthorizationToken(token);

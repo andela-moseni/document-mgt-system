@@ -40,6 +40,10 @@ export function logout() {
 export function login(userData) {
   const custom = { background: '#ff0000', text: '#FFFFFF' };
   return dispatch => axios.post('/api/users/login', userData).then((res) => {
+    if (res.data.message === 'Invalid login credentials. Try again!') {
+      return notify
+      .show('Invalid login credentials. Try again!', 'custom', 3000, custom);
+    }
     const token = res.data.token;
     localStorage.setItem('jwtToken', token);
     setAuthorizationToken(token);

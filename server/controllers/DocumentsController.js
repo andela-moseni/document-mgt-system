@@ -37,7 +37,7 @@ class DocumentsController {
           message: 'An error occured. Invalid parameters, try again!',
         }));
     } else {
-      return res.status(400).send({
+      return res.status(200).send({
         message: 'All fields are required.'
       });
     }
@@ -358,7 +358,7 @@ class DocumentsController {
               query.limit, query.offset, documents.count,
             );
             if (!documents.rows.length) {
-              return res.status(404).send({
+              return res.status(200).send({
                 message: 'Search does not match any document!',
               });
             }

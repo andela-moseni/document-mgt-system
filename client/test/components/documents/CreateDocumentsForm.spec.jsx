@@ -36,7 +36,7 @@ describe('CreateDocumentsForm', () => {
   });
 
   it('renders text input fields', () => {
-    expect(wrapper.find('.input-field').length).toEqual(1);
+    expect(wrapper.find('.input-field').length).toEqual(2);
   });
 
   it('renders TextFieldGroup component', () => {

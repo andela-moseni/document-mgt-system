@@ -16,6 +16,9 @@ const custom = { background: '#ff0000', text: '#FFFFFF' };
 export function createUser(user) {
   return dispatch => axios.post('/api/users', user).then((res) => {
     const newUser = res.data.user;
+    if (res.data.message === 'User already exist!') {
+      return notify.show('User already exist!', 'custom', 3000, custom);
+    }
     dispatch({
       type: types.CREATE_USER_SUCCESS,
       newUser,
@@ -116,6 +119,15 @@ export function searchUsers(search, offset = 0, limit = 10) {
   return dispatch => axios
   .get(`/api/search/users?search=${search}&offset=${offset}&limit=${limit}`)
   .then((res) => {
+    if (res.data.message === 'Search does not match any user!') {
+      dispatch({
+        type: types.DISPLAY_ALL_USERS_FAILED,
+        allUsers: {},
+        pagination: {},
+      });
+      return notify
+      .show('Search does not match any user!', 'custom', 3000, custom);
+    }
     const allUsers = res.data.users;
     dispatch({
       type: types.DISPLAY_ALL_USERS,
@@ -140,7 +152,12 @@ export function searchUsers(search, offset = 0, limit = 10) {
  * @returns {Object} object
  */
 export function deleteUser(userId, isAdmin) {
-  return dispatch => axios.delete(`/api/users/${userId}`).then(() => {
+  return dispatch => axios.delete(`/api/users/${userId}`).then((res) => {
+    if (res.data.message === 'You cannot delete default admin user account') {
+      return notify
+      .show('You cannot delete default admin user account',
+      'custom', 3000, custom);
+    }
     dispatch({
       type: types.DELETE_USER_SUCCESS,
       userId,
