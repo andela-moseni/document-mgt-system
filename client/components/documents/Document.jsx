@@ -32,7 +32,7 @@ export class Document extends React.Component {
    * @memberOf Document
    */
   componentWillMount() {
-    if (!this.props.document.title) {
+    if (!this.props.document.title && this.props.params.id) {
       this.props.fetchDocument(this.props.params.id);
     }
   }

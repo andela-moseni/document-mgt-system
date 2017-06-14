@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { login } from '../../actions/loginActions';
+import { validateLogin } from '../../utils/validator';
 
 /**
  *
@@ -37,7 +38,10 @@ export class LoginForm extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.login(this.state);
+    const { valid } = validateLogin(this.state);
+    if (valid) {
+      return this.props.login(this.state);
+    }
   }
 
   /**

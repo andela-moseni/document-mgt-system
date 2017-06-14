@@ -42,8 +42,22 @@ export class RoleListRow extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const custom = { background: '#ff0000', text: '#FFFFFF' };
+
+    this.setState({ title: this.state.title.replace(/\s/g, '') });
     if (isEmpty(this.state.title)) {
       return notify.show('Title field is required', 'custom', 3000, custom);
+    }
+    if (this.state.title && !/[a-z]+$/i.test(this.state.title)) {
+      return notify.show('Only alphabets is allowed', 'custom', 3000, custom);
+    }
+
+    if (this.state.title && this.state.title.length < 4) {
+      return notify.show('Title field must be minimum of four letters',
+      'custom', 3000, custom);
+    }
+    if (this.state.title && this.state.title.length > 20) {
+      return notify.show('Title field must be maximum of twenty letters',
+      'custom', 3000, custom);
     }
     this.props.updateRole(this.state).then(() => {
       notify.show('Update successful', 'success', 3000);
@@ -111,7 +125,7 @@ export class RoleListRow extends React.Component {
                     value={this.state.title}
                     icon="account_circle"
                     field="title"
-                    placeholder="alphabets only"
+                    placeholder="minimum of four letters and alphabets only"
                   />
 
                   <button

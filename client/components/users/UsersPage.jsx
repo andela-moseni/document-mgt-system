@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { Modal, Pagination } from 'react-materialize';
 import { notify } from 'react-notify-toast';
 import jwt from 'jsonwebtoken';
+import validator from 'validator';
 import { fetchUsers, createUser } from '../../actions/usersActions';
 import UserListRow from './UserListRow';
 import TextFieldGroup from '../common/TextFieldGroup';
+import { validateSignUp } from '../../utils/validator';
 
 /**
  *
@@ -65,24 +67,36 @@ export class UsersPage extends React.Component {
   onSubmit(event) {
     const custom = { background: '#FF0000', text: '#FFFFFF' };
     event.preventDefault();
+
+    const { valid } = validateSignUp(this.state);
+
+    if (this.state.name && !/[a-z]+$/i.test(this.state.name)) {
+      return notify.show('Only alphabets is allowed for name field',
+      'custom', 3000, custom);
+    }
+    if (this.state.email && !validator.isEmail(this.state.email)) {
+      return notify.show('Enter valid email',
+      'custom', 3000, custom);
+    }
     if (this.state.password && this.state.password.length < 4) {
-      return notify.show('password must be minimum of four characters only',
+      return notify.show('Password must be minimum of four characters only',
         'custom', 3000, custom);
     }
-    if (this.state.password !== this.state.passwordConfirmation) {
+    if (this.state.password &&
+    this.state.password !== this.state.passwordConfirmation) {
       return notify.show('Passwords do not match', 'custom', 3000, custom);
     }
-    this.props.createUser(this.state).then(() => {
-      notify.show('User created successfully', 'success', 3000);
-      this.setState({
-        name: '',
-        email: '',
-        password: '',
-        passwordConfirmation: '',
+    if (valid) {
+      this.props.createUser(this.state).then(() => {
+        notify.show('User created successfully', 'success', 3000);
+        return this.setState({
+          name: '',
+          email: '',
+          password: '',
+          passwordConfirmation: '',
+        });
       });
-    }).catch((error) => {
-      notify.show(error.response.data.message, 'custom', 3000, custom);
-    });
+    }
   }
 
   /**
@@ -102,7 +116,7 @@ export class UsersPage extends React.Component {
         </div>
       );
     }
-    const { pageCount, currentPage, totalCount } = pagination;
+    const { pageCount, currentPage } = pagination;
     // conditional rendering for admin to add users
     const curUser =
     localStorage.jwtToken ? jwt.decode(localStorage.jwtToken) : '';

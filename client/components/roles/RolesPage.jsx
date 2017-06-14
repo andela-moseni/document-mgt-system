@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Pagination } from 'react-materialize';
 import { notify } from 'react-notify-toast';
+import isEmpty from 'lodash/isEmpty';
 import { fetchRoles, createRole } from '../../actions/rolesActions';
 import RoleListRow from './RoleListRow';
 import TextFieldGroup from '../common/TextFieldGroup';
@@ -60,6 +61,23 @@ export class RolesPage extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const custom = { background: '#FF0000', text: '#FFFFFF' };
+
+    this.setState({ title: this.state.title.replace(/\s/g, '') });
+    if (isEmpty(this.state.title)) {
+      return notify.show('Title field is required', 'custom', 3000, custom);
+    }
+    if (this.state.title && !/[a-z]+$/i.test(this.state.title)) {
+      return notify.show('Only alphabets is allowed', 'custom', 3000, custom);
+    }
+
+    if (this.state.title && this.state.title.length < 4) {
+      return notify.show('Title field must be minimum of four letters',
+      'custom', 3000, custom);
+    }
+    if (this.state.title && this.state.title.length > 20) {
+      return notify.show('Title field must be maximum of twenty letters',
+      'custom', 3000, custom);
+    }
     this.props.createRole(this.state).then(() => {
       notify.show('Role created successfully', 'success', 3000);
       this.setState({ title: '' });

@@ -2,6 +2,7 @@ import React from 'react';
 import { notify } from 'react-notify-toast';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
+import { validateSignUp } from '../../utils/validator';
 
 /**
  *
@@ -39,16 +40,21 @@ class SignupForm extends React.Component {
    * @memberOf SignupForm
    */
   onSubmit(event) {
-    const custom = { background: '#ff0000', text: '#FFFFFF' };
     event.preventDefault();
-    if (this.state.password.length < 4) {
+    const custom = { background: '#ff0000', text: '#FFFFFF' };
+    const { valid } = validateSignUp(this.state);
+
+    if (this.state.password && this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
         'custom', 3000, custom);
     }
-    if (this.state.password === this.state.passwordConfirmation) {
+    if (this.state.password &&
+    this.state.password !== this.state.passwordConfirmation) {
+      return notify.show('Passwords do not match', 'custom', 3000, custom);
+    }
+    if (valid) {
       return this.props.userSignupRequest(this.state);
     }
-    return notify.show('Passwords do not match', 'custom', 3000, custom);
   }
 
   /**

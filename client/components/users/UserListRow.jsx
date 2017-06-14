@@ -4,10 +4,12 @@ import { notify } from 'react-notify-toast';
 import { connect } from 'react-redux';
 import { Input, Modal } from 'react-materialize';
 import jwt from 'jsonwebtoken';
+import validator from 'validator';
 import Prompt from './../../Prompt';
 import { deleteUser, updateUsers,
   fetchUserProfile } from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
+import { validateUser } from '../../utils/validator';
 
 /**
  *
@@ -18,8 +20,8 @@ export class UserListRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.user.name,
-      email: this.props.user.email,
+      name: props.user.name,
+      email: props.user.email,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -72,14 +74,36 @@ export class UserListRow extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const custom = { background: '#ff0000', text: '#FFFFFF' };
+    const { valid } = validateUser(this.state);
+
+    if (this.state.name && !/[a-z]+$/i.test(this.state.name)) {
+      return notify.show('Only alphabets is allowed for name field',
+      'custom', 3000, custom);
+    }
+    if (this.state.email && !validator.isEmail(this.state.email)) {
+      return notify.show('Enter valid email',
+      'custom', 3000, custom);
+    }
     if (this.state.password && this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
         'custom', 3000, custom);
     }
-    if (this.state.password === this.state.passwordConfirmation) {
-      return this.props.updateUsers(this.state);
+    if (this.state.password &&
+    this.state.password !== this.state.passwordConfirmation) {
+      return notify.show('Passwords do not match', 'custom', 3000, custom);
     }
-    return notify.show('Passwords do not match', 'custom', 3000, custom);
+    if (valid) {
+      const { id, name, email, password } = this.state;
+      const data = { id, name, email };
+      if (password) {
+        data.password = password;
+      }
+      this.props.updateUsers(data);
+      return this.setState({
+        password: '',
+        passwordConfirmation: ''
+      });
+    }
   }
 
 
@@ -113,7 +137,6 @@ export class UserListRow extends React.Component {
    */
   render() {
     const { user, serial } = this.props;
-
     // conditional rendering for delete and edit
     const curUser = jwt.decode(localStorage.jwtToken);
     let deleteBtn = null;

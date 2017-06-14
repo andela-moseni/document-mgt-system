@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Input, Modal } from 'react-materialize';
 import { notify } from 'react-notify-toast';
+import validator from 'validator';
 import * as usersActions from '../../actions/usersActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import Prompt from '../../Prompt';
+import { validateUser } from '../../utils/validator';
 
 /**
  *
@@ -14,9 +16,10 @@ import Prompt from '../../Prompt';
 export class UserProfile extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      name: this.props.user.name,
-      email: this.props.user.email,
+      name: props.user.name,
+      email: props.user.email,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -70,14 +73,37 @@ export class UserProfile extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const custom = { background: '#ff0000', text: '#FFFFFF' };
+    const { valid } = validateUser(this.state);
+
+    if (this.state.name && !/[a-z]+$/i.test(this.state.name)) {
+      return notify.show('Only alphabets is allowed for name field',
+      'custom', 3000, custom);
+    }
+    if (this.state.email && !validator.isEmail(this.state.email)) {
+      return notify.show('Enter valid email',
+      'custom', 3000, custom);
+    }
     if (this.state.password && this.state.password.length < 4) {
       return notify.show('password must be minimum of four characters only',
         'custom', 3000, custom);
     }
-    if (this.state.password === this.state.passwordConfirmation) {
-      return this.props.updateUser(this.state);
+    if (this.state.password &&
+    this.state.password !== this.state.passwordConfirmation) {
+      return notify.show('Passwords do not match', 'custom', 3000, custom);
     }
-    return notify.show('Passwords do not match', 'custom', 3000, custom);
+
+    if (valid) {
+      const { id, name, email, password } = this.state;
+      const data = { id, name, email };
+      if (password) {
+        data.password = password;
+      }
+      this.props.updateUser(data);
+      return this.setState({
+        password: '',
+        passwordConfirmation: ''
+      });
+    }
   }
 
   /**
@@ -135,27 +161,34 @@ export class UserProfile extends React.Component {
             >
               <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
-                  <TextFieldGroup
-                    label="Full Name"
-                    onChange={this.onChange}
-                    value={this.state.name}
-                    icon="account_circle"
-                    field="name"
-                    placeholder="alphabets only"
-                  />
-
-                  <TextFieldGroup
-                    label="Email"
-                    onChange={this.onChange}
-                    value={this.state.email}
-                    icon="email"
-                    field="email"
-                    type="email"
-                  />
+                  <div className="input-field col s12">
+                    <Input
+                      s={10}
+                      label="Full Name"
+                      onChange={this.onChange}
+                      value={this.state.name}
+                      icon="account_circle"
+                      name="name"
+                      placeholder="alphabets only"
+                    />
+                  </div>
 
                   <div className="input-field col s12">
                     <Input
-                      s={8}
+                      s={10}
+                      label="Email"
+                      onChange={this.onChange}
+                      value={this.state.email}
+                      icon="email"
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                    />
+                  </div>
+
+                  <div className="input-field col s12">
+                    <Input
+                      s={10}
                       label="Password"
                       onChange={this.onChange}
                       value={this.state.password}

@@ -1,11 +1,9 @@
 import axios from 'axios';
-
-
 /**
- *
+ * sets authorization token
  *
  * @export
- * @param {any} token
+ * @param {String} token - string
  */
 export default function setAuthorizationToken(token) {
   if (token) {

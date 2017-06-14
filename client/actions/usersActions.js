@@ -20,6 +20,8 @@ export function createUser(user) {
       type: types.CREATE_USER_SUCCESS,
       newUser,
     });
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 
@@ -55,6 +57,8 @@ export function fetchUserProfile(id) {
       type: types.DISPLAY_USER_PROFILE,
       userData,
     });
+  }).catch((error) => {
+    notify.show(error.response.data.message, 'custom', 3000, custom);
   });
 }
 

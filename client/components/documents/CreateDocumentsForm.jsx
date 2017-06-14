@@ -6,8 +6,8 @@ import { Input } from 'react-materialize';
 import { notify } from 'react-notify-toast';
 import { browserHistory } from 'react-router';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { createDocument, fetchDocument,
-  updateDocument } from '../../actions/documentsActions';
+import { createDocument, updateDocument } from '../../actions/documentsActions';
+import { validateDocument } from '../../utils/validator';
 
 /**
  *
@@ -85,22 +85,26 @@ export class CreateDocumentsForm extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const custom = { background: '#ff0000', text: '#FFFFFF' };
-    if (this.props.id) {
-      this.props.updateDocument(this.state)
-      .then(() => {
-        notify.show('Document updated successfully', 'success', 3000);
-        browserHistory.push('/my-documents');
-      }).catch((error) => {
-        notify.show(error.response.data.message, 'custom', 3000, custom);
-      });
-    } else {
-      this.props.createDocument(this.state)
-      .then(() => {
-        notify.show('Document created successfully', 'success', 3000);
-        browserHistory.push('/my-documents');
-      }).catch((error) => {
-        notify.show(error.response.data.message, 'custom', 3000, custom);
-      });
+    const { valid } = validateDocument(this.state);
+
+    if (valid) {
+      if (this.props.id) {
+        this.props.updateDocument(this.state)
+        .then(() => {
+          notify.show('Document updated successfully', 'success', 3000);
+          browserHistory.push('/my-documents');
+        }).catch((error) => {
+          notify.show(error.response.data.message, 'custom', 3000, custom);
+        });
+      } else {
+        this.props.createDocument(this.state)
+        .then(() => {
+          notify.show('Document created successfully', 'success', 3000);
+          browserHistory.push('/my-documents');
+        }).catch((error) => {
+          notify.show(error.response.data.message, 'custom', 3000, custom);
+        });
+      }
     }
   }
 
@@ -207,4 +211,4 @@ CreateDocumentsForm.propTypes = {
 
 export default
 connect(null,
-{ createDocument, fetchDocument, updateDocument })(CreateDocumentsForm);
+{ createDocument, updateDocument })(CreateDocumentsForm);

@@ -30,7 +30,7 @@ export class CreateDocumentsPage extends React.Component {
    * @memberOf CreateDocumentsPage
    */
   componentWillMount() {
-    if (!this.props.document.title) {
+    if (!this.props.document.title && this.props.params.id) {
       this.props.fetchDocument(this.props.params.id);
     }
   }

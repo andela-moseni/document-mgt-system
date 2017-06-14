@@ -27,7 +27,7 @@ class RolesController {
       }
       if (req.body.title) {
         Role.create({
-          title: req.body.title,
+          title: req.body.title.trim(),
         })
         .then(role => res.status(201).send(role))
         .catch(() => res.status(400).send({
